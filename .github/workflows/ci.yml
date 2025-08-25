@@ -53,11 +53,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run unit tests
-        run: npm run test:unit
-
-      - name: Run integration tests
-        run: npm run test:integration
+      - name: Run all tests
+        run: npm test
+        env:
+          NODE_OPTIONS: --experimental-vm-modules
+          CI: true
 
   coverage:
     name: Coverage Report
@@ -79,6 +79,9 @@ jobs:
 
       - name: Run tests with coverage
         run: npm run test:coverage
+        env:
+          NODE_OPTIONS: --experimental-vm-modules
+          CI: true
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
@@ -113,9 +116,15 @@ jobs:
 
       - name: Run full quality check
         run: npm run quality
+        env:
+          NODE_OPTIONS: --experimental-vm-modules
+          CI: true
 
       - name: Validate package
         run: npm run validate
+        env:
+          NODE_OPTIONS: --experimental-vm-modules
+          CI: true
 
   security:
     name: Security Audit
