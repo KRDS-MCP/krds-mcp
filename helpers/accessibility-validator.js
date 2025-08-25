@@ -16,7 +16,7 @@ export class AccessibilityValidator {
     let score = 100;
 
     // 이미지 alt 속성 검증
-    if (/<img[^>]*(?!.*alt\s*=)[^>]*>/i.test(htmlCode)) {
+    if (/<img[^>]*>/i.test(htmlCode) && !/<img[^>]*alt\s*=/i.test(htmlCode)) {
       issues.push('이미지에 alt 속성이 누락되었습니다.');
       recommendations.push('모든 이미지에 의미있는 alt 텍스트를 추가하세요.');
       score -= 15;
@@ -36,7 +36,7 @@ export class AccessibilityValidator {
 
     // 아이콘 버튼 검증
     if (
-      /<button[^>]*>[\s]*<[^>]*class[^>]*icon[^>]*>[\s]*<\/button>/i.test(htmlCode) &&
+      /<button[^>]*>.*class\s*=\s*["'][^"']*icon[^"']*["'].*<\/button>/i.test(htmlCode) &&
       !/<button[^>]*aria-label/i.test(htmlCode)
     ) {
       warnings.push('아이콘 버튼에 aria-label이 권장됩니다.');
@@ -199,7 +199,7 @@ export class AccessibilityValidator {
    */
   static checkSpecificIssue(htmlCode, checkType) {
     const checks = {
-      'alt-text': /<img[^>]*(?!.*alt\s*=)[^>]*>/i.test(htmlCode),
+      'alt-text': /<img[^>]*>/i.test(htmlCode) && !/<img[^>]*alt\s*=/i.test(htmlCode),
       'button-labels': /<button[^>]*>[\s]*<\/button>/i.test(htmlCode),
       'form-labels':
         /<input[^>]*>/i.test(htmlCode) &&

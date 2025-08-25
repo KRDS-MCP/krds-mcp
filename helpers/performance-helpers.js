@@ -485,4 +485,4 @@ export class MemoryOptimizer {
 // Export utility functions
 export const memoize = Memoizer.memoize;
 export const memoizeAsync = Memoizer.memoizeAsync;
-export const measure = PerformanceMonitor.measure;
+export const measure = PerformanceMonitor.measure.bind(PerformanceMonitor);

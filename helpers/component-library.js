@@ -515,8 +515,33 @@ export class KRDSComponentLibrary {
     if (!variant) {
       return '';
     }
-    const typeMatch = variant.match(/(success|warning|error|info)/);
-    return typeMatch ? typeMatch[1] : '';
+
+    // Try multiple patterns to extract type information
+    const patterns = [
+      // Pattern: component_type_success.html
+      /^(alert|button|card|modal|table|list)_type_(success|warning|error|info)\.html$/,
+      // Pattern: component_warning.html
+      /^[^_]+_(success|warning|error|info)\.html$/,
+      // Pattern: alert_error.html (without _type_)
+      /^(alert|button|card|modal|table|list)_(success|warning|error|info)\.html$/,
+      // Pattern: info_component.html
+      /^(success|warning|error|info)_[^_]+\.html$/
+    ];
+
+    for (const pattern of patterns) {
+      const match = variant.match(pattern);
+      if (match) {
+        // Return the captured type group (could be match[1] or match[2] depending on pattern)
+        const typeGroups = match
+          .slice(1)
+          .filter(group => ['success', 'warning', 'error', 'info'].includes(group));
+        if (typeGroups.length > 0) {
+          return typeGroups[0];
+        }
+      }
+    }
+
+    return '';
   }
 
   getStateAttributes(variant) {
@@ -963,6 +988,82 @@ export class KRDSComponentLibrary {
 }`,
       variants: []
     };
+  }
+
+  /**
+   * 컴포넌트 ID로 컴포넌트 정보 가져오기
+   */
+  getComponent(componentId) {
+    // Check cache first
+    if (this.componentCache.has(componentId)) {
+      return this.componentCache.get(componentId);
+    }
+
+    const mapping = KRDS_COMPONENT_MAPPING[componentId];
+    if (!mapping) {
+      return null;
+    }
+
+    const component = {
+      id: componentId,
+      name: componentId,
+      ...mapping
+    };
+
+    // Cache the component
+    this.componentCache.set(componentId, component);
+    return component;
+  }
+
+  /**
+   * 모든 컴포넌트 가져오기
+   */
+  getAllComponents() {
+    return Object.keys(KRDS_COMPONENT_MAPPING).map(id => ({
+      id,
+      name: id,
+      ...KRDS_COMPONENT_MAPPING[id]
+    }));
+  }
+
+  /**
+   * 카테고리별 컴포넌트 가져오기
+   */
+  getComponentsByCategory(category) {
+    return this.getAllComponents().filter(component => component.category === category);
+  }
+
+  /**
+   * 컴포넌트 검색
+   */
+  searchComponents(query) {
+    const lowerQuery = query.toLowerCase();
+    return this.getAllComponents().filter(
+      component =>
+        component.name.toLowerCase().includes(lowerQuery) ||
+        component.id.toLowerCase().includes(lowerQuery)
+    );
+  }
+
+  /**
+   * 컴포넌트 존재 여부 확인
+   */
+  hasComponent(componentId) {
+    return Object.prototype.hasOwnProperty.call(KRDS_COMPONENT_MAPPING, componentId);
+  }
+
+  /**
+   * 컴포넌트 메타데이터 가져오기
+   */
+  getComponentMetadata(componentId) {
+    return this.getComponent(componentId);
+  }
+
+  /**
+   * 컴포넌트 설정 로드
+   */
+  loadComponentConfig(componentId) {
+    return this.getComponent(componentId);
   }
 }
 

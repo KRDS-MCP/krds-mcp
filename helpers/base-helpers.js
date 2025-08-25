@@ -17,7 +17,8 @@ export class KRDSHelper {
     }
 
     return array.find(
-      item => item[searchField] && item[searchField].toLowerCase().includes(name.toLowerCase())
+      item =>
+        item && item[searchField] && item[searchField].toLowerCase().includes(name.toLowerCase())
     );
   }
 
@@ -33,7 +34,7 @@ export class KRDSHelper {
     }
 
     return array.filter(
-      item => item.category && item.category.toLowerCase() === category.toLowerCase()
+      item => item && item.category && item.category.toLowerCase() === category.toLowerCase()
     );
   }
 
@@ -49,6 +50,10 @@ export class KRDSHelper {
     }
 
     return array.filter(item => {
+      if (!item) {
+        return false;
+      }
+
       return Object.keys(filters).every(key => {
         const filterValue = filters[key];
         const itemValue = item[key];
@@ -122,7 +127,16 @@ export class KRDSHelper {
     // HEX를 RGB로 변환하여 밝기 계산
     const getBrightness = color => {
       if (color.startsWith('#')) {
-        const hex = color.slice(1);
+        let hex = color.slice(1);
+
+        // 3-digit hex를 6-digit로 확장
+        if (hex.length === 3) {
+          hex = hex
+            .split('')
+            .map(char => char + char)
+            .join('');
+        }
+
         const r = parseInt(hex.slice(0, 2), 16);
         const g = parseInt(hex.slice(2, 4), 16);
         const b = parseInt(hex.slice(4, 6), 16);

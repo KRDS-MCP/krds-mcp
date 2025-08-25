@@ -328,7 +328,7 @@ export class McpPrompts {
       const prompt = this.prompts.get(name);
 
       if (!prompt) {
-        throw new Error(`Prompt not found: ${name}`);
+        return null;
       }
 
       // 인자 검증

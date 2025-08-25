@@ -1,6 +1,6 @@
-// Unit tests for base helpers (base-helpers.js)
+// Unit tests for base helpers (base-helpers.js) - Enhanced Coverage
 
-import { describe, test, expect } from '@jest/globals';
+import { describe, test, expect, beforeEach } from '@jest/globals';
 import { KRDSHelper } from '../../helpers/base-helpers.js';
 
 describe('KRDSHelper Base Utilities', () => {
@@ -85,6 +85,23 @@ describe('KRDSHelper Base Utilities', () => {
       const result = KRDSHelper.findByName(undefined, 'Button');
 
       expect(result).toBeNull();
+    });
+
+    test('should handle arrays with null items', () => {
+      const arrayWithNulls = [null, { name: 'Test' }, undefined];
+      const result = KRDSHelper.findByName(arrayWithNulls, 'Test');
+      expect(result.name).toBe('Test');
+    });
+
+    test('should handle arrays with mixed object structures', () => {
+      const mixedArray = [
+        { name: 'Item1' },
+        { title: 'Item2' },
+        { label: 'Item3' },
+        'not an object'
+      ];
+      const result = KRDSHelper.findByName(mixedArray, 'Item1');
+      expect(result.name).toBe('Item1');
     });
 
     test('should handle non-array input', () => {

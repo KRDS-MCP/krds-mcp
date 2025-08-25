@@ -219,6 +219,7 @@ export const typographyTokens = {
   // Font Weights
   'krds-typography-font-weight-light': '300',
   'krds-typography-font-weight-regular': '400',
+  'krds-typography-font-weight-normal': '400',
   'krds-typography-font-weight-medium': '500',
   'krds-typography-font-weight-semibold': '600',
   'krds-typography-font-weight-bold': '700',
@@ -524,12 +525,19 @@ export const designTokens = {
 
 // 토큰 유틸리티 함수
 export const tokenUtils = {
-  // 토큰 값 조회
-  getToken(tokenName) {
-    const [category] = tokenName.replace(`${namespace}-`, '').split('-');
+  // 토큰 값 조회 (전체 토큰명으로 또는 카테고리와 토큰명으로)
+  getToken(categoryOrTokenName, tokenName = null) {
+    // If only one parameter provided, treat it as full token name
+    if (tokenName === null) {
+      return this.getTokenValue(categoryOrTokenName);
+    }
 
-    if (designTokens.tokens[category]) {
-      return designTokens.tokens[category][tokenName];
+    // If two parameters provided, treat as category and token name
+    if (
+      designTokens.tokens[categoryOrTokenName] &&
+      designTokens.tokens[categoryOrTokenName][tokenName]
+    ) {
+      return designTokens.tokens[categoryOrTokenName][tokenName];
     }
     return null;
   },
@@ -563,50 +571,122 @@ export const tokenUtils = {
   // 토큰 설명 생성
   getTokenDescription(tokenName) {
     const parts = tokenName.split('-');
+    const namespace = parts[0]; // krds
+    const theme = parts[1]; // light/dark or category like 'typography'
     const category = parts[2];
     const subcategory = parts[3];
     const type = parts[4];
     const modifier = parts[5];
     const state = parts[6];
 
-    let description = `${category}`;
-    if (subcategory) {
-      description += ` ${subcategory}`;
-    }
-    if (type) {
-      description += ` ${type}`;
-    }
-    if (modifier) {
-      description += ` (${modifier})`;
-    }
-    if (state) {
-      description += ` - ${state} 상태`;
+    // Handle different token structures
+    let description = '';
+
+    if (['light', 'dark'].includes(theme)) {
+      // Standard theme token: krds-light-color-primary-...
+      description = `${category}`;
+      if (subcategory) {
+        description += ` ${subcategory}`;
+      }
+      if (type) {
+        description += ` ${type}`;
+      }
+      if (modifier) {
+        // Check if it's a state modifier
+        if (
+          ['hover', 'focus', 'pressed', 'disabled', 'active', 'visited', 'state'].includes(modifier)
+        ) {
+          description += ` - ${modifier} 상태`;
+        } else {
+          description += ` (${modifier})`;
+        }
+      }
+      if (state) {
+        description += ` - ${state} 상태`;
+      }
+    } else {
+      // Non-theme token: krds-typography-font-family-primary or krds-test-category
+      if (subcategory) {
+        // For tokens like krds-typography-font-family-primary (4+ parts)
+        description = `${theme}`; // This is actually the category (typography, spacing, etc.)
+        description += ` ${category}`;
+        description += ` ${subcategory}`;
+        if (type) {
+          // Check if it's a state modifier
+          if (
+            ['hover', 'focus', 'pressed', 'disabled', 'active', 'visited', 'state'].includes(type)
+          ) {
+            description += ` - ${type} 상태`;
+          } else {
+            description += ` ${type}`;
+          }
+        }
+        if (modifier) {
+          // Check if it's a state modifier
+          if (
+            ['hover', 'focus', 'pressed', 'disabled', 'active', 'visited', 'state'].includes(
+              modifier
+            )
+          ) {
+            description += ` - ${modifier} 상태`;
+          } else {
+            description += ` (${modifier})`;
+          }
+        }
+      } else {
+        // For minimal tokens like krds-test-category or krds-spacing-4 (only 3 parts)
+        if (['spacing', 'sizing', 'border', 'shadow', 'motion', 'layout'].includes(theme)) {
+          // For system tokens, include both parts
+          description = `${theme}`;
+          if (category) {
+            description += ` ${category}`;
+          }
+        } else {
+          // For test/minimal tokens, just return the category
+          description = category || theme;
+        }
+      }
     }
 
     return description;
   },
 
-  // CSS 변수 생성
-  generateCSSVariables(theme = 'light') {
+  // CSS 변수 생성 (객체로 반환)
+  generateCSSVariables(theme = null) {
     const cssVars = {};
+    const effectiveTheme = theme || 'light'; // Default to light theme
 
-    Object.entries(designTokens.tokens).forEach(([_category, tokens]) => {
-      Object.entries(tokens).forEach(([tokenName, value]) => {
-        if (
-          tokenName.includes(theme) ||
-          (!tokenName.includes('-light-') && !tokenName.includes('-dark-'))
-        ) {
-          const cssVarName = `--${tokenName}`;
-          cssVars[cssVarName] = value;
-        }
+    if (theme) {
+      // If theme is specified, filter by theme
+      Object.entries(designTokens.tokens).forEach(([, tokens]) => {
+        Object.entries(tokens).forEach(([tokenName, value]) => {
+          if (
+            tokenName.includes(`-${effectiveTheme}-`) ||
+            (!tokenName.includes('-light-') && !tokenName.includes('-dark-'))
+          ) {
+            cssVars[`--${tokenName}`] = value;
+          }
+        });
       });
-    });
+    } else {
+      // If no theme specified, default to light theme
+      Object.entries(designTokens.tokens).forEach(([, tokens]) => {
+        Object.entries(tokens).forEach(([tokenName, value]) => {
+          if (
+            tokenName.includes(`-${effectiveTheme}-`) ||
+            (!tokenName.includes('-light-') && !tokenName.includes('-dark-'))
+          ) {
+            cssVars[`--${tokenName}`] = value;
+          }
+        });
+      });
+    }
 
     return cssVars;
   },
 
-  // 토큰을 CSS 문자열로 변환
-  tokensToCSS(theme = 'light') {
+  // CSS 변수를 문자열로 생성
+  generateCSSString(theme = null) {
     const cssVars = this.generateCSSVariables(theme);
     let css = ':root {\n';
 
@@ -618,8 +698,104 @@ export const tokenUtils = {
     return css;
   },
 
+  // SCSS 변수 생성
+  generateSCSSVariables(category = null) {
+    let scss = '';
+    const tokensToUse = category
+      ? { [category]: designTokens.tokens[category] || {} }
+      : designTokens.tokens;
+
+    Object.entries(tokensToUse).forEach(([, tokens]) => {
+      Object.entries(tokens).forEach(([tokenName, value]) => {
+        scss += `$${tokenName}: ${value};\n`;
+      });
+    });
+
+    return scss;
+  },
+
+  // 토큰 값 직접 조회 (전체 토큰명으로)
+  getTokenValue(tokenName) {
+    // Find in all categories
+    for (const [, tokens] of Object.entries(designTokens.tokens)) {
+      if (tokens[tokenName]) {
+        return tokens[tokenName];
+      }
+    }
+    return null;
+  },
+
+  // 토큰명 검증
+  validateTokenName(tokenName) {
+    if (!tokenName || typeof tokenName !== 'string') {
+      return false;
+    }
+
+    // Theme-based categories (only color should have themes)
+    const themeBasedCategories = ['color'];
+
+    // Category-only categories (typography, spacing, etc. don't have themes)
+    const nonThemeCategories = [
+      'typography',
+      'spacing',
+      'sizing',
+      'border',
+      'shadow',
+      'motion',
+      'layout',
+      'component'
+    ];
+
+    // Pattern 1: Theme-based tokens: krds-(light|dark)-(color)-...
+    const themePattern = new RegExp(
+      `^${namespace}-(${Object.keys(themes).join('|')})-(${themeBasedCategories.join('|')})-`
+    );
+
+    // Pattern 2: Category-only tokens: krds-(typography|spacing|...)-...
+    const categoryPattern = new RegExp(`^${namespace}-(${nonThemeCategories.join('|')})-`);
+
+    return themePattern.test(tokenName) || categoryPattern.test(tokenName);
+  },
+
+  // 테마별 토큰 조회
+  getThemeTokens(theme) {
+    const themeTokens = {};
+
+    Object.entries(designTokens.tokens).forEach(([_category, tokens]) => {
+      Object.entries(tokens).forEach(([tokenName, value]) => {
+        if (
+          tokenName.includes(`-${theme}-`) ||
+          (!tokenName.includes('-light-') && !tokenName.includes('-dark-'))
+        ) {
+          themeTokens[tokenName] = value;
+        }
+      });
+    });
+
+    return themeTokens;
+  },
+
+  // 토큰을 CSS 문자열로 변환
+  tokensToCSS(theme = 'light') {
+    let css = ':root {\n';
+
+    Object.entries(designTokens.tokens).forEach(([, tokens]) => {
+      Object.entries(tokens).forEach(([tokenName, value]) => {
+        if (
+          tokenName.includes(theme) ||
+          (!tokenName.includes('-light-') && !tokenName.includes('-dark-'))
+        ) {
+          css += `  --${tokenName}: ${value};\n`;
+        }
+      });
+    });
+
+    css += '}';
+    return css;
+  },
+
   // JSON 형식으로 토큰 내보내기
-  exportTokensAsJSON(format = 'style-dictionary') {
+  exportTokensAsJSON(format = 'default') {
     if (format === 'style-dictionary') {
       return this.convertToStyleDictionary();
     }
@@ -630,7 +806,7 @@ export const tokenUtils = {
   convertToStyleDictionary() {
     const styleDictionary = {};
 
-    Object.entries(designTokens.tokens).forEach(([_category, tokens]) => {
+    Object.entries(designTokens.tokens).forEach(([, tokens]) => {
       Object.entries(tokens).forEach(([tokenName, value]) => {
         const path = tokenName.replace(`${namespace}-`, '').split('-');
         let current = styleDictionary;
@@ -656,19 +832,83 @@ export const tokenUtils = {
 export const tokenValidation = {
   // 토큰 이름 유효성 검사
   validateTokenName(tokenName) {
-    const pattern = new RegExp(
-      `^${namespace}-(${Object.keys(themes).join('|')})-(${Object.keys(categories).join('|')})-`
+    if (!tokenName || typeof tokenName !== 'string') {
+      return false;
+    }
+
+    // Theme-based categories (only color should have themes)
+    const themeBasedCategories = ['color'];
+
+    // Category-only categories (typography, spacing, etc. don't have themes)
+    const nonThemeCategories = [
+      'typography',
+      'spacing',
+      'sizing',
+      'border',
+      'shadow',
+      'motion',
+      'layout',
+      'component'
+    ];
+
+    // Pattern 1: Theme-based tokens: krds-(light|dark)-(color)-...
+    const themePattern = new RegExp(
+      `^${namespace}-(${Object.keys(themes).join('|')})-(${themeBasedCategories.join('|')})-`
     );
-    return pattern.test(tokenName);
+
+    // Pattern 2: Category-only tokens: krds-(typography|spacing|...)-...
+    const categoryPattern = new RegExp(`^${namespace}-(${nonThemeCategories.join('|')})-`);
+
+    return themePattern.test(tokenName) || categoryPattern.test(tokenName);
   },
 
   // 색상 값 유효성 검사
   validateColorValue(value) {
-    const hexPattern = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
-    const rgbPattern = /^rgb\(\d+,\s*\d+,\s*\d+\)$/;
-    const rgbaPattern = /^rgba\(\d+,\s*\d+,\s*\d+,\s*[\d.]+\)$/;
+    if (!value || typeof value !== 'string') {
+      return false;
+    }
 
-    return hexPattern.test(value) || rgbPattern.test(value) || rgbaPattern.test(value);
+    const hexPattern = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+    const rgbPattern = /^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/;
+    const rgbaPattern = /^rgba\((\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)$/;
+
+    if (value === 'transparent') {
+      return true;
+    }
+
+    if (hexPattern.test(value)) {
+      return true;
+    }
+
+    const rgbMatch = value.match(rgbPattern);
+    if (rgbMatch) {
+      const [, r, g, b] = rgbMatch;
+      return (
+        parseInt(r) <= 255 &&
+        parseInt(g) <= 255 &&
+        parseInt(b) <= 255 &&
+        parseInt(r) >= 0 &&
+        parseInt(g) >= 0 &&
+        parseInt(b) >= 0
+      );
+    }
+
+    const rgbaMatch = value.match(rgbaPattern);
+    if (rgbaMatch) {
+      const [, r, g, b, a] = rgbaMatch;
+      return (
+        parseInt(r) <= 255 &&
+        parseInt(g) <= 255 &&
+        parseInt(b) <= 255 &&
+        parseInt(r) >= 0 &&
+        parseInt(g) >= 0 &&
+        parseInt(b) >= 0 &&
+        parseFloat(a) >= 0 &&
+        parseFloat(a) <= 1
+      );
+    }
+
+    return false;
   },
 
   // 모든 토큰 검증
