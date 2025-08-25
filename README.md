@@ -44,8 +44,10 @@ npx @krds-mcp/krds-mcp --version
 ---
 
 ## 🏗️ 프로젝트 구조
+
 // ...existing code...
-```// filepath: c:\projects\krds-mcp\README.md
+
+````// filepath: c:\projects\krds-mcp\README.md
 # KRDS MCP Server
 
 한국 정부 디지털 서비스의 표준 디자인 시스템인 KRDS (Korea Government Design System)의 가이드라인을 기반으로 AI 모델에게 디자인 시스템 정보를 제공하는 MCP (Model Context Protocol) 서버입니다.
@@ -70,7 +72,7 @@ Claude Desktop 설정 파일(`claude_desktop_config.json`)에 아래와 같이 `
     }
   }
 }
-```
+````
 
 이제 Claude Desktop을 재시작하면, AI가 KRDS 디자인 시스템 정보를 활용할 수 있게 됩니다.
 
