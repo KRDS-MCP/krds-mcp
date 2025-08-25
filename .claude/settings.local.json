@@ -30,7 +30,15 @@
       "Bash(git config:*)",
       "Bash(git branch:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git tag:*)",
+      "Bash(git checkout:*)",
+      "Bash(git stash:*)",
+      "Read(/c:\\projects\\krds-mcp/**)",
+      "Read(/c:\\projects\\krds-mcp\\.github\\workflows/**)",
+      "Read(/c:\\projects\\krds-mcp\\.github\\workflows/**)",
+      "Bash(npm:*)"
     ],
     "deny": [],
     "ask": [],

@@ -406,6 +406,10 @@ server.setRequestHandler(CallToolRequestSchema, async request => {
         throw new McpError(ErrorCode.MethodNotFound, `알 수 없는 도구: ${name}`);
     }
   } catch (error) {
+    // If it's already an McpError, don't wrap it again
+    if (error instanceof McpError) {
+      throw error;
+    }
     throw new McpError(ErrorCode.InternalError, `도구 실행 중 오류 발생: ${error.message}`);
   }
 });

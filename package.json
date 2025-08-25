@@ -1,6 +1,6 @@
 {
   "name": "@krds-mcp/krds-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "KRDS (Korea Design System) MCP Server - 한국 정부 디지털 서비스 디자인 시스템 가이드",
   "type": "module",
   "main": "index.js",
@@ -10,7 +10,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "node --watch index.js",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose --runInBand --forceExit",
     "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
     "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
     "test:integration": "node --experimental-vm-modules node_modules/jest/bin/jest.js tests/integration",
@@ -26,7 +26,7 @@
     "release:prepare": "npm run quality && echo 'Release preparation complete'",
     "release:tag": "echo 'Create release tag manually: git tag v<version> && git push origin v<version>'",
     "release:patch": "npm version patch && git push origin main --tags",
-    "release:minor": "npm version minor && git push origin main --tags", 
+    "release:minor": "npm version minor && git push origin main --tags",
     "release:major": "npm version major && git push origin main --tags",
     "postversion": "git push origin main --tags",
     "postinstall": "echo '🇰🇷 KRDS MCP 서버가 설치되었습니다. Claude Desktop 설정을 업데이트하세요.'"

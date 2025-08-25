@@ -170,99 +170,112 @@ npm run coverage:report
 ## 📚 사용 가능한 MCP 도구들
 
 ### 1. 디자인 원칙 조회
+
 - **도구명**: `krds_get_design_principles`
 - **설명**: KRDS 7대 디자인 원칙 조회
-- **매개변수**: 
+- **매개변수**:
   - `principle` (선택): 특정 원칙 이름
 
 ### 2. 색상 체계 조회
+
 - **도구명**: `krds_get_colors`
 - **설명**: KRDS 색상 체계 조회 (완전한 색상 시스템)
-- **매개변수**: 
+- **매개변수**:
   - `category` (선택): primary, system, neutral, emphasis, graphic
   - `color` (선택): 특정 색상 이름 또는 ID
 
 ### 3. 타이포그래피 조회
+
 - **도구명**: `krds_get_typography`
 - **설명**: KRDS 타이포그래피 체계 조회
-- **매개변수**: 
+- **매개변수**:
   - `category` (선택): display, heading, body, interactive, utility
   - `style` (선택): 특정 스타일 ID 또는 이름
 
 ### 4. 컴포넌트 조회
+
 - **도구명**: `krds_get_components`
 - **설명**: KRDS 37개 표준 컴포넌트 정보 조회
-- **매개변수**: 
+- **매개변수**:
   - `category` (선택): identity, navigation, layout-expression, action, selection, feedback, help, input, settings, content
   - `component` (선택): 특정 컴포넌트 이름 또는 ID
   - `includeCode` (선택): HTML 코드 예제 포함 여부
 
 ### 5. 글로벌 패턴 조회
+
 - **도구명**: `krds_get_global_patterns`
 - **설명**: KRDS 11개 기본 패턴 조회
-- **매개변수**: 
+- **매개변수**:
   - `pattern` (선택): 특정 패턴 이름 또는 ID
   - `component` (선택): 특정 컴포넌트가 사용되는 패턴 찾기
   - `includeCode` (선택): HTML 코드 예제 포함 여부
 
 ### 6. 서비스 패턴 조회
+
 - **도구명**: `krds_get_service_patterns`
 - **설명**: KRDS 5개 서비스별 패턴 조회
-- **매개변수**: 
+- **매개변수**:
   - `pattern` (선택): 특정 서비스 패턴 이름 또는 ID
   - `includeCode` (선택): HTML 코드 예제 포함 여부
   - `includeMetrics` (선택): 성과 지표 정보 포함 여부
 
 ### 7. 도형 및 아이콘 조회
+
 - **도구명**: `krds_get_shapes_icons`
 - **설명**: KRDS Shape 및 Icons 정보 조회
-- **매개변수**: 
+- **매개변수**:
   - `type`: shapes, icons, both
   - `iconCategory` (선택): system, status, action, communication, file, government
   - `iconId` (선택): 특정 아이콘 ID
 
 ### 8. 디자인 토큰 조회
+
 - **도구명**: `krds_get_design_tokens`
 - **설명**: KRDS 디자인 토큰 조회 (완전한 토큰 시스템)
-- **매개변수**: 
+- **매개변수**:
   - `category` (선택): color, typography, spacing, sizing, border, shadow, motion, layout, component
   - `tokenName` (선택): 특정 토큰 이름
   - `theme` (선택): light, dark
   - `format` (선택): json, css, style-dictionary
 
 ### 9. 시스템 정보 조회
+
 - **도구명**: `krds_get_systems`
 - **설명**: KRDS 기본 시스템 정보 조회
-- **매개변수**: 
+- **매개변수**:
   - `system`: spacing, grid, responsive, darkmode
 
 ### 10. 접근성 검증
+
 - **도구명**: `krds_validate_accessibility`
 - **설명**: HTML 코드의 접근성 검증 (WCAG 2.1 AA 기준)
-- **매개변수**: 
+- **매개변수**:
   - `htmlCode` (필수): 검증할 HTML 코드
 
 ### 11. 통합 검색
+
 - **도구명**: `krds_search`
 - **설명**: KRDS 전체 데이터에서 통합 검색
-- **매개변수**: 
+- **매개변수**:
   - `query` (필수): 검색할 키워드
   - `type` (선택): all, principles, colors, typography, components, global-patterns, service-patterns, icons, tokens
   - `detailed` (선택): 상세 정보 포함 여부
 
 ### 12. 코드 생성
+
 - **도구명**: `krds_generate_code`
 - **설명**: KRDS 컴포넌트/패턴의 HTML/CSS 코드 생성
-- **매개변수**: 
+- **매개변수**:
   - `type` (필수): component, global-pattern, service-pattern
   - `id` (필수): 컴포넌트/패턴 ID
   - `variant` (선택): 컴포넌트 변형
   - `theme` (선택): light, dark
 
 ### 13. 통계 정보
+
 - **도구명**: `krds_get_stats`
 - **설명**: KRDS 시스템 통계 및 준수율 정보
-- **매개변수**: 
+- **매개변수**:
   - `detailed` (선택): 상세 통계 포함 여부
 
 ## ⚡ 주요 특징
@@ -429,4 +442,3 @@ krds-mcp/
 - [WCAG 2.1 가이드라인](https://www.w3.org/WAI/WCAG21/quickref/)
 - [프로젝트 이슈 트래커](https://github.com/KRDS-MCP/krds-mcp/issues)
 - [기여 가이드라인](https://github.com/KRDS-MCP/krds-mcp/blob/main/CONTRIBUTING.md)
-

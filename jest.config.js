@@ -36,7 +36,7 @@ export default {
   setupFilesAfterEnv: ['<rootDir>/tests/setup.js'],
 
   // Test timeout
-  testTimeout: 30000,
+  testTimeout: 15000,
 
   // Verbose output
   verbose: true,

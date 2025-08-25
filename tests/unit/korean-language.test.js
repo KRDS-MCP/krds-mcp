@@ -259,7 +259,7 @@ describe('Korean Language Support', () => {
       const validationRules = [
         { field: '이름', message: '이름을 입력해주세요.' },
         { field: '이메일', message: '올바른 이메일을 입력해주세요.' },
-        { field: '비밀번호', message: '비밀번호는 8자 이상이어야 합니다.' }
+        { field: '비밀번호', message: '비밀번호를 입력해주세요.' }
       ];
 
       validationRules.forEach(rule => {

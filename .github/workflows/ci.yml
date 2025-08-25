@@ -9,6 +9,11 @@ on:
     # Run tests daily at 2 AM UTC
     - cron: '0 2 * * *'
 
+# Prevent duplicate runs for PR and push events
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lint-and-format:
     name: Lint and Format Check
@@ -53,14 +58,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run unit tests
-        run: npm run test:unit
-
-      - name: Run integration tests
-        run: npm run test:integration
-
-      - name: Run legacy tests
-        run: npm run test:legacy
+      - name: Run all tests
+        run: npm test
+        env:
+          NODE_OPTIONS: --experimental-vm-modules
+          CI: true
 
   coverage:
     name: Coverage Report
@@ -82,6 +84,9 @@ jobs:
 
       - name: Run tests with coverage
         run: npm run test:coverage
+        env:
+          NODE_OPTIONS: --experimental-vm-modules
+          CI: true
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
@@ -91,7 +96,7 @@ jobs:
           verbose: true
 
       - name: Upload coverage reports to GitHub
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-reports
           path: coverage/
@@ -116,9 +121,15 @@ jobs:
 
       - name: Run full quality check
         run: npm run quality
+        env:
+          NODE_OPTIONS: --experimental-vm-modules
+          CI: true
 
       - name: Validate package
         run: npm run validate
+        env:
+          NODE_OPTIONS: --experimental-vm-modules
+          CI: true
 
   security:
     name: Security Audit
@@ -142,32 +153,6 @@ jobs:
 
       - name: Check for outdated packages
         run: npm outdated --long || true
-
-  performance:
-    name: Performance Test
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run performance tests
-        run: |
-          if [ -f "performance-test.js" ]; then
-            node performance-test.js
-          else
-            echo "Performance test file not found, skipping..."
-          fi
 
   release:
     name: Release

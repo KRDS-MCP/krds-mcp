@@ -23,21 +23,37 @@ export class PerformanceCache {
       return null;
     }
 
-    if (Date.now() - item.timestamp > this.ttl) {
+    // Handle invalid timestamp gracefully
+    const timestamp = typeof item.timestamp === 'number' ? item.timestamp : 0;
+    if (Date.now() - timestamp > this.ttl) {
       this.cache.delete(key);
       this.misses++;
       return null;
     }
+
+    // Move to end for LRU (delete and re-insert)
+    this.cache.delete(key);
+    this.cache.set(key, item);
 
     this.hits++;
     return item.data;
   }
 
   set(key, data) {
+    // Handle zero cache size
+    if (this.maxSize === 0) {
+      return;
+    }
+
     // LRU eviction when cache is full
     if (this.cache.size >= this.maxSize) {
       const firstKey = this.cache.keys().next().value;
       this.cache.delete(firstKey);
+    }
+
+    // Handle zero TTL - don't store items that expire immediately
+    if (this.ttl === 0) {
+      return;
     }
 
     this.cache.set(key, {
