@@ -113,7 +113,10 @@ describe('KRDS MCP Server Main Entry Point', () => {
         },
         {
           capabilities: {
-            tools: {}
+            tools: {},
+            resources: {},
+            prompts: {},
+            logging: {}
           }
         }
       );
@@ -122,11 +125,11 @@ describe('KRDS MCP Server Main Entry Point', () => {
     test('should setup request handlers for ListTools and CallTool', async () => {
       await import('../../index.js');
 
-      expect(mockServer.setRequestHandler).toHaveBeenCalledTimes(2);
+      expect(mockServer.setRequestHandler).toHaveBeenCalledTimes(7); // Tools, Resources, Prompts handlers
 
-      // Should have handlers for both ListToolsRequestSchema and CallToolRequestSchema
+      // Should have handlers for Tools, Resources, Prompts
       const calls = mockServer.setRequestHandler.mock.calls;
-      expect(calls).toHaveLength(2);
+      expect(calls).toHaveLength(7);
     });
 
     test('should connect to StdioServerTransport', async () => {

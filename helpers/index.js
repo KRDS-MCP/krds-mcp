@@ -36,6 +36,12 @@ import {
 import { componentLibrary } from './component-library.js';
 import { devTools } from './dev-tools.js';
 
+// MCP 2025 모듈들
+import { mcpLogger, McpLogger, McpLogLevel, ErrorLoggerAdapter } from './mcp-logging.js';
+import { mcpResources, McpResources } from './mcp-resources.js';
+import { McpPagination, PaginationConfig, PaginationHelpers } from './mcp-pagination.js';
+import { mcpPrompts, McpPrompts } from './mcp-prompts.js';
+
 // 기존 모듈들
 export { AccessibilityValidator } from './accessibility-validator.js';
 export { KRDSHelper } from './base-helpers.js';
@@ -86,6 +92,12 @@ export {
   memoizeAsync as _memoizeAsync,
   measure as _measure
 };
+
+// MCP 2025 기능 모듈들
+export { mcpLogger, McpLogger, McpLogLevel, ErrorLoggerAdapter } from './mcp-logging.js';
+export { mcpResources, McpResources } from './mcp-resources.js';
+export { McpPagination, PaginationConfig, PaginationHelpers } from './mcp-pagination.js';
+export { mcpPrompts, McpPrompts } from './mcp-prompts.js';
 
 // 기존 코드와의 호환성을 위한 통합 객체
 export const KRDSHelperLegacy = {

@@ -15,6 +15,11 @@ import {
   CallToolRequestSchema,
   ErrorCode,
   ListToolsRequestSchema,
+  ListResourcesRequestSchema,
+  ListResourceTemplatesRequestSchema,
+  ReadResourceRequestSchema,
+  ListPromptsRequestSchema,
+  GetPromptRequestSchema,
   McpError
 } from '@modelcontextprotocol/sdk/types.js';
 
@@ -40,6 +45,11 @@ import {
   handleGetStats
 } from './handlers/extended-handlers.js';
 
+// Import MCP 2025 features
+import { mcpLogger } from './helpers/mcp-logging.js';
+import { mcpResources } from './helpers/mcp-resources.js';
+import { mcpPrompts } from './helpers/mcp-prompts.js';
+
 // MCP 서버 생성
 const server = new Server(
   {
@@ -48,10 +58,16 @@ const server = new Server(
   },
   {
     capabilities: {
-      tools: {}
+      tools: {},
+      resources: {},
+      prompts: {},
+      logging: {}
     }
   }
 );
+
+// MCP 2025 로거에 서버 참조 설정
+mcpLogger.setServer(server);
 
 // 도구 목록 조회 핸들러
 server.setRequestHandler(ListToolsRequestSchema, async () => {
@@ -411,6 +427,73 @@ server.setRequestHandler(CallToolRequestSchema, async request => {
       throw error;
     }
     throw new McpError(ErrorCode.InternalError, `도구 실행 중 오류 발생: ${error.message}`);
+  }
+});
+
+// 리소스 목록 조회 핸들러
+server.setRequestHandler(ListResourcesRequestSchema, async request => {
+  try {
+    const { cursor } = request.params || {};
+    return await mcpResources.listResources(cursor);
+  } catch (error) {
+    mcpLogger.error('Failed to list resources', 'resources', { error: error.message });
+    throw new McpError(ErrorCode.InternalError, `리소스 목록 조회 중 오류 발생: ${error.message}`);
+  }
+});
+
+// 리소스 템플릿 목록 조회 핸들러
+server.setRequestHandler(ListResourceTemplatesRequestSchema, async request => {
+  try {
+    const { cursor } = request.params || {};
+    return await mcpResources.listResourceTemplates(cursor);
+  } catch (error) {
+    mcpLogger.error('Failed to list resource templates', 'resources', { error: error.message });
+    throw new McpError(
+      ErrorCode.InternalError,
+      `리소스 템플릿 목록 조회 중 오류 발생: ${error.message}`
+    );
+  }
+});
+
+// 리소스 읽기 핸들러
+server.setRequestHandler(ReadResourceRequestSchema, async request => {
+  try {
+    const { uri } = request.params;
+    return await mcpResources.readResource(uri);
+  } catch (error) {
+    mcpLogger.error('Failed to read resource', 'resources', {
+      uri: request.params?.uri,
+      error: error.message
+    });
+    throw new McpError(ErrorCode.InternalError, `리소스 읽기 중 오류 발생: ${error.message}`);
+  }
+});
+
+// 프롬프트 목록 조회 핸들러
+server.setRequestHandler(ListPromptsRequestSchema, async request => {
+  try {
+    const { cursor } = request.params || {};
+    return await mcpPrompts.listPrompts(cursor);
+  } catch (error) {
+    mcpLogger.error('Failed to list prompts', 'prompts', { error: error.message });
+    throw new McpError(
+      ErrorCode.InternalError,
+      `프롬프트 목록 조회 중 오류 발생: ${error.message}`
+    );
+  }
+});
+
+// 프롬프트 조회 핸들러
+server.setRequestHandler(GetPromptRequestSchema, async request => {
+  try {
+    const { name, arguments: args } = request.params;
+    return await mcpPrompts.getPrompt(name, args || {});
+  } catch (error) {
+    mcpLogger.error('Failed to get prompt', 'prompts', {
+      name: request.params?.name,
+      error: error.message
+    });
+    throw new McpError(ErrorCode.InternalError, `프롬프트 조회 중 오류 발생: ${error.message}`);
   }
 });
 

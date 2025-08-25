@@ -4,6 +4,7 @@
  */
 
 import { McpError, ErrorCode } from '@modelcontextprotocol/sdk/types.js';
+import { mcpLogger, ErrorLoggerAdapter } from './mcp-logging.js';
 
 /**
  * 오류 유형 정의
@@ -64,6 +65,9 @@ export class ErrorLogger {
 
     // 콘솔 출력 (개발 모드)
     this.outputToConsole(logEntry);
+
+    // MCP 2025 표준 로깅으로도 전송
+    ErrorLoggerAdapter.logError(type, severity, message, context, originalError);
   }
 
   /**
