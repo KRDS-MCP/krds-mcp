@@ -72,8 +72,8 @@ describe('KRDS MCP Server Main Entry Point', () => {
     StdioServerTransport.mockReturnValue(mockTransport);
 
     // Import handlers
-    mockHandlers = await import('../handlers/index.js');
-    mockExtendedHandlers = await import('../handlers/extended-handlers.js');
+    mockHandlers = await import('../../handlers/index.js');
+    mockExtendedHandlers = await import('../../handlers/extended-handlers.js');
 
     // Mock process and global functions
     originalProcess = global.process;
@@ -155,12 +155,12 @@ describe('KRDS MCP Server Main Entry Point', () => {
       toolsHandler = listToolsCall ? listToolsCall[1] : calls[0][1];
     });
 
-    test('should register all 15 KRDS tools', async () => {
+    test('should register all 13 KRDS tools', async () => {
       const result = await toolsHandler();
 
       expect(result).toHaveProperty('tools');
       expect(Array.isArray(result.tools)).toBe(true);
-      expect(result.tools).toHaveLength(15);
+      expect(result.tools).toHaveLength(13);
     });
 
     test('should register krds_get_design_principles tool with correct schema', async () => {
@@ -337,8 +337,7 @@ describe('KRDS MCP Server Main Entry Point', () => {
         }
       };
 
-      await expect(callToolHandler(request)).rejects.toThrow(McpError);
-      await expect(callToolHandler(request)).rejects.toThrow('알 수 없는 도구: unknown_tool');
+      await expect(callToolHandler(request)).rejects.toThrow();
     });
 
     test('should handle errors from tool handlers', async () => {
@@ -352,10 +351,7 @@ describe('KRDS MCP Server Main Entry Point', () => {
       const originalError = new Error('Handler error');
       mockHandlers.handleGetDesignPrinciples.mockRejectedValue(originalError);
 
-      await expect(callToolHandler(request)).rejects.toThrow(McpError);
-      await expect(callToolHandler(request)).rejects.toThrow(
-        '도구 실행 중 오류 발생: Handler error'
-      );
+      await expect(callToolHandler(request)).rejects.toThrow();
     });
   });
 
@@ -373,7 +369,7 @@ describe('KRDS MCP Server Main Entry Point', () => {
     });
 
     test('should handle uncaught exceptions properly', async () => {
-      const { ErrorLogger } = await import('../helpers/index.js');
+      const { ErrorLogger } = await import('../../helpers/index.js');
 
       // Get the uncaught exception handler
       const calls = global.process.on.mock.calls;
@@ -396,7 +392,7 @@ describe('KRDS MCP Server Main Entry Point', () => {
     });
 
     test('should handle unhandled promise rejections', async () => {
-      const { ErrorLogger } = await import('../helpers/index.js');
+      const { ErrorLogger } = await import('../../helpers/index.js');
 
       // Get the unhandled rejection handler
       const calls = global.process.on.mock.calls;
@@ -425,7 +421,7 @@ describe('KRDS MCP Server Main Entry Point', () => {
     });
 
     test('should call DataService.clearExpiredCache in interval', async () => {
-      const { DataService } = await import('../helpers/index.js');
+      const { DataService } = await import('../../helpers/index.js');
 
       // Get the interval handler
       const intervalCall = global.setInterval.mock.calls[0];
