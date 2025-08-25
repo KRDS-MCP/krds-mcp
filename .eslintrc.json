@@ -1,0 +1,113 @@
+{
+  "env": {
+    "node": true,
+    "es2022": true,
+    "jest": true
+  },
+  "extends": ["eslint:recommended", "prettier"],
+  "plugins": ["prettier"],
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module"
+  },
+  "globals": {
+    "expect": "readonly",
+    "test": "readonly",
+    "describe": "readonly",
+    "beforeEach": "readonly",
+    "afterEach": "readonly",
+    "beforeAll": "readonly",
+    "afterAll": "readonly",
+    "jest": "readonly",
+    "testUtils": "readonly"
+  },
+  "rules": {
+    "prettier/prettier": "error",
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "no-console": ["warn", { "allow": ["warn", "error", "info"] }],
+    "prefer-const": "error",
+    "no-var": "error",
+    "eqeqeq": ["error", "always"],
+    "curly": ["error", "all"],
+    "max-len": [
+      "warn",
+      {
+        "code": 100,
+        "ignoreUrls": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true,
+        "ignoreComments": true
+      }
+    ],
+    "complexity": ["warn", 25],
+    "max-depth": ["warn", 4],
+    "max-params": ["warn", 6],
+    "max-lines-per-function": [
+      "warn",
+      { "max": 350, "skipBlankLines": true, "skipComments": true }
+    ],
+    "no-magic-numbers": [
+      "warn",
+      {
+        "ignore": [
+          0, 1, -1, 2, 3, 4, 5, 6, 8, 9, 10, 15, 16, 24, 36, 43, 44, 50, 60, 80, 96, 100, 114, 128,
+          255, 299, 360, 500, 576, 587, 768, 992, 1000, 1024, 1200, 1400, 100000, 0.05, 0.5, 0.95,
+          0.99, 4.5, 7.0
+        ],
+        "ignoreArrayIndexes": true,
+        "ignoreDefaultValues": true
+      }
+    ],
+    "no-duplicate-imports": "error",
+    "no-unused-expressions": "error",
+    "no-useless-return": "error",
+    "prefer-arrow-callback": "error",
+    "prefer-template": "error",
+    "arrow-spacing": "error",
+    "object-shorthand": "error",
+    "no-param-reassign": ["error", { "props": false }],
+    "consistent-return": "error",
+    "no-else-return": ["error", { "allowElseIf": false }]
+  },
+  "overrides": [
+    {
+      "files": ["tests/**/*.js", "*.test.js", "**/*.test.js", "tests/setup.js"],
+      "rules": {
+        "no-magic-numbers": "off",
+        "max-len": "off",
+        "no-console": "off",
+        "no-unused-vars": "off",
+        "complexity": "off",
+        "max-lines-per-function": "off"
+      }
+    },
+    {
+      "files": ["data/**/*.js"],
+      "rules": {
+        "max-len": ["warn", { "code": 120 }],
+        "no-magic-numbers": "off"
+      }
+    },
+    {
+      "files": ["helpers/**/*.js"],
+      "rules": {
+        "no-unused-vars": ["warn", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
+        "complexity": ["warn", 50],
+        "max-lines-per-function": "off"
+      }
+    },
+    {
+      "files": ["handlers/**/*.js"],
+      "rules": {
+        "max-lines-per-function": ["warn", { "max": 500 }]
+      }
+    },
+    {
+      "files": ["index.js"],
+      "rules": {
+        "max-lines-per-function": ["warn", { "max": 500 }],
+        "no-unused-vars": ["warn", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }]
+      }
+    }
+  ]
+}

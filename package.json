@@ -1,0 +1,98 @@
+{
+  "name": "@krds-mcp/krds-mcp",
+  "version": "1.0.0",
+  "description": "KRDS (Korea Design System) MCP Server - 한국 정부 디지털 서비스 디자인 시스템 가이드",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "krds-mcp": "./bin/cli.js"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
+    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
+    "test:integration": "node --experimental-vm-modules node_modules/jest/bin/jest.js tests/integration",
+    "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js tests/unit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "quality": "npm run lint && npm run format:check && npm run test:coverage",
+    "validate": "npm run lint && npm run test && npm run format:check",
+    "build": "echo 'No build step required'",
+    "release": "npm run release:prepare && npm run release:tag",
+    "release:prepare": "npm run quality && echo 'Release preparation complete'",
+    "release:tag": "echo 'Create release tag manually: git tag v<version> && git push origin v<version>'",
+    "release:patch": "npm version patch && git push origin main --tags",
+    "release:minor": "npm version minor && git push origin main --tags", 
+    "release:major": "npm version major && git push origin main --tags",
+    "postversion": "git push origin main --tags",
+    "postinstall": "echo '🇰🇷 KRDS MCP 서버가 설치되었습니다. Claude Desktop 설정을 업데이트하세요.'"
+  },
+  "keywords": [
+    "krds",
+    "korea-design-system",
+    "government",
+    "design-system",
+    "mcp",
+    "model-context-protocol",
+    "ui",
+    "ux",
+    "accessibility",
+    "wcag"
+  ],
+  "author": {
+    "name": "KRDS Team",
+    "email": "info@krds.go.kr",
+    "url": "https://www.krds.go.kr"
+  },
+  "license": "MIT",
+  "homepage": "https://www.krds.go.kr",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KRDS-MCP/krds-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/KRDS-MCP/krds-mcp/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "jest": "^29.0.0",
+    "prettier": "^3.0.0"
+  },
+  "files": [
+    "index.js",
+    "bin/",
+    "data/",
+    "handlers/",
+    "helpers/",
+    "README.md",
+    "LICENSE"
+  ],
+  "preferGlobal": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "funding": {
+    "type": "government",
+    "url": "https://www.mois.go.kr"
+  }
+}

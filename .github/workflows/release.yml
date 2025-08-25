@@ -1,0 +1,139 @@
+name: Release and Publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    name: Create Release and Publish to NPM
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run quality checks
+        run: |
+          npm run lint
+          npm run format:check
+          npm run test
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Update package.json version
+        run: |
+          npm version ${{ steps.version.outputs.version }} --no-git-tag-version
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          # 간단한 changelog 생성 (실제로는 conventional-changelog 등 사용 권장)
+          echo "## Changes" > CHANGELOG.md
+          git log $(git describe --tags --abbrev=0 HEAD^)..HEAD --pretty=format:"- %s (%an)" >> CHANGELOG.md
+          echo "" >> CHANGELOG.md
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          cat CHANGELOG.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          release_name: KRDS MCP Server ${{ steps.version.outputs.tag }}
+          body: |
+            # KRDS MCP Server ${{ steps.version.outputs.tag }}
+
+            한국 정부 디자인 시스템(KRDS) MCP 서버 새 버전이 출시되었습니다.
+
+            ## 설치 방법
+            ```bash
+            # NPX로 간편 실행 (권장)
+            npx @krds-mcp/krds-mcp
+
+            # 글로벌 설치
+            npm install -g @krds-mcp/krds-mcp@${{ steps.version.outputs.version }}
+            ```
+
+            ## Claude Desktop 설정
+            ```json
+            {
+              "mcpServers": {
+                "krds-mcp": {
+                  "command": "npx",
+                  "args": ["@krds-mcp/krds-mcp@${{ steps.version.outputs.version }}"]
+                }
+              }
+            }
+            ```
+
+            ## 변경사항
+            ${{ steps.changelog.outputs.changelog }}
+
+            ## 검증 완료
+            - ✅ 모든 테스트 통과
+            - ✅ 코드 품질 검사 통과
+            - ✅ NPM 패키지 배포 완료
+
+            더 자세한 정보는 [README](https://github.com/KRDS-MCP/krds-mcp#readme)를 참조하세요.
+          draft: false
+          prerelease: false
+
+      - name: Publish to NPM
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Update latest tag
+        run: |
+          git tag -f latest
+          git push origin latest -f
+
+  update-badges:
+    name: Update README badges
+    needs: release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Update version badge in README
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          sed -i "s/badge\/version-[^-]*-/badge\/version-$VERSION-/" README.md
+          
+      - name: Commit badge updates
+        run: |
+          if [[ -n $(git status --porcelain) ]]; then
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git add README.md
+            git commit -m "Update version badge to ${GITHUB_REF#refs/tags/}"
+            git push
+          fi

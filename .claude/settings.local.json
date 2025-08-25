@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install)",
+      "Bash(claude mcp:*)",
+      "Bash(node:*)",
+      "WebFetch(domain:claude.ai)",
+      "WebFetch(domain:www.krds.go.kr)",
+      "Bash(timeout:*)",
+      "Bash(find:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(npm test)",
+      "Bash(npx jest:*)",
+      "Bash(npm run test:legacy:*)",
+      "Bash(npm run lint)",
+      "Bash(npm run lint:*)",
+      "Bash(npm run test:unit:*)",
+      "Bash(npm run test:integration:*)",
+      "Bash(npm run format:*)",
+      "Bash(sed:*)",
+      "Bash(npm run test:*)",
+      "Bash(npm install:*)",
+      "Bash(npm test:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(npm run validate:*)",
+      "Bash(npm run quality:*)",
+      "Bash(npm publish:*)",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(git config:*)",
+      "Bash(git branch:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ],
+    "deny": [],
+    "ask": [],
+    "additionalDirectories": [
+      "C:\\c\\projects"
+    ]
+  }
+}
