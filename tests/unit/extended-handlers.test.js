@@ -31,8 +31,17 @@ describe('Extended Handlers', () => {
     });
 
     test('should handle all valid categories', async () => {
-      const validCategories = ['color', 'typography', 'spacing', 'sizing', 'border', 'shadow', 'motion', 'layout'];
-      
+      const validCategories = [
+        'color',
+        'typography',
+        'spacing',
+        'sizing',
+        'border',
+        'shadow',
+        'motion',
+        'layout'
+      ];
+
       for (const category of validCategories) {
         const result = await handleGetDesignTokens({ category });
         expect(result).toBeDefined();
@@ -43,7 +52,7 @@ describe('Extended Handlers', () => {
 
     test('should handle invalid category gracefully', async () => {
       const args = { category: 'invalid-category' };
-      
+
       // Should throw an MCP error for invalid input
       await expect(handleGetDesignTokens(args)).rejects.toThrow(McpError);
     });
@@ -154,10 +163,10 @@ describe('Extended Handlers', () => {
     });
 
     test('should handle detailed search option', async () => {
-      const result = await handleSearch({ 
-        query: 'button', 
-        type: 'components', 
-        detailed: true 
+      const result = await handleSearch({
+        query: 'button',
+        type: 'components',
+        detailed: true
       });
 
       expect(result).toBeDefined();
@@ -172,9 +181,9 @@ describe('Extended Handlers', () => {
     });
 
     test('should handle empty search results', async () => {
-      const result = await handleSearch({ 
-        query: 'nonexistentquery12345', 
-        type: 'all' 
+      const result = await handleSearch({
+        query: 'nonexistentquery12345',
+        type: 'all'
       });
 
       expect(result).toBeDefined();
@@ -192,9 +201,9 @@ describe('Extended Handlers', () => {
       const validTypes = ['component', 'global-pattern', 'service-pattern'];
 
       for (const type of validTypes) {
-        const result = await handleGenerateCode({ 
-          type, 
-          id: 'test-id' 
+        const result = await handleGenerateCode({
+          type,
+          id: 'test-id'
         });
         expect(result).toBeDefined();
         expect(result.content).toBeDefined();
@@ -228,10 +237,12 @@ describe('Extended Handlers', () => {
 
     test('should handle invalid type', async () => {
       // Should throw an MCP error for invalid type
-      await expect(handleGenerateCode({
-        type: 'invalid-type',
-        id: 'test'
-      })).rejects.toThrow(McpError);
+      await expect(
+        handleGenerateCode({
+          type: 'invalid-type',
+          id: 'test'
+        })
+      ).rejects.toThrow(McpError);
     });
   });
 
@@ -261,15 +272,15 @@ describe('Extended Handlers', () => {
       const result1 = await handleGetDesignTokens(null);
       expect(result1).toBeDefined();
       expect(result1.content).toBeDefined();
-      
+
       const result2 = await handleGetSystems(null);
       expect(result2).toBeDefined();
       expect(result2.content).toBeDefined();
-      
+
       const result3 = await handleGetStats(null);
       expect(result3).toBeDefined();
       expect(result3.content).toBeDefined();
-      
+
       // These require specific parameters, so should throw errors
       await expect(handleSearch(null)).rejects.toThrow(McpError);
       await expect(handleGenerateCode(null)).rejects.toThrow(McpError);
@@ -278,16 +289,16 @@ describe('Extended Handlers', () => {
     test('should handle undefined arguments gracefully', async () => {
       // Most handlers should throw errors for undefined input where required params are needed
       await expect(handleSearch(undefined)).rejects.toThrow(McpError);
-      
+
       // These should work with undefined (treated as empty object)
       const result1 = await handleGetDesignTokens(undefined);
       expect(result1).toBeDefined();
       expect(result1.content).toBeDefined();
-      
+
       const result2 = await handleGetSystems(undefined);
       expect(result2).toBeDefined();
       expect(result2.content).toBeDefined();
-      
+
       const result3 = await handleGetStats(undefined);
       expect(result3).toBeDefined();
       expect(result3.content).toBeDefined();
@@ -298,15 +309,15 @@ describe('Extended Handlers', () => {
       const result1 = await handleGetDesignTokens({});
       expect(result1).toBeDefined();
       expect(result1.content).toBeDefined();
-      
+
       const result2 = await handleGetSystems({});
       expect(result2).toBeDefined();
       expect(result2.content).toBeDefined();
-      
+
       const result3 = await handleGetStats({});
       expect(result3).toBeDefined();
       expect(result3.content).toBeDefined();
-      
+
       // generateCode requires type and id, so should throw error
       await expect(handleGenerateCode({})).rejects.toThrow(McpError);
     });
