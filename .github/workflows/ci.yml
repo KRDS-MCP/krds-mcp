@@ -89,11 +89,12 @@ jobs:
           CI: true
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           file: ./coverage/lcov.info
           fail_ci_if_error: false
           verbose: true
+          token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload coverage reports to GitHub
         uses: actions/upload-artifact@v4
@@ -184,12 +185,10 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.tag.outputs.version }}
-          release_name: KRDS MCP Server v${{ steps.tag.outputs.version }}
+          name: KRDS MCP Server v${{ steps.tag.outputs.version }}
           body: |
             ## KRDS MCP Server Release v${{ steps.tag.outputs.version }}
 
@@ -209,3 +208,4 @@ jobs:
             Code quality checks passed ✅
           draft: false
           prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
