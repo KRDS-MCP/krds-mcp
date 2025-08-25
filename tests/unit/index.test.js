@@ -21,7 +21,7 @@ jest.unstable_mockModule('../../helpers/index.js', () => ({
   }
 }));
 
-jest.unstable_mockModule('../handlers/index.js', () => ({
+jest.unstable_mockModule('../../handlers/index.js', () => ({
   handleGetDesignPrinciples: jest.fn(),
   handleGetColors: jest.fn(),
   handleGetTypography: jest.fn(),

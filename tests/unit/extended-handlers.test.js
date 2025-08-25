@@ -24,7 +24,7 @@ jest.unstable_mockModule('../../helpers/index.js', () => ({
   }
 }));
 
-jest.unstable_mockModule('../data/index.js', () => ({
+jest.unstable_mockModule('../../data/index.js', () => ({
   KRDS_DATA: {
     designTokens: {
       tokens: {

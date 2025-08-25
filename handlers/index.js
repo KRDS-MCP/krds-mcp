@@ -334,7 +334,7 @@ export async function handleGetShapesIcons(args) {
     let result = '';
 
     if (type === 'shapes' || type === 'both') {
-      if (DataService.isDataAvailable(KRDS_DATA.shapes, 'Shapes')) {
+      if (DataService.isDataAvailable(KRDS_DATA.shapes, 'Shapes') && Array.isArray(KRDS_DATA.shapes)) {
         const shapesContent = KRDS_DATA.shapes
           .map(
             shape =>
