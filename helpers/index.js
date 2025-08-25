@@ -33,6 +33,8 @@ import {
   memoizeAsync,
   measure
 } from './performance-helpers.js';
+import { componentLibrary } from './component-library.js';
+import { devTools } from './dev-tools.js';
 
 // 기존 모듈들
 export { AccessibilityValidator } from './accessibility-validator.js';
@@ -56,6 +58,21 @@ export {
 } from './error-handling.js';
 export { ResponseFormatter } from './response-formatter.js';
 export { DataService } from './data-service.js';
+
+// 컴포넌트 라이브러리 및 개발자 도구
+export {
+  componentLibrary,
+  KRDSComponentLibrary,
+  KRDS_COMPONENT_MAPPING
+} from './component-library.js';
+export {
+  devTools,
+  KRDSDevTools,
+  KRDSStorybookIntegration,
+  KRDSLivePreview,
+  KRDSCodeSandbox,
+  DEV_TOOLS_CONFIG
+} from './dev-tools.js';
 
 // Performance and optimization modules
 export {
