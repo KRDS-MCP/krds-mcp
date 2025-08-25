@@ -34,8 +34,6 @@
     ],
     "deny": [],
     "ask": [],
-    "additionalDirectories": [
-      "C:\\c\\projects"
-    ]
+    "additionalDirectories": ["C:\\c\\projects"]
   }
 }

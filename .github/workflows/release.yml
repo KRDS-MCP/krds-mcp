@@ -127,7 +127,7 @@ jobs:
         run: |
           VERSION=${GITHUB_REF#refs/tags/v}
           sed -i "s/badge\/version-[^-]*-/badge\/version-$VERSION-/" README.md
-          
+
       - name: Commit badge updates
         run: |
           if [[ -n $(git status --porcelain) ]]; then
