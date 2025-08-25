@@ -4,6 +4,99 @@
 
 > 🎯 **목적**: AI 어시스턴트가 한국 정부 웹사이트 및 디지털 서비스 개발 시 KRDS 디자인 가이드라인을 준수할 수 있도록 지원
 
+## 🚀 NPX를 이용한 간편 실행 (권장)
+
+`npx`를 사용하면 별도의 설치 과정 없이 항상 최신 버전의 KRDS MCP 서버를 실행할 수 있습니다. 이 방법은 Claude Desktop과 같은 AI 어시스턴트와 연동할 때 가장 편리하고 안정적입니다.
+
+### 1. Claude Desktop과 연동하기
+
+Claude Desktop 설정 파일(`claude_desktop_config.json`)에 아래와 같이 `mcpServers` 항목을 추가하세요.
+
+```json
+{
+  "mcpServers": {
+    "krds-mcp": {
+      "command": "npx",
+      "args": ["@krds-mcp/krds-mcp"],
+      "env": {}
+    }
+  }
+}
+```
+
+이제 Claude Desktop을 재시작하면, AI가 KRDS 디자인 시스템 정보를 활용할 수 있게 됩니다.
+
+### 2. 터미널에서 직접 실행하기
+
+서버가 정상적으로 동작하는지 확인하거나, 독립적으로 실행하고 싶을 때 사용합니다.
+
+```bash
+# 서버 실행 (가장 기본적인 명령어)
+npx @krds-mcp/krds-mcp
+
+# 도움말 보기 (사용 가능한 모든 명령어 옵션 확인)
+npx @krds-mcp/krds-mcp --help
+
+# 버전 확인
+npx @krds-mcp/krds-mcp --version
+```
+
+---
+
+## 🏗️ 프로젝트 구조
+// ...existing code...
+```// filepath: c:\projects\krds-mcp\README.md
+# KRDS MCP Server
+
+한국 정부 디지털 서비스의 표준 디자인 시스템인 KRDS (Korea Government Design System)의 가이드라인을 기반으로 AI 모델에게 디자인 시스템 정보를 제공하는 MCP (Model Context Protocol) 서버입니다.
+
+> 🎯 **목적**: AI 어시스턴트가 한국 정부 웹사이트 및 디지털 서비스 개발 시 KRDS 디자인 가이드라인을 준수할 수 있도록 지원
+
+## 🚀 NPX를 이용한 간편 실행 (권장)
+
+`npx`를 사용하면 별도의 설치 과정 없이 항상 최신 버전의 KRDS MCP 서버를 실행할 수 있습니다. 이 방법은 Claude Desktop과 같은 AI 어시스턴트와 연동할 때 가장 편리하고 안정적입니다.
+
+### 1. Claude Desktop과 연동하기
+
+Claude Desktop 설정 파일(`claude_desktop_config.json`)에 아래와 같이 `mcpServers` 항목을 추가하세요.
+
+```json
+{
+  "mcpServers": {
+    "krds-mcp": {
+      "command": "npx",
+      "args": ["@krds-mcp/krds-mcp"],
+      "env": {}
+    }
+  }
+}
+```
+
+이제 Claude Desktop을 재시작하면, AI가 KRDS 디자인 시스템 정보를 활용할 수 있게 됩니다.
+
+### 2. 터미널에서 직접 실행하기
+
+서버가 정상적으로 동작하는지 확인하거나, 독립적으로 실행하고 싶을 때 사용합니다.
+
+```bash
+# 서버 실행 (가장 기본적인 명령어)
+npx @krds-mcp/krds-mcp
+
+# 도움말 보기 (사용 가능한 모든 명령어 옵션 확인)
+npx @krds-mcp/krds-mcp --help
+
+# 버전 확인
+npx @krds-mcp/krds-mcp --version
+```
+
+---
+
+## 🏗️ 프로젝트 구조# KRDS MCP Server
+
+한국 정부 디지털 서비스의 표준 디자인 시스템인 KRDS (Korea Government Design System)의 가이드라인을 기반으로 AI 모델에게 디자인 시스템 정보를 제공하는 MCP (Model Context Protocol) 서버입니다.
+
+> 🎯 **목적**: AI 어시스턴트가 한국 정부 웹사이트 및 디지털 서비스 개발 시 KRDS 디자인 가이드라인을 준수할 수 있도록 지원
+
 ## 🏗️ 프로젝트 구조
 
 ```
