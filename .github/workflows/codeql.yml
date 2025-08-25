@@ -8,6 +8,11 @@ on:
   schedule:
     - cron: '0 6 * * 1' # Weekly on Monday at 6 AM UTC
 
+# Prevent duplicate runs for PR and push events
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   analyze:
     name: Analyze
