@@ -1,49 +1,49 @@
 version: 2
 updates:
   # Enable version updates for npm
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "04:00"
+      interval: 'weekly'
+      day: 'monday'
+      time: '04:00'
     open-pull-requests-limit: 10
     reviewers:
-      - "KRDS-MCP/maintainers"
+      - 'KRDS-MCP/maintainers'
     labels:
-      - "dependencies"
-      - "npm"
+      - 'dependencies'
+      - 'npm'
     commit-message:
-      prefix: "chore"
-      include: "scope"
+      prefix: 'chore'
+      include: 'scope'
     ignore:
       # Ignore major version updates for critical packages
-      - dependency-name: "@modelcontextprotocol/sdk"
-        update-types: ["version-update:semver-major"]
+      - dependency-name: '@modelcontextprotocol/sdk'
+        update-types: ['version-update:semver-major']
     groups:
       # Group all development dependencies
       dev-dependencies:
         patterns:
-          - "eslint*"
-          - "prettier*"
-          - "jest*"
-          - "@types/*"
+          - 'eslint*'
+          - 'prettier*'
+          - 'jest*'
+          - '@types/*'
         update-types:
-          - "minor"
-          - "patch"
+          - 'minor'
+          - 'patch'
 
   # Enable version updates for GitHub Actions
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "04:00"
+      interval: 'weekly'
+      day: 'monday'
+      time: '04:00'
     reviewers:
-      - "KRDS-MCP/maintainers"
+      - 'KRDS-MCP/maintainers'
     labels:
-      - "dependencies"
-      - "github-actions"
+      - 'dependencies'
+      - 'github-actions'
     commit-message:
-      prefix: "ci"
-      include: "scope"
+      prefix: 'ci'
+      include: 'scope'

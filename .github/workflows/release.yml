@@ -5,48 +5,125 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., 1.0.5)'
+        required: true
+        type: string
 
 permissions:
   contents: write
   packages: read
+  pull-requests: write
 
 jobs:
-  release:
+  changelog:
     runs-on: ubuntu-latest
+    outputs:
+      changelog: ${{ steps.changelog.outputs.changelog }}
+      version: ${{ steps.version.outputs.version }}
 
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+      - name: Get version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION=${GITHUB_REF#refs/tags/v}
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Generate changelog
+        id: changelog
+        uses: TriPSs/conventional-changelog-action@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          version-file: './package.json'
+          version-path: 'version'
+          skip-on-empty: false
+          skip-version-file: false
+          skip-commit: false
+          git-message: 'chore(release): {version}'
+          git-user-name: 'github-actions[bot]'
+          git-user-email: 'github-actions[bot]@users.noreply.github.com'
+          preset: 'conventionalcommits'
+          tag-prefix: 'v'
+          output-file: 'CHANGELOG.md'
+          release-count: 0
+          config-file-path: '.changelog.config.js'
+          pre-commit: './.github/scripts/update-version.js'
+
+  release:
+    needs: changelog
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: main
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-          # <<< NPM 배포를 위해 registry-url 설정 추가 >>>
           registry-url: 'https://registry.npmjs.org'
 
       - run: npm ci
 
-      - name: Get version
-        id: get_version
-        run: |
-          VERSION=$(node -p "require('./package.json').version")
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+      - name: Run tests
+        run: npm test
+        env:
+          NODE_OPTIONS: --experimental-vm-modules
 
-      - name: Create Release
-        uses: softprops/action-gh-release@v1
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ steps.get_version.outputs.version }}
-          name: KRDS MCP Server v${{ steps.get_version.outputs.version }}
-          generate_release_notes: true
+          tag_name: v${{ needs.changelog.outputs.version }}
+          name: KRDS MCP Server v${{ needs.changelog.outputs.version }}
+          body: |
+            ## What's Changed
+
+            ${{ needs.changelog.outputs.changelog }}
+
+            ## Installation
+
+            ### NPM
+            ```bash
+            npm install @krds-mcp/krds-mcp@${{ needs.changelog.outputs.version }}
+            ```
+
+            ### NPX (권장)
+            ```bash
+            npx @krds-mcp/krds-mcp@${{ needs.changelog.outputs.version }}
+            ```
+
+            ### Claude Desktop 설정
+            ```json
+            {
+              "mcpServers": {
+                "krds-mcp": {
+                  "command": "npx",
+                  "args": ["@krds-mcp/krds-mcp@${{ needs.changelog.outputs.version }}"]
+                }
+              }
+            }
+            ```
+
+            **Full Changelog**: https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md
           draft: false
           prerelease: false
+          generate_release_notes: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish to NPM
         run: npm publish --access public
         env:
-          # setup-node에서 registry-url을 설정하면 NODE_AUTH_TOKEN을 사용해야 합니다.
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

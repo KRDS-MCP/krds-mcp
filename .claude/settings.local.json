@@ -39,7 +39,8 @@
       "Read(/c:\\projects\\krds-mcp\\.github\\workflows/**)",
       "Read(/c:\\projects\\krds-mcp\\.github\\workflows/**)",
       "Bash(npm:*)",
-      "WebFetch(domain:raw.githubusercontent.com)"
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(git log:*)"
     ],
     "deny": [],
     "ask": [],

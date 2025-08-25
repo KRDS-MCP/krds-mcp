@@ -12,3 +12,4 @@ yarn.lock
 .git/
 .DS_Store
 .claude/settings.local.json
+CHANGELOG.md
