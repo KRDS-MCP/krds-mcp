@@ -19,6 +19,11 @@ jest.unstable_mockModule('../../helpers/index.js', () => ({
   ResponseFormatter: {
     createTextResponse: jest.fn()
   },
+  DataService: {
+    isDataAvailable: jest.fn(),
+    queryData: jest.fn(),
+    filterData: jest.fn()
+  },
   SpecialValidators: {
     validateSearchQuery: jest.fn()
   }
@@ -62,8 +67,8 @@ describe('Extended Handlers', () => {
   beforeEach(async () => {
     jest.clearAllMocks();
 
-    mockHelpers = await import('../helpers/index.js');
-    const dataModule = await import('../data/index.js');
+    mockHelpers = await import('../../helpers/index.js');
+    const dataModule = await import('../../data/index.js');
     mockKRDSData = dataModule.KRDS_DATA;
 
     // Setup default mock behaviors
@@ -86,6 +91,13 @@ describe('Extended Handlers', () => {
       isValid: true,
       sanitized: 'test query'
     });
+
+    // Set up DataService mocks
+    if (mockHelpers.DataService) {
+      mockHelpers.DataService.isDataAvailable.mockReturnValue(true);
+      mockHelpers.DataService.queryData.mockImplementation((data, filters) => data || []);
+      mockHelpers.DataService.filterData.mockImplementation((data, filters) => data || []);
+    }
   });
 
   describe('handleGetDesignTokens', () => {
@@ -101,8 +113,8 @@ describe('Extended Handlers', () => {
     });
 
     test('should handle missing design tokens data', async () => {
-      // Mock missing data
-      mockKRDSData.designTokens = null;
+      // Mock DataService to return data unavailable
+      mockHelpers.DataService.isDataAvailable.mockReturnValue(false);
 
       const result = await handleGetDesignTokens({});
 

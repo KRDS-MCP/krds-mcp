@@ -32,7 +32,7 @@ jest.unstable_mockModule('../../handlers/index.js', () => ({
   handleValidateAccessibility: jest.fn()
 }));
 
-jest.unstable_mockModule('../handlers/extended-handlers.js', () => ({
+jest.unstable_mockModule('../../handlers/extended-handlers.js', () => ({
   handleGetDesignTokens: jest.fn(),
   handleGetSystems: jest.fn(),
   handleSearch: jest.fn(),

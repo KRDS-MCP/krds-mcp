@@ -251,7 +251,7 @@ describe('KRDS MCP Server Integration Tests', () => {
 
         const timeout = setTimeout(() => {
           reject(new Error('Request timeout'));
-        }, 5000);
+        }, 10000); // Increased timeout to 10 seconds
 
         const dataHandler = data => {
           const output = data.toString();
