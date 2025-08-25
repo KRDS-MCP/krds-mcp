@@ -85,7 +85,7 @@ describe('KRDS MCP Server Integration Tests', () => {
 
   test('server should respond to simple input', done => {
     if (!isServerReady) {
-      done.fail('Server not ready');
+      done(new Error('Server not ready'));
       return;
     }
 
@@ -98,7 +98,7 @@ describe('KRDS MCP Server Integration Tests', () => {
     let responseReceived = false;
     const timeout = setTimeout(() => {
       if (!responseReceived) {
-        done.fail('No response received within timeout');
+        done(new Error('No response received within timeout'));
       }
     }, 5000);
 
@@ -127,7 +127,7 @@ describe('KRDS MCP Server Integration Tests', () => {
 
   test('server should handle tool call requests', done => {
     if (!isServerReady) {
-      done.fail('Server not ready');
+      done(new Error('Server not ready'));
       return;
     }
 
@@ -144,7 +144,7 @@ describe('KRDS MCP Server Integration Tests', () => {
     let responseReceived = false;
     const timeout = setTimeout(() => {
       if (!responseReceived) {
-        done.fail('No response received within timeout');
+        done(new Error('No response received within timeout'));
       }
     }, 5000);
 
@@ -173,7 +173,7 @@ describe('KRDS MCP Server Integration Tests', () => {
 
   test('server should handle invalid tool calls gracefully', done => {
     if (!isServerReady) {
-      done.fail('Server not ready');
+      done(new Error('Server not ready'));
       return;
     }
 
@@ -190,7 +190,7 @@ describe('KRDS MCP Server Integration Tests', () => {
     let responseReceived = false;
     const timeout = setTimeout(() => {
       if (!responseReceived) {
-        done.fail('No response received within timeout');
+        done(new Error('No response received within timeout'));
       }
     }, 5000);
 
@@ -218,7 +218,7 @@ describe('KRDS MCP Server Integration Tests', () => {
 
   test('server should handle multiple tool types', done => {
     if (!isServerReady) {
-      done.fail('Server not ready');
+      done(new Error('Server not ready'));
       return;
     }
 
@@ -235,7 +235,7 @@ describe('KRDS MCP Server Integration Tests', () => {
     let responseReceived = false;
     const timeout = setTimeout(() => {
       if (!responseReceived) {
-        done.fail('No response received within timeout');
+        done(new Error('No response received within timeout'));
       }
     }, 5000);
 
