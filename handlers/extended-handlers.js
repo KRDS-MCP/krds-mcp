@@ -108,30 +108,22 @@ export async function handleGenerateCode(args) {
     const validatedArgs = InputValidator.validateAndSanitize(args, 'generateCode', '코드 생성');
     const { type, id, variant, theme = 'light' } = validatedArgs;
 
-    if (!type || !id) {
-      throw new McpError(ErrorCode.InvalidRequest, 'type과 id가 필요합니다.');
+    const codeResult = CodeGenerators.generateCode({ type, id, variant, theme });
+
+    if (codeResult.error) {
+      throw new McpError(ErrorCode.InvalidRequest, codeResult.error);
     }
 
-    const validTypes = ['component', 'global-pattern', 'service-pattern'];
-    if (!validTypes.includes(type)) {
-      throw new McpError(ErrorCode.InvalidRequest, `지원하지 않는 타입입니다: ${type}`);
-    }
-
-    const targetItem = CodeGenerators.findTargetItem(type, id);
-    if (!targetItem) {
+    if (!codeResult.html) {
       return ErrorHandler.handleNoResults(id, type, '코드 생성');
     }
 
-    const generatedCode = CodeGenerators.generateCode(type, targetItem, { variant, theme });
-    if (!generatedCode) {
-      return ResponseFormatter.createTextResponse(
-        `"${targetItem.name}"에 대한 코드 예제가 없습니다.`
-      );
-    }
+    const targetItem = CodeGenerators.findTargetItem(type, id);
+    const description = targetItem
+      ? CodeFormatters.formatGeneratedCode(targetItem, codeResult.html, theme)
+      : `Generated code for ${type}: ${id}`;
 
-    return ResponseFormatter.createTextResponse(
-      CodeFormatters.formatGeneratedCode(targetItem, generatedCode, theme)
-    );
+    return ResponseFormatter.createTextResponse(description);
   } catch (error) {
     return ErrorHandler.handleError(error, '코드 생성', { args });
   }
@@ -180,39 +172,81 @@ export const TokenFormatters = {
   formatTokens: (tokens, format, theme) => {
     switch (format) {
       case 'css':
-        return TokenFormatters.generateCSSVariables(tokens, theme);
+        return TokenFormatters.generateCSS(tokens, theme);
       case 'style-dictionary':
         return TokenFormatters.generateStyleDictionary(tokens, theme);
       case 'json':
       default:
-        return `## KRDS 디자인 토큰 (${theme} 테마)\n\n\`\`\`json\n${JSON.stringify(tokens, null, 2)}\n\`\`\``;
+        return `## KRDS 디자인 토큰 (${theme} 테마)\n\n\`\`\`json\n${JSON.stringify(
+          TokenFormatters.filterTokensByTheme(tokens, theme),
+          null,
+          2
+        )}\n\`\`\``;
     }
   },
 
-  generateCSSVariables: (tokens, theme) => {
-    let css = `/* KRDS 디자인 토큰 - ${theme} 테마 */\n:root {\n`;
+  filterTokensByTheme: (tokens, theme) => {
+    const filteredTokens = {};
+    Object.entries(tokens).forEach(([category, categoryTokens]) => {
+      filteredTokens[category] = {};
+      Object.entries(categoryTokens).forEach(([tokenName, value]) => {
+        const isDark = tokenName.includes('-dark-');
+        const isLight = tokenName.includes('-light-');
+        const isThemeSpecific = isDark || isLight;
 
-    Object.keys(tokens).forEach(category => {
-      css += `\n  /* ${category} tokens */\n`;
-      Object.keys(tokens[category]).forEach(tokenName => {
-        const value = tokens[category][tokenName];
-        const cssVar = `--krds-${category}-${tokenName.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
-        css += `  ${cssVar}: ${typeof value === 'object' ? value.value || JSON.stringify(value) : value};\n`;
+        if (theme === 'dark') {
+          // 다크 테마: 다크 전용 또는 테마 미지정 토큰 포함
+          if (isDark || !isThemeSpecific) {
+            filteredTokens[category][tokenName] = value;
+          }
+        } else {
+          // 라이트 테마 (기본값): 라이트 전용 또는 테마 미지정 토큰 포함
+          if (isLight || !isThemeSpecific) {
+            filteredTokens[category][tokenName] = value;
+          }
+        }
+      });
+    });
+    return filteredTokens;
+  },
+
+  generateCSS: (tokens, theme) => {
+    let css = `/* KRDS 디자인 토큰 - ${theme} 테마 */\n`;
+    const rootVars = [];
+    const darkVars = [];
+
+    Object.values(tokens).forEach(categoryTokens => {
+      Object.entries(categoryTokens).forEach(([tokenName, value]) => {
+        const cssVarName = `--${tokenName}`;
+        const cssLine = `${cssVarName}: ${value};`;
+
+        if (tokenName.includes('-dark-')) {
+          darkVars.push(`  ${cssLine}`);
+        } else if (!tokenName.includes('-light-')) {
+          // 테마 미지정 토큰은 :root에 포함
+          rootVars.push(`  ${cssLine}`);
+        } else {
+          // 라이트 테마 토큰은 :root에 포함
+          rootVars.push(`  ${cssLine}`);
+        }
       });
     });
 
-    css += '}\n';
+    css += ':root {\n';
+    css += rootVars.join('\n');
+    css += '\n}\n';
 
-    if (theme === 'dark') {
-      css += '\n/* 다크 모드 오버라이드 */\n[data-theme="dark"] {\n';
-      css += '  /* 다크 모드 토큰 값들 */\n';
-      css += '}\n';
+    if (darkVars.length > 0) {
+      css += '\n[data-theme="dark"] {\n';
+      css += darkVars.join('\n');
+      css += '\n}\n';
     }
 
     return `## KRDS CSS 변수\n\n\`\`\`css\n${css}\`\`\``;
   },
 
   generateStyleDictionary: (tokens, theme) => {
+    const filteredTokens = TokenFormatters.filterTokensByTheme(tokens, theme);
     const styleDictionary = {
       source: [`tokens/${theme}/**/*.json`],
       platforms: {
@@ -237,10 +271,14 @@ export const TokenFormatters = {
           ]
         }
       },
-      tokens
+      tokens: filteredTokens
     };
 
-    return `## Style Dictionary 설정\n\n\`\`\`json\n${JSON.stringify(styleDictionary, null, 2)}\n\`\`\``;
+    return `## Style Dictionary 설정 (${theme} 테마)\n\n\`\`\`json\n${JSON.stringify(
+      styleDictionary,
+      null,
+      2
+    )}\n\`\`\``;
   }
 };
 
@@ -572,20 +610,38 @@ export const CodeGenerators = {
     return searchMethods[type] ? searchMethods[type]() : null;
   },
 
-  generateCode: (type, targetItem, options) => {
-    const { variant, theme } = options;
+  generateCode: options => {
+    const { type, id, variant, theme } = options;
 
+    if (!type || !id) {
+      return { error: 'type과 id는 필수 입력 항목입니다.' };
+    }
+
+    const validTypes = ['component', 'global-pattern', 'service-pattern'];
+    if (!validTypes.includes(type)) {
+      return { error: `지원하지 않는 타입입니다: ${type}` };
+    }
+
+    const targetItem = CodeGenerators.findTargetItem(type, id);
+    if (!targetItem) {
+      return { html: null }; // 아이템을 찾지 못함
+    }
+
+    let html;
     switch (type) {
       case 'component':
-        return CodeGenerators.generateComponentCode(targetItem, { variant, theme });
+        html = CodeGenerators.generateComponentCode(targetItem, { variant, theme });
+        break;
       case 'global-pattern':
       case 'service-pattern':
-        return targetItem.codeExample
+        html = targetItem.codeExample
           ? CodeUtils.adaptCodeForTheme(targetItem.codeExample, theme)
           : '';
+        break;
       default:
-        return '';
+        html = '';
     }
+    return { html };
   },
 
   generateComponentCode: (component, options = {}) => {

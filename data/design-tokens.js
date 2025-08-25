@@ -120,17 +120,91 @@ export const colorTokens = {
   'krds-light-color-interactive-text-hover': '#0C3E74',
   'krds-light-color-interactive-text-visited': '#6F42C1',
 
-  // Dark Mode Colors
+  // 다크 모드 색상
+  'krds-dark-color-primary-background-default': '#5AA3F0',
+  'krds-dark-color-primary-background-hover': '#7BBBF7',
+  'krds-dark-color-primary-background-pressed': '#A8D5FA',
+  'krds-dark-color-primary-background-disabled': '#495057',
+
+  'krds-dark-color-primary-text-default': '#000000',
+  'krds-dark-color-primary-text-disabled': '#6C757D',
+
+  'krds-dark-color-primary-border-default': '#5AA3F0',
+  'krds-dark-color-primary-border-hover': '#7BBBF7',
+  'krds-dark-color-primary-border-focus': '#A8D5FA',
+
+  'krds-dark-color-secondary-background-default': '#6A9FE2',
+  'krds-dark-color-secondary-background-hover': '#8AB7E9',
+  'krds-dark-color-secondary-background-pressed': '#A8D5FA',
+
+  'krds-dark-color-secondary-text-default': '#000000',
+  'krds-dark-color-secondary-border-default': '#6A9FE2',
+
+  'krds-dark-color-success-background-default': '#34C759',
+  'krds-dark-color-success-background-light': '#1A3D21',
+  'krds-dark-color-success-background-dark': '#A3D9B1',
+
+  'krds-dark-color-success-text-default': '#000000',
+  'krds-dark-color-success-text-dark': '#D4EDDA',
+
+  'krds-dark-color-success-border-default': '#34C759',
+  'krds-dark-color-success-border-light': '#1A3D21',
+
+  'krds-dark-color-warning-background-default': '#FFD60A',
+  'krds-dark-color-warning-background-light': '#4D441E',
+  'krds-dark-color-warning-background-dark': '#FFEAA7',
+
+  'krds-dark-color-warning-text-default': '#000000',
+  'krds-dark-color-warning-text-dark': '#FFF3CD',
+
+  'krds-dark-color-warning-border-default': '#FFD60A',
+  'krds-dark-color-warning-border-light': '#4D441E',
+
+  'krds-dark-color-error-background-default': '#FF453A',
+  'krds-dark-color-error-background-light': '#4A1A1F',
+  'krds-dark-color-error-background-dark': '#F5C6CB',
+
+  'krds-dark-color-error-text-default': '#000000',
+  'krds-dark-color-error-text-dark': '#F8D7DA',
+
+  'krds-dark-color-error-border-default': '#FF453A',
+  'krds-dark-color-error-border-light': '#4A1A1F',
+
+  'krds-dark-color-info-background-default': '#5AC8FA',
+  'krds-dark-color-info-background-light': '#193C46',
+  'krds-dark-color-info-background-dark': '#B3E5FC',
+
+  'krds-dark-color-info-text-default': '#000000',
+  'krds-dark-color-info-text-dark': '#D1ECF1',
+
+  'krds-dark-color-info-border-default': '#5AC8FA',
+  'krds-dark-color-info-border-light': '#193C46',
+
   'krds-dark-color-neutral-background-default': '#121212',
   'krds-dark-color-neutral-background-secondary': '#1E1E1E',
   'krds-dark-color-neutral-background-tertiary': '#2D2D2D',
+  'krds-dark-color-neutral-background-overlay': 'rgba(255, 255, 255, 0.1)',
 
   'krds-dark-color-neutral-text-primary': '#FFFFFF',
   'krds-dark-color-neutral-text-secondary': '#B3B3B3',
-  'krds-dark-color-neutral-text-tertiary': '#666666',
+  'krds-dark-color-neutral-text-tertiary': '#8E8E93',
+  'krds-dark-color-neutral-text-disabled': '#495057',
+  'krds-dark-color-neutral-text-placeholder': '#8E8E93',
+  'krds-dark-color-neutral-text-inverse': '#121212',
 
-  'krds-dark-color-primary-background-default': '#5AA3F0',
-  'krds-dark-color-primary-background-hover': '#4A90E2'
+  'krds-dark-color-neutral-border-default': '#3A3A3C',
+  'krds-dark-color-neutral-border-secondary': '#48484A',
+  'krds-dark-color-neutral-border-strong': '#ADB5BD',
+  'krds-dark-color-neutral-border-focus': '#5AA3F0',
+
+  'krds-dark-color-interactive-background-default': 'transparent',
+  'krds-dark-color-interactive-background-hover': '#2D2D2D',
+  'krds-dark-color-interactive-background-pressed': '#3A3A3C',
+  'krds-dark-color-interactive-background-selected': '#1A3D57',
+
+  'krds-dark-color-interactive-text-default': '#5AA3F0',
+  'krds-dark-color-interactive-text-hover': '#7BBBF7',
+  'krds-dark-color-interactive-text-visited': '#C5A8FF'
 };
 
 // 타이포그래피 토큰
