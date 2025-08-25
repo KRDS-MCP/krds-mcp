@@ -23,15 +23,15 @@ import {
 import { ResponseFormatter as _ResponseFormatter } from './response-formatter.js';
 import { DataService as _DataService } from './data-service.js';
 import {
-  PerformanceCache as _PerformanceCache,
-  Memoizer as _Memoizer,
-  PerformanceMonitor as _PerformanceMonitor,
-  DataOptimizer as _DataOptimizer,
-  LazyLoader as _LazyLoader,
-  MemoryOptimizer as _MemoryOptimizer,
-  memoize as _memoize,
-  memoizeAsync as _memoizeAsync,
-  measure as _measure
+  PerformanceCache,
+  Memoizer,
+  PerformanceMonitor,
+  DataOptimizer,
+  LazyLoader,
+  MemoryOptimizer,
+  memoize,
+  memoizeAsync,
+  measure
 } from './performance-helpers.js';
 
 // 기존 모듈들
@@ -59,16 +59,16 @@ export { DataService } from './data-service.js';
 
 // Performance and optimization modules
 export {
-  _PerformanceCache,
-  _Memoizer,
-  _PerformanceMonitor,
-  _DataOptimizer,
-  _LazyLoader,
-  _MemoryOptimizer,
-  _memoize,
-  _memoizeAsync,
-  _measure
-} from './performance-helpers.js';
+  PerformanceCache as _PerformanceCache,
+  Memoizer as _Memoizer,
+  PerformanceMonitor as _PerformanceMonitor,
+  DataOptimizer as _DataOptimizer,
+  LazyLoader as _LazyLoader,
+  MemoryOptimizer as _MemoryOptimizer,
+  memoize as _memoize,
+  memoizeAsync as _memoizeAsync,
+  measure as _measure
+};
 
 // 기존 코드와의 호환성을 위한 통합 객체
 export const KRDSHelperLegacy = {

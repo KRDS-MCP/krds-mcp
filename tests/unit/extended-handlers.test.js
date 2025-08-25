@@ -4,7 +4,7 @@ import { describe, test, expect, jest, beforeEach } from '@jest/globals';
 import { McpError, ErrorCode } from '@modelcontextprotocol/sdk/types.js';
 
 // Mock all dependencies
-jest.unstable_mockModule('../helpers/index.js', () => ({
+jest.unstable_mockModule('../../helpers/index.js', () => ({
   InputValidator: {
     validateAndSanitize: jest.fn()
   },

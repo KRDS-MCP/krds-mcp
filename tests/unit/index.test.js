@@ -12,7 +12,7 @@ jest.unstable_mockModule('@modelcontextprotocol/sdk/server/stdio.js', () => ({
   StdioServerTransport: jest.fn()
 }));
 
-jest.unstable_mockModule('../helpers/index.js', () => ({
+jest.unstable_mockModule('../../helpers/index.js', () => ({
   ErrorLogger: {
     logError: jest.fn()
   },
