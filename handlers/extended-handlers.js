@@ -10,6 +10,8 @@ import {
   ResponseFormatter,
   SpecialValidators
 } from '../helpers/index.js';
+import { componentLibrary } from '../helpers/component-library.js';
+import { devTools } from '../helpers/dev-tools.js';
 import { KRDS_DATA } from '../data/index.js';
 import { McpError, ErrorCode } from '@modelcontextprotocol/sdk/types.js';
 
@@ -214,8 +216,9 @@ export const TokenFormatters = {
     let css = `/* KRDS 디자인 토큰 - ${theme} 테마 */\n`;
     const rootVars = [];
     const darkVars = [];
+    const componentClasses = [];
 
-    Object.values(tokens).forEach(categoryTokens => {
+    Object.entries(tokens).forEach(([category, categoryTokens]) => {
       Object.entries(categoryTokens).forEach(([tokenName, value]) => {
         const cssVarName = `--${tokenName}`;
         const cssLine = `${cssVarName}: ${value};`;
@@ -230,6 +233,15 @@ export const TokenFormatters = {
           rootVars.push(`  ${cssLine}`);
         }
       });
+
+      // 카테고리별 실제 사용 가능한 CSS 클래스 생성
+      if (category === 'color') {
+        componentClasses.push(...TokenFormatters.generateColorClasses(categoryTokens, theme));
+      } else if (category === 'component') {
+        componentClasses.push(...TokenFormatters.generateComponentClasses(categoryTokens));
+      } else if (category === 'spacing') {
+        componentClasses.push(...TokenFormatters.generateSpacingClasses(categoryTokens));
+      }
     });
 
     css += ':root {\n';
@@ -242,7 +254,138 @@ export const TokenFormatters = {
       css += '\n}\n';
     }
 
-    return `## KRDS CSS 변수\n\n\`\`\`css\n${css}\`\`\``;
+    // 실용적인 유틸리티 클래스 추가
+    if (componentClasses.length > 0) {
+      css += '\n/* KRDS 유틸리티 클래스 */\n';
+      css += componentClasses.join('\n\n');
+    }
+
+    return `## KRDS CSS 변수 및 클래스\n\n\`\`\`css\n${css}\`\`\``;
+  },
+
+  generateColorClasses: (colorTokens, theme) => {
+    const classes = [];
+    const processedColors = new Set();
+
+    Object.entries(colorTokens).forEach(([tokenName, value]) => {
+      // 테마에 맞는 토큰만 처리
+      if (theme === 'dark' && !tokenName.includes('-dark-') && tokenName.includes('-light-')) {
+        return;
+      }
+      if (theme === 'light' && tokenName.includes('-dark-')) {
+        return;
+      }
+
+      // 색상 종류별로 클래스 생성
+      const colorMatch = tokenName.match(
+        /krds-(light|dark)-color-(.+?)-(background|text|border)-(.+)/
+      );
+      if (colorMatch) {
+        const [, , colorType, property, variant] = colorMatch;
+        const className = `krds-${colorType}-${property}${variant !== 'default' ? `-${variant}` : ''}`;
+
+        if (!processedColors.has(className)) {
+          processedColors.add(className);
+
+          switch (property) {
+            case 'background':
+              classes.push(`.${className} {\n  background-color: var(--${tokenName});\n}`);
+              break;
+            case 'text':
+              classes.push(`.${className} {\n  color: var(--${tokenName});\n}`);
+              break;
+            case 'border':
+              classes.push(`.${className} {\n  border-color: var(--${tokenName});\n}`);
+              break;
+          }
+        }
+      }
+    });
+
+    return classes;
+  },
+
+  generateComponentClasses: componentTokens => {
+    const classes = [];
+
+    // 버튼 클래스
+    classes.push(`.krds-btn {
+  height: var(--krds-component-button-height-md);
+  padding: 0 var(--krds-component-button-padding-x-md);
+  border-radius: var(--krds-component-button-border-radius);
+  border: var(--krds-component-button-border-width) solid transparent;
+  font-size: var(--krds-typography-font-size-base);
+  font-weight: var(--krds-typography-font-weight-medium);
+  cursor: pointer;
+  transition: var(--krds-motion-transition-colors);
+}
+
+.krds-btn.small {
+  height: var(--krds-component-button-height-sm);
+  padding: 0 var(--krds-component-button-padding-x-sm);
+  font-size: var(--krds-typography-font-size-sm);
+}
+
+.krds-btn.large {
+  height: var(--krds-component-button-height-lg);
+  padding: 0 var(--krds-component-button-padding-x-lg);
+  font-size: var(--krds-typography-font-size-lg);
+}`);
+
+    // 입력 필드 클래스
+    classes.push(`.krds-input {
+  height: var(--krds-component-input-height-md);
+  padding: 0 var(--krds-component-input-padding-x);
+  border: var(--krds-component-input-border-width) solid var(--krds-light-color-neutral-border-default);
+  border-radius: var(--krds-component-input-border-radius);
+  font-size: var(--krds-typography-font-size-base);
+  transition: var(--krds-motion-transition-colors);
+}
+
+.krds-input:focus {
+  outline: none;
+  border-color: var(--krds-light-color-primary-border-focus);
+  box-shadow: var(--krds-shadow-focus-primary);
+}`);
+
+    // 카드 클래스
+    classes.push(`.krds-card {
+  padding: var(--krds-component-card-padding);
+  border: var(--krds-component-card-border-width) solid var(--krds-light-color-neutral-border-default);
+  border-radius: var(--krds-component-card-border-radius);
+  background-color: var(--krds-light-color-neutral-background-default);
+  box-shadow: var(--krds-shadow-sm);
+}`);
+
+    return classes;
+  },
+
+  generateSpacingClasses: spacingTokens => {
+    const classes = [];
+
+    Object.entries(spacingTokens).forEach(([tokenName, value]) => {
+      const spacingNum = tokenName.replace('krds-spacing-', '');
+
+      // Margin 클래스
+      classes.push(`.krds-m-${spacingNum} { margin: ${value}; }`);
+      classes.push(`.krds-mx-${spacingNum} { margin-left: ${value}; margin-right: ${value}; }`);
+      classes.push(`.krds-my-${spacingNum} { margin-top: ${value}; margin-bottom: ${value}; }`);
+      classes.push(`.krds-mt-${spacingNum} { margin-top: ${value}; }`);
+      classes.push(`.krds-mr-${spacingNum} { margin-right: ${value}; }`);
+      classes.push(`.krds-mb-${spacingNum} { margin-bottom: ${value}; }`);
+      classes.push(`.krds-ml-${spacingNum} { margin-left: ${value}; }`);
+
+      // Padding 클래스
+      classes.push(`.krds-p-${spacingNum} { padding: ${value}; }`);
+      classes.push(`.krds-px-${spacingNum} { padding-left: ${value}; padding-right: ${value}; }`);
+      classes.push(`.krds-py-${spacingNum} { padding-top: ${value}; padding-bottom: ${value}; }`);
+      classes.push(`.krds-pt-${spacingNum} { padding-top: ${value}; }`);
+      classes.push(`.krds-pr-${spacingNum} { padding-right: ${value}; }`);
+      classes.push(`.krds-pb-${spacingNum} { padding-bottom: ${value}; }`);
+      classes.push(`.krds-pl-${spacingNum} { padding-left: ${value}; }`);
+    });
+
+    return classes;
   },
 
   generateStyleDictionary: (tokens, theme) => {
@@ -610,7 +753,7 @@ export const CodeGenerators = {
     return searchMethods[type] ? searchMethods[type]() : null;
   },
 
-  generateCode: options => {
+  generateCode: async options => {
     const { type, id, variant, theme } = options;
 
     if (!type || !id) {
@@ -622,16 +765,49 @@ export const CodeGenerators = {
       return { error: `지원하지 않는 타입입니다: ${type}` };
     }
 
+    // 새로운 컴포넌트 라이브러리 활용
+    if (type === 'component') {
+      try {
+        const template = await componentLibrary.fetchComponentTemplate(id, variant);
+        let html = template.html;
+
+        // 테마 적용
+        if (theme === 'dark') {
+          html = CodeUtils.adaptCodeForTheme(html, theme);
+        }
+
+        return {
+          html,
+          css: template.css,
+          variants: template.variants || [],
+          devTools: {
+            storybook: devTools.storybook.generateComponentStories(id),
+            preview: devTools.preview.generatePreviewHTML(id, { theme, variant }),
+            sandbox: {
+              codesandbox: devTools.sandbox.generateSandboxURL(id, 'codesandbox'),
+              stackblitz: devTools.sandbox.generateSandboxURL(id, 'stackblitz'),
+              codepen: devTools.sandbox.generateSandboxURL(id, 'codepen')
+            }
+          }
+        };
+      } catch (error) {
+        // Fallback to original implementation
+        const targetItem = CodeGenerators.findTargetItem(type, id);
+        if (!targetItem) {
+          return { html: null };
+        }
+        return { html: CodeGenerators.generateComponentCode(targetItem, { variant, theme }) };
+      }
+    }
+
+    // 패턴 처리 (기존 로직 유지)
     const targetItem = CodeGenerators.findTargetItem(type, id);
     if (!targetItem) {
-      return { html: null }; // 아이템을 찾지 못함
+      return { html: null };
     }
 
     let html;
     switch (type) {
-      case 'component':
-        html = CodeGenerators.generateComponentCode(targetItem, { variant, theme });
-        break;
       case 'global-pattern':
       case 'service-pattern':
         html = targetItem.codeExample
@@ -647,27 +823,123 @@ export const CodeGenerators = {
   generateComponentCode: (component, options = {}) => {
     const { variant, theme } = options;
 
-    // 기본 컴포넌트 HTML 구조 생성
-    let html = `<!-- ${component.name} -->\n<div class="krds-${component.id}`;
+    // KRDS-uiux 저장소의 실제 HTML 구조 참조
+    return CodeGenerators.generateKRDSComponentStructure(component, { variant, theme });
+  },
 
-    if (variant) {
-      html += ` krds-${component.id}--${variant}`;
+  generateKRDSComponentStructure: (component, options = {}) => {
+    const { variant, theme } = options;
+
+    // KRDS-uiux 실제 HTML 구조를 기반으로 컴포넌트 생성
+    switch (component.category) {
+      case 'action':
+        return CodeGenerators.generateActionComponent(component, variant, theme);
+      case 'input':
+        return CodeGenerators.generateInputComponent(component, variant, theme);
+      case 'feedback':
+        return CodeGenerators.generateFeedbackComponent(component, variant, theme);
+      case 'navigation':
+        return CodeGenerators.generateNavigationComponent(component, variant, theme);
+      default:
+        return CodeGenerators.generateGenericComponent(component, variant, theme);
     }
+  },
+
+  generateActionComponent: (component, variant, theme) => {
+    if (component.id.includes('button')) {
+      let buttonClass = 'krds-btn';
+      if (variant) {
+        buttonClass += ` ${variant}`;
+      }
+      if (theme === 'dark') {
+        buttonClass += ' dark-mode';
+      }
+
+      return `<!-- ${component.name} Button -->
+<button type="button" class="${buttonClass}">${component.name}</button>`;
+    }
+
+    // Link components
+    return `<!-- ${component.name} Link -->
+<a href="#" class="krds-link">${component.name}</a>`;
+  },
+
+  generateInputComponent: (component, variant, theme) => {
+    const inputId = `${component.id}-input`;
+    let inputClass = 'krds-input';
 
     if (theme === 'dark') {
-      html += ' krds-dark-mode';
+      inputClass += ' dark-mode';
     }
 
-    html += '">\n';
+    const isReadonly = variant === 'readonly';
+    const isDisabled = variant === 'disabled';
 
-    // 컴포넌트 타입별 기본 구조
-    html += CodeGenerators.generateComponentStructure(component);
-    html += '</div>';
+    return `<!-- ${component.name} Input -->
+<div class="fieldset${theme === 'dark' ? ' dark-mode' : ''}">
+  <div class="form-group">
+    <div class="form-tit">
+      <label for="${inputId}">${component.name}</label>
+    </div>
+    <div class="form-conts">
+      <input type="text" id="${inputId}" class="${inputClass}" placeholder="${component.name} 입력"${isReadonly ? ' readonly' : ''}${isDisabled ? ' disabled' : ''}>
+    </div>
+    <p class="form-hint">${component.description || `${component.name} 입력 도움말`}</p>
+  </div>
+</div>`;
+  },
 
-    return html;
+  generateFeedbackComponent: (component, variant, theme) => {
+    let alertClass = 'krds-alert';
+    if (variant) {
+      alertClass += ` ${variant}`;
+    }
+    if (theme === 'dark') {
+      alertClass += ' dark-mode';
+    }
+
+    return `<!-- ${component.name} Alert -->
+<div class="${alertClass}" role="alert">
+  <span class="krds-alert__text">${component.name} 메시지</span>
+</div>`;
+  },
+
+  generateNavigationComponent: (component, variant, theme) => {
+    let navClass = 'krds-nav';
+    if (variant) {
+      navClass += ` ${variant}`;
+    }
+    if (theme === 'dark') {
+      navClass += ' dark-mode';
+    }
+
+    return `<!-- ${component.name} Navigation -->
+<nav aria-label="${component.name}" class="${navClass}">
+  <ul class="krds-nav-list">
+    <li class="krds-nav-item"><a href="#" class="krds-nav-link">메뉴 1</a></li>
+    <li class="krds-nav-item"><a href="#" class="krds-nav-link">메뉴 2</a></li>
+    <li class="krds-nav-item"><a href="#" class="krds-nav-link">메뉴 3</a></li>
+  </ul>
+</nav>`;
+  },
+
+  generateGenericComponent: (component, variant, theme) => {
+    let componentClass = `krds-${component.id}`;
+    if (variant) {
+      componentClass += ` ${variant}`;
+    }
+    if (theme === 'dark') {
+      componentClass += ' dark-mode';
+    }
+
+    return `<!-- ${component.name} Component -->
+<div class="${componentClass}">
+  <span class="krds-component__content">${component.name} 컴포넌트</span>
+</div>`;
   },
 
   generateComponentStructure: component => {
+    // 하위 호환성을 위한 레거시 메서드 (deprecated)
     switch (component.category) {
       case 'action':
         if (component.id.includes('button')) {

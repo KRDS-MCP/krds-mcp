@@ -28,16 +28,16 @@ export const categories = {
 // 색상 토큰
 export const colorTokens = {
   // Primary Colors
-  'krds-light-color-primary-background-default': '#0F4C8C',
-  'krds-light-color-primary-background-hover': '#0C3E74',
-  'krds-light-color-primary-background-pressed': '#093158',
+  'krds-light-color-primary-background-default': '#004494',
+  'krds-light-color-primary-background-hover': '#003A8A',
+  'krds-light-color-primary-background-pressed': '#003070',
   'krds-light-color-primary-background-disabled': '#ADB5BD',
 
   'krds-light-color-primary-text-default': '#FFFFFF',
   'krds-light-color-primary-text-disabled': '#E9ECEF',
 
-  'krds-light-color-primary-border-default': '#0F4C8C',
-  'krds-light-color-primary-border-hover': '#0C3E74',
+  'krds-light-color-primary-border-default': '#004494',
+  'krds-light-color-primary-border-hover': '#003A8A',
   'krds-light-color-primary-border-focus': '#4A90E2',
 
   // Secondary Colors
