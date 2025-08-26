@@ -1,6 +1,6 @@
 {
   "name": "@krds-mcp/krds-mcp",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "KRDS (Korea Design System) MCP Server - 한국 정부 디지털 서비스 디자인 시스템 가이드",
   "type": "module",
   "main": "index.js",
