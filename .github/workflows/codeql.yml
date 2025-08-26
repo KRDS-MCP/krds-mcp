@@ -1,10 +1,10 @@
-name: "CodeQL"
+name: 'CodeQL'
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ['main']
   pull_request:
-    branches: [ "main" ]
+    branches: ['main']
   schedule:
     - cron: '30 1 * * 0' # 매주 일요일 01:30 UTC에 실행
 
@@ -22,38 +22,38 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'javascript' ]
+        language: ['javascript']
         # CodeQL은 다음 언어들을 지원: 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby', 'swift'
         # 다른 언어가 필요한 경우 위 목록에서 추가 가능
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-        cache: 'npm'
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
 
-    # CodeQL 분석 초기화
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
-      with:
-        languages: ${{ matrix.language }}
-        queries: security-extended,security-and-quality
+      # CodeQL 분석 초기화
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ${{ matrix.language }}
+          queries: security-extended,security-and-quality
 
-    # 의존성 설치
-    - name: Install dependencies
-      run: npm ci
+      # 의존성 설치
+      - name: Install dependencies
+        run: npm ci
 
-    # Autobuild은 컴파일이 필요한 언어에 주로 사용됨
-    # JavaScript의 경우 필요하지 않을 수 있으나, TypeScript나 기타 빌드 과정이 필요한 경우를 위해 포함
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
+      # Autobuild은 컴파일이 필요한 언어에 주로 사용됨
+      # JavaScript의 경우 필요하지 않을 수 있으나, TypeScript나 기타 빌드 과정이 필요한 경우를 위해 포함
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
 
-    # CodeQL 분석 실행
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
-      with:
-        category: "/language:${{matrix.language}}"
+      # CodeQL 분석 실행
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          category: '/language:${{matrix.language}}'
