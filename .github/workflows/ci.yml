@@ -8,7 +8,10 @@ on:
   schedule:
     # Run tests daily at 2 AM UTC
     - cron: '0 2 * * *'
-
+permissions:
+  contents: write
+  packages: read
+  pull-requests: write
 # Prevent duplicate runs for PR and push events
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
