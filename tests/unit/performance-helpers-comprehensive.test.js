@@ -384,10 +384,13 @@ describe('Performance Helpers Comprehensive Coverage', () => {
       });
 
       test('should calculate statistics correctly', async () => {
-        // Add metrics with known durations by mocking performance.now
+        // Use Object.defineProperty to mock performance.now since it's read-only
         const originalPerformanceNow = performance.now;
         let mockTime = 0;
-        performance.now = jest.fn(() => mockTime);
+        Object.defineProperty(performance, 'now', {
+          value: () => mockTime,
+          configurable: true
+        });
 
         const fn = () => {
           mockTime += 10; // Simulate 10ms execution
@@ -408,7 +411,11 @@ describe('Performance Helpers Comprehensive Coverage', () => {
         expect(stats.duration.max).toBe(20);
         expect(stats.duration.avg).toBe(15);
 
-        performance.now = originalPerformanceNow;
+        // Restore original performance.now
+        Object.defineProperty(performance, 'now', {
+          value: originalPerformanceNow,
+          configurable: true
+        });
       });
 
       test('should get all stats', async () => {
@@ -433,7 +440,10 @@ describe('Performance Helpers Comprehensive Coverage', () => {
       test('should calculate percentiles correctly', async () => {
         const originalPerformanceNow = performance.now;
         let mockTime = 0;
-        performance.now = jest.fn(() => mockTime);
+        Object.defineProperty(performance, 'now', {
+          value: () => mockTime,
+          configurable: true
+        });
 
         // Create 10 measurements with durations 1, 2, 3, ..., 10
         for (let i = 1; i <= 10; i++) {
@@ -454,7 +464,11 @@ describe('Performance Helpers Comprehensive Coverage', () => {
         expect(stats.duration.p95).toBe(10); // 95th percentile
         expect(stats.duration.p99).toBe(10); // 99th percentile
 
-        performance.now = originalPerformanceNow;
+        // Restore original performance.now
+        Object.defineProperty(performance, 'now', {
+          value: originalPerformanceNow,
+          configurable: true
+        });
       });
     });
 
