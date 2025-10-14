@@ -285,7 +285,7 @@ export class I18n {
    */
   getMessage(keys, language = this.language) {
     let current = MESSAGES[language];
-    
+
     for (const key of keys) {
       if (current && typeof current === 'object' && key in current) {
         current = current[key];
@@ -293,7 +293,7 @@ export class I18n {
         return null;
       }
     }
-    
+
     return typeof current === 'string' ? current : null;
   }
 
@@ -311,12 +311,12 @@ export class I18n {
    */
   createMultilingualMessage(key, params = {}) {
     const result = {};
-    
+
     for (const lang of this.getSupportedLanguages()) {
       const tempI18n = new I18n(lang);
       result[lang] = tempI18n.t(key, params);
     }
-    
+
     return result;
   }
 
@@ -384,7 +384,8 @@ export class I18n {
    * 복수형 처리
    */
   pluralize(singular, plural, count) {
-    const forms = this.language === SUPPORTED_LANGUAGES.KO ? [singular, plural] : [singular, plural];
+    const forms =
+      this.language === SUPPORTED_LANGUAGES.KO ? [singular, plural] : [singular, plural];
     return count === 1 ? forms[0] : forms[1];
   }
 
@@ -412,11 +413,12 @@ export const i18n = new I18n();
  * 편의 함수들
  */
 export const t = (key, params) => i18n.t(key, params);
-export const setLanguage = (language) => i18n.setLanguage(language);
+export const setLanguage = language => i18n.setLanguage(language);
 export const getLanguage = () => i18n.getLanguage();
 export const formatDate = (date, options) => i18n.formatDate(date, options);
 export const formatNumber = (number, options) => i18n.formatNumber(number, options);
-export const formatCurrency = (amount, currency, options) => i18n.formatCurrency(amount, currency, options);
+export const formatCurrency = (amount, currency, options) =>
+  i18n.formatCurrency(amount, currency, options);
 
 /**
  * 언어별 에러 메시지 생성기

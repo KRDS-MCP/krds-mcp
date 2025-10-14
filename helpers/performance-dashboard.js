@@ -24,11 +24,11 @@ export class PerformanceDashboard {
     this.enableFileLogging = enableFileLogging;
     this.logFilePath = logFilePath;
     this.maxHistorySize = maxHistorySize;
-    
+
     this.history = [];
     this.isRunning = false;
     this.intervalId = null;
-    
+
     // 성능 임계값
     this.thresholds = {
       slowOperation: 1000, // 1초
@@ -118,10 +118,10 @@ export class PerformanceDashboard {
       timestamp,
       uptime,
       memory: {
-        heapUsed: Math.round(memoryUsage.heapUsed / 1024 / 1024 * 100) / 100,
-        heapTotal: Math.round(memoryUsage.heapTotal / 1024 / 1024 * 100) / 100,
-        external: Math.round(memoryUsage.external / 1024 / 1024 * 100) / 100,
-        rss: Math.round(memoryUsage.rss / 1024 / 1024 * 100) / 100
+        heapUsed: Math.round((memoryUsage.heapUsed / 1024 / 1024) * 100) / 100,
+        heapTotal: Math.round((memoryUsage.heapTotal / 1024 / 1024) * 100) / 100,
+        external: Math.round((memoryUsage.external / 1024 / 1024) * 100) / 100,
+        rss: Math.round((memoryUsage.rss / 1024 / 1024) * 100) / 100
       },
       cache: {
         global: globalCacheStats,
@@ -144,9 +144,10 @@ export class PerformanceDashboard {
       return sum + (metric ? metric.errors : 0);
     }, 0);
 
-    const averageDuration = Object.values(performanceMetrics).reduce((sum, metric) => {
-      return sum + (metric ? metric.averageDuration : 0);
-    }, 0) / Math.max(Object.keys(performanceMetrics).length, 1);
+    const averageDuration =
+      Object.values(performanceMetrics).reduce((sum, metric) => {
+        return sum + (metric ? metric.averageDuration : 0);
+      }, 0) / Math.max(Object.keys(performanceMetrics).length, 1);
 
     const errorRate = totalOperations > 0 ? totalErrors / totalOperations : 0;
 
@@ -218,26 +219,30 @@ export class PerformanceDashboard {
    */
   printToConsole(snapshot) {
     const { summary, memory, cache } = snapshot;
-    
+
     console.log('\n📊 KRDS MCP Performance Dashboard');
     console.log('=====================================');
     console.log(`⏰ 시간: ${new Date(snapshot.timestamp).toLocaleString('ko-KR')}`);
     console.log(`🔄 업타임: ${Math.round(snapshot.uptime)}초`);
     console.log('');
-    
+
     // 메모리 정보
     console.log('💾 메모리 사용량:');
     console.log(`   힙 사용: ${memory.heapUsed}MB / ${memory.heapTotal}MB`);
     console.log(`   RSS: ${memory.rss}MB`);
     console.log(`   External: ${memory.external}MB`);
     console.log('');
-    
+
     // 캐시 정보
     console.log('🗄️ 캐시 상태:');
-    console.log(`   전역 캐시: ${cache.global.size}/${cache.global.maxSize} (${(cache.global.hitRate * 100).toFixed(1)}% 히트율)`);
-    console.log(`   메모이제이션: ${cache.memoizer.size}/${cache.memoizer.maxSize} (${(cache.memoizer.hitRate * 100).toFixed(1)}% 히트율)`);
+    console.log(
+      `   전역 캐시: ${cache.global.size}/${cache.global.maxSize} (${(cache.global.hitRate * 100).toFixed(1)}% 히트율)`
+    );
+    console.log(
+      `   메모이제이션: ${cache.memoizer.size}/${cache.memoizer.maxSize} (${(cache.memoizer.hitRate * 100).toFixed(1)}% 히트율)`
+    );
     console.log('');
-    
+
     // 성능 요약
     console.log('⚡ 성능 요약:');
     console.log(`   총 작업: ${summary.totalOperations}`);
@@ -257,7 +262,7 @@ export class PerformanceDashboard {
         logType: 'performance_snapshot'
       };
 
-      await fs.appendFile(this.logFilePath, JSON.stringify(logEntry) + '\n');
+      await fs.appendFile(this.logFilePath, `${JSON.stringify(logEntry)}\n`);
     } catch (error) {
       mcpLogger.error('Failed to log performance data to file', 'performance-dashboard', {
         error: error.message,
@@ -325,11 +330,16 @@ export class PerformanceDashboard {
     const value = parseInt(timeRange.slice(0, -1));
 
     switch (unit) {
-      case 's': return value * 1000;
-      case 'm': return value * 60 * 1000;
-      case 'h': return value * 60 * 60 * 1000;
-      case 'd': return value * 24 * 60 * 60 * 1000;
-      default: return 60 * 60 * 1000; // 기본 1시간
+      case 's':
+        return value * 1000;
+      case 'm':
+        return value * 60 * 1000;
+      case 'h':
+        return value * 60 * 60 * 1000;
+      case 'd':
+        return value * 24 * 60 * 60 * 1000;
+      default:
+        return 60 * 60 * 1000; // 기본 1시간
     }
   }
 
@@ -344,14 +354,16 @@ export class PerformanceDashboard {
    * 트렌드 계산 (양수: 증가, 음수: 감소)
    */
   calculateTrend(array) {
-    if (array.length < 2) return 0;
-    
+    if (array.length < 2) {
+      return 0;
+    }
+
     const firstHalf = array.slice(0, Math.floor(array.length / 2));
     const secondHalf = array.slice(Math.floor(array.length / 2));
-    
+
     const firstAvg = this.calculateAverage(firstHalf);
     const secondAvg = this.calculateAverage(secondHalf);
-    
+
     return secondAvg - firstAvg;
   }
 
@@ -432,7 +444,7 @@ export const performanceDashboard = new PerformanceDashboard({
  */
 if (process.env.NODE_ENV === 'development' || process.env.ENABLE_PERFORMANCE_DASHBOARD === 'true') {
   performanceDashboard.start();
-  
+
   // 프로세스 종료 시 대시보드 중지
   process.on('exit', () => {
     performanceDashboard.stop();

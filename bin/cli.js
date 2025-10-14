@@ -151,14 +151,14 @@ async function showSystemInfo() {
     console.log(`업타임: ${Math.round(process.uptime())}초`);
     console.log(`작업 디렉토리: ${process.cwd()}`);
     console.log(`서버 경로: ${serverPath}`);
-    
+
     // 서버 파일 존재 확인
     if (existsSync(serverPath)) {
       console.log('✅ 서버 파일이 존재합니다.');
     } else {
       console.log('❌ 서버 파일을 찾을 수 없습니다.');
     }
-    
+
     console.log('================================');
   } catch (error) {
     console.error('시스템 정보를 읽을 수 없습니다:', error.message);
@@ -170,18 +170,18 @@ async function showSystemInfo() {
  */
 function runTests() {
   console.log('🧪 KRDS MCP Server 테스트를 실행합니다...');
-  
+
   const testProcess = spawn('npm', ['test'], {
     stdio: 'inherit',
     shell: true,
     cwd: join(__dirname, '..')
   });
-  
+
   testProcess.on('error', error => {
     console.error('❌ 테스트 실행 오류:', error.message);
     process.exit(1);
   });
-  
+
   testProcess.on('exit', code => {
     if (code === 0) {
       console.log('✅ 모든 테스트가 통과했습니다.');
@@ -226,57 +226,57 @@ function runTests() {
 
     case 'start':
     case undefined:
-    // MCP 서버 실행
-    console.log('🇰🇷 KRDS MCP 서버를 시작합니다...');
-    
-    // 디버그 모드 확인
-    const isDebugMode = args.includes('--debug') || process.env.DEBUG === 'true';
-    const isVerbose = args.includes('--verbose');
-    
-    if (isDebugMode) {
-      console.log('🐛 디버그 모드가 활성화되었습니다.');
-      process.env.DEBUG = 'true';
-    }
-    
-    if (isVerbose) {
-      console.log('📝 상세 로그가 활성화되었습니다.');
-      process.env.DEBUG_VERBOSE = 'true';
-    }
-    
-    const child = spawn('node', [serverPath, ...args.filter(arg => !arg.startsWith('--'))], {
-      stdio: 'inherit',
-      shell: false,
-      env: {
-        ...process.env,
-        NODE_ENV: isDebugMode ? 'development' : 'production'
-      }
-    });
-    
-    child.on('error', error => {
-      console.error('❌ KRDS MCP 서버 실행 오류:', error.message);
-      process.exit(1);
-    });
-    
-    child.on('exit', code => {
-      process.exit(code || 0);
-    });
-    
-    // Graceful shutdown
-    process.on('SIGINT', () => {
-      console.log('\n🛑 KRDS MCP 서버를 종료합니다...');
-      child.kill('SIGINT');
-    });
-    
-    process.on('SIGTERM', () => {
-      child.kill('SIGTERM');
-    });
-    break;
+      // MCP 서버 실행
+      console.log('🇰🇷 KRDS MCP 서버를 시작합니다...');
 
-  default:
-    console.error(`❌ 알 수 없는 명령어: ${command}`);
-    console.log('💡 "npx @krds-mcp/krds-mcp --help"로 사용법을 확인하세요.');
-    process.exit(1);
-}
+      // 디버그 모드 확인
+      const isDebugMode = args.includes('--debug') || process.env.DEBUG === 'true';
+      const isVerbose = args.includes('--verbose');
+
+      if (isDebugMode) {
+        console.log('🐛 디버그 모드가 활성화되었습니다.');
+        process.env.DEBUG = 'true';
+      }
+
+      if (isVerbose) {
+        console.log('📝 상세 로그가 활성화되었습니다.');
+        process.env.DEBUG_VERBOSE = 'true';
+      }
+
+      const child = spawn('node', [serverPath, ...args.filter(arg => !arg.startsWith('--'))], {
+        stdio: 'inherit',
+        shell: false,
+        env: {
+          ...process.env,
+          NODE_ENV: isDebugMode ? 'development' : 'production'
+        }
+      });
+
+      child.on('error', error => {
+        console.error('❌ KRDS MCP 서버 실행 오류:', error.message);
+        process.exit(1);
+      });
+
+      child.on('exit', code => {
+        process.exit(code || 0);
+      });
+
+      // Graceful shutdown
+      process.on('SIGINT', () => {
+        console.log('\n🛑 KRDS MCP 서버를 종료합니다...');
+        child.kill('SIGINT');
+      });
+
+      process.on('SIGTERM', () => {
+        child.kill('SIGTERM');
+      });
+      break;
+
+    default:
+      console.error(`❌ 알 수 없는 명령어: ${command}`);
+      console.log('💡 "npx @krds-mcp/krds-mcp --help"로 사용법을 확인하세요.');
+      process.exit(1);
+  }
 })().catch(error => {
   console.error('❌ 실행 오류:', error.message);
   if (process.env.DEBUG === 'true') {

@@ -294,7 +294,8 @@ export class CodeGenerationDebugger {
       totalLength += entry.codeLength;
     });
 
-    stats.averageCodeLength = this.generationHistory.size > 0 ? totalLength / this.generationHistory.size : 0;
+    stats.averageCodeLength =
+      this.generationHistory.size > 0 ? totalLength / this.generationHistory.size : 0;
 
     return stats;
   }
@@ -374,8 +375,10 @@ export class AccessibilityDebugger {
       }
     });
 
-    stats.averageScore = this.validationHistory.size > 0 ? totalScore / this.validationHistory.size : 0;
-    stats.averageIssuesCount = this.validationHistory.size > 0 ? totalIssues / this.validationHistory.size : 0;
+    stats.averageScore =
+      this.validationHistory.size > 0 ? totalScore / this.validationHistory.size : 0;
+    stats.averageIssuesCount =
+      this.validationHistory.size > 0 ? totalIssues / this.validationHistory.size : 0;
 
     return stats;
   }
@@ -425,7 +428,9 @@ export class IntegratedDebugTools {
       debugReport: EnhancedDebugTools.generateDebugReport()
     };
 
-    mcpLogger.info('Debug data exported', 'integrated-debug-tools', { dataSize: JSON.stringify(exportData).length });
+    mcpLogger.info('Debug data exported', 'integrated-debug-tools', {
+      dataSize: JSON.stringify(exportData).length
+    });
     return exportData;
   }
 
