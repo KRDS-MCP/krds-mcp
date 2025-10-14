@@ -24,14 +24,18 @@ import { ResponseFormatter as _ResponseFormatter } from './response-formatter.js
 import { DataService as _DataService } from './data-service.js';
 import {
   PerformanceCache,
+  EnhancedPerformanceCache,
   Memoizer,
   PerformanceMonitor,
-  DataOptimizer,
-  LazyLoader,
-  MemoryOptimizer,
+  RedisCacheAdapter,
+  HybridCache,
+  measure,
+  globalCache,
   memoize,
   memoizeAsync,
-  measure
+  DataOptimizer,
+  LazyLoader,
+  MemoryOptimizer
 } from './performance-helpers.js';
 import { componentLibrary } from './component-library.js';
 import { devTools } from './dev-tools.js';
@@ -41,6 +45,23 @@ import { mcpLogger, McpLogger, McpLogLevel, ErrorLoggerAdapter } from './mcp-log
 import { mcpResources, McpResources } from './mcp-resources.js';
 import { McpPagination, PaginationConfig, PaginationHelpers } from './mcp-pagination.js';
 import { mcpPrompts, McpPrompts } from './mcp-prompts.js';
+
+// 국제화 및 성능 대시보드
+import {
+  I18n,
+  i18n,
+  t,
+  setLanguage,
+  getLanguage,
+  formatDate,
+  formatNumber,
+  formatCurrency,
+  LocalizedErrorMessages,
+  LocalizedResponseFormatter,
+  SUPPORTED_LANGUAGES,
+  DEFAULT_LANGUAGE
+} from './i18n.js';
+import { PerformanceDashboard, performanceDashboard } from './performance-dashboard.js';
 
 // 기존 모듈들
 export { AccessibilityValidator } from './accessibility-validator.js';
@@ -82,15 +103,19 @@ export {
 
 // Performance and optimization modules
 export {
-  PerformanceCache as _PerformanceCache,
-  Memoizer as _Memoizer,
-  PerformanceMonitor as _PerformanceMonitor,
-  DataOptimizer as _DataOptimizer,
-  LazyLoader as _LazyLoader,
-  MemoryOptimizer as _MemoryOptimizer,
-  memoize as _memoize,
-  memoizeAsync as _memoizeAsync,
-  measure as _measure
+  PerformanceCache,
+  EnhancedPerformanceCache,
+  Memoizer,
+  PerformanceMonitor,
+  RedisCacheAdapter,
+  HybridCache,
+  measure,
+  globalCache,
+  memoize,
+  memoizeAsync,
+  DataOptimizer,
+  LazyLoader,
+  MemoryOptimizer
 };
 
 // MCP 2025 기능 모듈들
@@ -98,6 +123,23 @@ export { mcpLogger, McpLogger, McpLogLevel, ErrorLoggerAdapter } from './mcp-log
 export { mcpResources, McpResources } from './mcp-resources.js';
 export { McpPagination, PaginationConfig, PaginationHelpers } from './mcp-pagination.js';
 export { mcpPrompts, McpPrompts } from './mcp-prompts.js';
+
+// 국제화 및 성능 대시보드
+export {
+  I18n,
+  i18n,
+  t,
+  setLanguage,
+  getLanguage,
+  formatDate,
+  formatNumber,
+  formatCurrency,
+  LocalizedErrorMessages,
+  LocalizedResponseFormatter,
+  SUPPORTED_LANGUAGES,
+  DEFAULT_LANGUAGE
+} from './i18n.js';
+export { PerformanceDashboard, performanceDashboard } from './performance-dashboard.js';
 
 // 기존 코드와의 호환성을 위한 통합 객체
 export const KRDSHelperLegacy = {

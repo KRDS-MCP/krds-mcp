@@ -5,6 +5,8 @@
 
 import { componentLibrary } from './component-library.js';
 import { KRDS_DATA } from '../data/index.js';
+import { mcpLogger } from './mcp-logging.js';
+import { PerformanceMonitor } from './performance-helpers.js';
 
 /**
  * 개발자 도구 설정
@@ -31,6 +33,412 @@ export const DEV_TOOLS_CONFIG = {
     templates: ['html', 'react', 'vue', 'angular']
   }
 };
+
+/**
+ * KRDS MCP 서버 개발자 도구
+ * 디버깅, 성능 모니터링, 코드 생성 등의 개발자 기능을 제공합니다.
+ */
+
+/**
+ * 디버그 모드 설정
+ */
+export const DebugMode = {
+  enabled: process.env.NODE_ENV === 'development' || process.env.DEBUG === 'true',
+  verbose: process.env.DEBUG_VERBOSE === 'true',
+  logLevel: process.env.DEBUG_LOG_LEVEL || 'info'
+};
+
+/**
+ * 향상된 디버깅 도구
+ */
+export class EnhancedDebugTools {
+  static debugInfo = new Map();
+  static performanceMetrics = new Map();
+  static errorTracker = new Map();
+
+  /**
+   * 디버그 정보 수집
+   */
+  static collectDebugInfo(context, data) {
+    if (!DebugMode.enabled) {
+      return;
+    }
+
+    const timestamp = new Date().toISOString();
+    const debugEntry = {
+      timestamp,
+      context,
+      data,
+      memoryUsage: process.memoryUsage(),
+      uptime: process.uptime()
+    };
+
+    this.debugInfo.set(`${context}_${timestamp}`, debugEntry);
+    mcpLogger.debug(`Debug info collected for ${context}`, 'debug-tools', debugEntry);
+  }
+
+  /**
+   * 성능 메트릭 추적
+   */
+  static trackPerformance(operation, startTime, endTime, metadata = {}) {
+    if (!DebugMode.enabled) {
+      return;
+    }
+
+    const duration = endTime - startTime;
+    const metric = {
+      operation,
+      duration,
+      startTime,
+      endTime,
+      metadata,
+      timestamp: new Date().toISOString()
+    };
+
+    if (!this.performanceMetrics.has(operation)) {
+      this.performanceMetrics.set(operation, []);
+    }
+    this.performanceMetrics.get(operation).push(metric);
+
+    // 성능 경고
+    if (duration > 1000) {
+      mcpLogger.warning(
+        `Slow operation detected: ${operation} took ${duration}ms`,
+        'debug-tools',
+        metric
+      );
+    }
+  }
+
+  /**
+   * 에러 추적 강화
+   */
+  static trackError(error, context, additionalInfo = {}) {
+    const errorId = `error_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const errorEntry = {
+      errorId,
+      timestamp: new Date().toISOString(),
+      error: {
+        name: error.name,
+        message: error.message,
+        stack: error.stack
+      },
+      context,
+      additionalInfo,
+      memoryUsage: process.memoryUsage(),
+      uptime: process.uptime()
+    };
+
+    this.errorTracker.set(errorId, errorEntry);
+    mcpLogger.error(`Error tracked: ${errorId}`, 'debug-tools', errorEntry);
+
+    return errorId;
+  }
+
+  /**
+   * 메모리 사용량 모니터링
+   */
+  static monitorMemoryUsage() {
+    if (!DebugMode.enabled) {
+      return null;
+    }
+
+    const memoryUsage = process.memoryUsage();
+    const memoryInfo = {
+      timestamp: new Date().toISOString(),
+      heapUsed: Math.round((memoryUsage.heapUsed / 1024 / 1024) * 100) / 100,
+      heapTotal: Math.round((memoryUsage.heapTotal / 1024 / 1024) * 100) / 100,
+      external: Math.round((memoryUsage.external / 1024 / 1024) * 100) / 100,
+      rss: Math.round((memoryUsage.rss / 1024 / 1024) * 100) / 100
+    };
+
+    // 메모리 경고
+    if (memoryInfo.heapUsed > 100) {
+      mcpLogger.warning(`High memory usage: ${memoryInfo.heapUsed}MB`, 'debug-tools', memoryInfo);
+    }
+
+    return memoryInfo;
+  }
+
+  /**
+   * 디버그 리포트 생성
+   */
+  static generateDebugReport() {
+    if (!DebugMode.enabled) {
+      return null;
+    }
+
+    const report = {
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+      memoryUsage: this.monitorMemoryUsage(),
+      debugInfoCount: this.debugInfo.size,
+      performanceMetricsCount: this.performanceMetrics.size,
+      errorCount: this.errorTracker.size,
+      environment: {
+        nodeVersion: process.version,
+        platform: process.platform,
+        arch: process.arch,
+        env: process.env.NODE_ENV
+      }
+    };
+
+    mcpLogger.info('Debug report generated', 'debug-tools', report);
+    return report;
+  }
+
+  /**
+   * 디버그 정보 정리
+   */
+  static clearDebugData() {
+    this.debugInfo.clear();
+    this.performanceMetrics.clear();
+    this.errorTracker.clear();
+    mcpLogger.info('Debug data cleared', 'debug-tools');
+  }
+
+  /**
+   * 특정 에러 조회
+   */
+  static getErrorById(errorId) {
+    return this.errorTracker.get(errorId);
+  }
+
+  /**
+   * 성능 메트릭 조회
+   */
+  static getPerformanceMetrics(operation) {
+    return this.performanceMetrics.get(operation) || [];
+  }
+
+  /**
+   * 평균 성능 계산
+   */
+  static calculateAveragePerformance(operation) {
+    const metrics = this.getPerformanceMetrics(operation);
+    if (metrics.length === 0) {
+      return null;
+    }
+
+    const totalDuration = metrics.reduce((sum, metric) => sum + metric.duration, 0);
+    const averageDuration = totalDuration / metrics.length;
+
+    return {
+      operation,
+      averageDuration,
+      totalCalls: metrics.length,
+      minDuration: Math.min(...metrics.map(m => m.duration)),
+      maxDuration: Math.max(...metrics.map(m => m.duration))
+    };
+  }
+}
+
+/**
+ * 코드 생성 디버깅 도구
+ */
+export class CodeGenerationDebugger {
+  static generationHistory = new Map();
+
+  /**
+   * 코드 생성 추적
+   */
+  static trackCodeGeneration(type, id, variant, theme, generatedCode) {
+    if (!DebugMode.enabled) {
+      return null;
+    }
+
+    const generationId = `gen_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const generationEntry = {
+      generationId,
+      timestamp: new Date().toISOString(),
+      type,
+      id,
+      variant,
+      theme,
+      codeLength: generatedCode.length,
+      codePreview: generatedCode.substring(0, 200) + (generatedCode.length > 200 ? '...' : ''),
+      memoryUsage: process.memoryUsage()
+    };
+
+    this.generationHistory.set(generationId, generationEntry);
+    mcpLogger.debug(`Code generation tracked: ${generationId}`, 'code-debugger', generationEntry);
+
+    return generationId;
+  }
+
+  /**
+   * 코드 생성 통계
+   */
+  static getCodeGenerationStats() {
+    const stats = {
+      totalGenerations: this.generationHistory.size,
+      byType: new Map(),
+      byTheme: new Map(),
+      averageCodeLength: 0
+    };
+
+    let totalLength = 0;
+    this.generationHistory.forEach(entry => {
+      // 타입별 통계
+      if (!stats.byType.has(entry.type)) {
+        stats.byType.set(entry.type, 0);
+      }
+      stats.byType.set(entry.type, stats.byType.get(entry.type) + 1);
+
+      // 테마별 통계
+      if (!stats.byTheme.has(entry.theme)) {
+        stats.byTheme.set(entry.theme, 0);
+      }
+      stats.byTheme.set(entry.theme, stats.byTheme.get(entry.theme) + 1);
+
+      totalLength += entry.codeLength;
+    });
+
+    stats.averageCodeLength = this.generationHistory.size > 0 ? totalLength / this.generationHistory.size : 0;
+
+    return stats;
+  }
+}
+
+/**
+ * 접근성 검증 디버깅 도구
+ */
+export class AccessibilityDebugger {
+  static validationHistory = new Map();
+
+  /**
+   * 접근성 검증 추적
+   */
+  static trackAccessibilityValidation(htmlCode, validationResult) {
+    if (!DebugMode.enabled) {
+      return null;
+    }
+
+    const validationId = `acc_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const validationEntry = {
+      validationId,
+      timestamp: new Date().toISOString(),
+      htmlLength: htmlCode.length,
+      htmlPreview: htmlCode.substring(0, 200) + (htmlCode.length > 200 ? '...' : ''),
+      validationResult: {
+        isValid: validationResult.isValid,
+        score: validationResult.score,
+        issuesCount: validationResult.issues ? validationResult.issues.length : 0,
+        wcagLevel: validationResult.wcagLevel
+      },
+      memoryUsage: process.memoryUsage()
+    };
+
+    this.validationHistory.set(validationId, validationEntry);
+    mcpLogger.debug(
+      `Accessibility validation tracked: ${validationId}`,
+      'accessibility-debugger',
+      validationEntry
+    );
+
+    return validationId;
+  }
+
+  /**
+   * 접근성 검증 통계
+   */
+  static getAccessibilityValidationStats() {
+    const stats = {
+      totalValidations: this.validationHistory.size,
+      validCount: 0,
+      invalidCount: 0,
+      averageScore: 0,
+      averageIssuesCount: 0,
+      wcagLevelDistribution: {
+        A: 0,
+        AA: 0,
+        AAA: 0
+      }
+    };
+
+    let totalScore = 0;
+    let totalIssues = 0;
+
+    this.validationHistory.forEach(entry => {
+      if (entry.validationResult.isValid) {
+        stats.validCount++;
+      } else {
+        stats.invalidCount++;
+      }
+
+      totalScore += entry.validationResult.score || 0;
+      totalIssues += entry.validationResult.issuesCount || 0;
+
+      if (entry.validationResult.wcagLevel) {
+        stats.wcagLevelDistribution[entry.validationResult.wcagLevel]++;
+      }
+    });
+
+    stats.averageScore = this.validationHistory.size > 0 ? totalScore / this.validationHistory.size : 0;
+    stats.averageIssuesCount = this.validationHistory.size > 0 ? totalIssues / this.validationHistory.size : 0;
+
+    return stats;
+  }
+}
+
+/**
+ * 통합 디버깅 도구
+ */
+export class IntegratedDebugTools {
+  /**
+   * 전체 디버그 상태 조회
+   */
+  static getDebugStatus() {
+    return {
+      debugMode: DebugMode,
+      enhancedDebugTools: {
+        debugInfoCount: EnhancedDebugTools.debugInfo.size,
+        performanceMetricsCount: EnhancedDebugTools.performanceMetrics.size,
+        errorCount: EnhancedDebugTools.errorTracker.size
+      },
+      codeGenerationDebugger: {
+        generationCount: CodeGenerationDebugger.generationHistory.size
+      },
+      accessibilityDebugger: {
+        validationCount: AccessibilityDebugger.validationHistory.size
+      },
+      memoryUsage: EnhancedDebugTools.monitorMemoryUsage(),
+      uptime: process.uptime()
+    };
+  }
+
+  /**
+   * 디버그 데이터 내보내기
+   */
+  static exportDebugData() {
+    if (!DebugMode.enabled) {
+      return null;
+    }
+
+    const exportData = {
+      timestamp: new Date().toISOString(),
+      debugInfo: Array.from(EnhancedDebugTools.debugInfo.entries()),
+      performanceMetrics: Array.from(EnhancedDebugTools.performanceMetrics.entries()),
+      errors: Array.from(EnhancedDebugTools.errorTracker.entries()),
+      codeGenerations: Array.from(CodeGenerationDebugger.generationHistory.entries()),
+      accessibilityValidations: Array.from(AccessibilityDebugger.validationHistory.entries()),
+      debugReport: EnhancedDebugTools.generateDebugReport()
+    };
+
+    mcpLogger.info('Debug data exported', 'integrated-debug-tools', { dataSize: JSON.stringify(exportData).length });
+    return exportData;
+  }
+
+  /**
+   * 디버그 데이터 정리
+   */
+  static clearAllDebugData() {
+    EnhancedDebugTools.clearDebugData();
+    CodeGenerationDebugger.generationHistory.clear();
+    AccessibilityDebugger.validationHistory.clear();
+    mcpLogger.info('All debug data cleared', 'integrated-debug-tools');
+  }
+}
 
 /**
  * Storybook 통합 클래스
@@ -1032,3 +1440,26 @@ export const devTools = new KRDSDevTools();
 export const storybookIntegration = new KRDSStorybookIntegration();
 export const livePreview = new KRDSLivePreview();
 export const codeSandbox = new KRDSCodeSandbox();
+
+// 전역 디버그 도구 인스턴스
+export const debugTools = {
+  enhanced: EnhancedDebugTools,
+  codeGeneration: CodeGenerationDebugger,
+  accessibility: AccessibilityDebugger,
+  integrated: IntegratedDebugTools
+};
+
+// 개발 모드에서 자동 메모리 모니터링 설정
+if (DebugMode.enabled) {
+  setInterval(() => {
+    EnhancedDebugTools.monitorMemoryUsage();
+  }, 30000); // 30초마다 메모리 사용량 체크
+
+  // 프로세스 종료 시 디버그 데이터 정리
+  process.on('exit', () => {
+    if (DebugMode.verbose) {
+      const finalReport = EnhancedDebugTools.generateDebugReport();
+      console.log('Final debug report:', finalReport);
+    }
+  });
+}
