@@ -194,15 +194,66 @@ npm run dev
 - **Accessibility Validation**: Automatic validation against WCAG 2.1 AA standards
 - **Performance Optimization**: Caching, memoization, lazy loading
 - **Extensible Structure**: Modularized design for easy feature additions
+- **Internationalization (i18n)**: Full Korean and English language support
+- **Performance Dashboard**: Real-time performance monitoring and recommendations
 
 ## Quality Metrics
 
-- **Tests**: All 60 tests passing
-- **Test Coverage**: Target 80% (currently measuring)
+- **Tests**: 160+ tests passing (includes 107 new tests for i18n and performance monitoring)
+- **Test Coverage**: Target 80% (significantly improved with new test suites)
 - **Code Quality**: ESLint + Prettier integrated configuration
 - **Security**: Automatic CodeQL security scanning
 - **Compatibility**: Supports Node.js 18, 20, 21
 - **Performance**: Caching and memoization optimization
+- **Monitoring**: Real-time performance dashboard with alerting
+
+## Advanced Features
+
+### Internationalization (i18n)
+
+The server now supports full Korean and English localization:
+
+```javascript
+import { I18n, t, setLanguage } from './helpers/i18n.js';
+
+// Change language
+setLanguage('en');
+
+// Translate messages
+console.log(t('common.success')); // "Success"
+console.log(t('errors.validation.required', { field: 'email' })); // "email is required"
+
+// Format dates, numbers, and currency
+console.log(formatDate(new Date())); // Locale-specific date format
+console.log(formatNumber(1234567)); // Locale-specific number format
+console.log(formatCurrency(10000, 'KRW')); // Locale-specific currency format
+```
+
+### Performance Dashboard
+
+Monitor server performance in real-time:
+
+```javascript
+import { performanceDashboard } from './helpers/performance-dashboard.js';
+
+// Start monitoring (auto-starts in development mode)
+performanceDashboard.start();
+
+// Get current status
+const status = performanceDashboard.getStatus();
+
+// Generate performance report
+const report = performanceDashboard.generateReport('1h');
+
+// Get recommendations
+console.log(report.recommendations);
+```
+
+The dashboard automatically tracks:
+- Memory usage (heap, RSS, external)
+- Cache hit rates and performance
+- Operation durations and error rates
+- Performance warnings and recommendations
 
 ## Contributing
 

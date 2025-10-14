@@ -24,16 +24,16 @@ export class EnhancedPerformanceCache {
     this.enableStats = enableStats;
     this.evictionPolicy = evictionPolicy;
     this.compressionThreshold = compressionThreshold;
-    
+
     // 통계
     this.hits = 0;
     this.misses = 0;
     this.evictions = 0;
     this.compressedItems = 0;
-    
+
     // LFU를 위한 접근 카운터
     this.accessCount = new Map();
-    
+
     // 압축된 아이템 추적
     this.compressedKeys = new Set();
   }
@@ -45,11 +45,11 @@ export class EnhancedPerformanceCache {
     if (!this.enableCompression || typeof data !== 'string') {
       return data;
     }
-    
+
     if (data.length < this.compressionThreshold) {
       return data;
     }
-    
+
     try {
       // 간단한 압축 (실제로는 더 정교한 압축 알고리즘 사용 가능)
       const compressed = Buffer.from(data).toString('base64');
@@ -67,7 +67,7 @@ export class EnhancedPerformanceCache {
     if (!this.enableCompression || !this.compressedKeys.has(data)) {
       return data;
     }
-    
+
     try {
       return Buffer.from(data, 'base64').toString();
     } catch (error) {
@@ -80,14 +80,14 @@ export class EnhancedPerformanceCache {
    */
   _evictItem() {
     let keyToEvict = null;
-    
+
     switch (this.evictionPolicy) {
       case 'LRU':
         // 가장 오래된 아이템 제거
         keyToEvict = this.cache.keys().next().value;
         break;
-        
-      case 'LFU':
+
+      case 'LFU': {
         // 가장 적게 사용된 아이템 제거
         let minCount = Infinity;
         for (const [key, count] of this.accessCount) {
@@ -97,16 +97,17 @@ export class EnhancedPerformanceCache {
           }
         }
         break;
-        
+      }
+
       case 'FIFO':
         // 먼저 들어온 아이템 제거
         keyToEvict = this.cache.keys().next().value;
         break;
-        
+
       default:
         keyToEvict = this.cache.keys().next().value;
     }
-    
+
     if (keyToEvict) {
       this.cache.delete(keyToEvict);
       this.accessCount.delete(keyToEvict);
@@ -196,7 +197,7 @@ export class EnhancedPerformanceCache {
   cleanup() {
     const now = Date.now();
     let cleanedCount = 0;
-    
+
     for (const [key, item] of this.cache.entries()) {
       const timestamp = typeof item.timestamp === 'number' ? item.timestamp : 0;
       if (now - timestamp > this.ttl) {
@@ -206,7 +207,7 @@ export class EnhancedPerformanceCache {
         cleanedCount++;
       }
     }
-    
+
     return cleanedCount;
   }
 
@@ -223,9 +224,8 @@ export class EnhancedPerformanceCache {
   getStats() {
     const totalRequests = this.hits + this.misses;
     const hitRate = totalRequests > 0 ? this.hits / totalRequests : 0;
-    const compressionRatio = this.compressedItems > 0 ? 
-      (this.compressedItems / this.cache.size) : 0;
-    
+    const compressionRatio = this.compressedItems > 0 ? this.compressedItems / this.cache.size : 0;
+
     return {
       size: this.cache.size,
       maxSize: this.maxSize,
@@ -250,7 +250,7 @@ export class EnhancedPerformanceCache {
       totalSize += key.length;
       totalSize += JSON.stringify(item).length;
     }
-    
+
     return {
       estimatedBytes: totalSize,
       estimatedMB: Math.round((totalSize / 1024 / 1024) * 100) / 100
@@ -271,7 +271,7 @@ export class RedisCacheAdapter {
     if (!this.enabled) {
       return null;
     }
-    
+
     try {
       const data = await this.redis.get(key);
       return data ? JSON.parse(data) : null;
@@ -285,7 +285,7 @@ export class RedisCacheAdapter {
     if (!this.enabled) {
       return false;
     }
-    
+
     try {
       await this.redis.setex(key, ttl, JSON.stringify(data));
       return true;
@@ -299,7 +299,7 @@ export class RedisCacheAdapter {
     if (!this.enabled) {
       return false;
     }
-    
+
     try {
       await this.redis.del(key);
       return true;
@@ -329,7 +329,7 @@ export class HybridCache {
   async get(key) {
     // 먼저 메모리 캐시에서 확인
     let data = this.memoryCache.get(key);
-    
+
     if (data !== null) {
       return data;
     }
@@ -622,13 +622,13 @@ export class PerformanceMonitor {
 
     return {
       count: metrics.length,
-      durations: durations,
-      averageDuration: durations.length > 0 ? 
-        durations.reduce((a, b) => a + b, 0) / durations.length : 0,
+      durations,
+      averageDuration:
+        durations.length > 0 ? durations.reduce((a, b) => a + b, 0) / durations.length : 0,
       minDuration: durations.length > 0 ? Math.min(...durations) : 0,
       maxDuration: durations.length > 0 ? Math.max(...durations) : 0,
-      averageMemoryDelta: memoryDeltas.length > 0 ? 
-        memoryDeltas.reduce((a, b) => a + b, 0) / memoryDeltas.length : 0,
+      averageMemoryDelta:
+        memoryDeltas.length > 0 ? memoryDeltas.reduce((a, b) => a + b, 0) / memoryDeltas.length : 0,
       errors: metrics.filter(m => m.error).length
     };
   }
@@ -694,10 +694,10 @@ export class PerformanceMonitor {
           lastRun: 0
         };
       }
-      
+
       const durations = metrics.durations || [];
       const sortedDurations = durations.sort((a, b) => a - b);
-      
+
       return {
         label,
         count: metrics.count,
@@ -706,9 +706,18 @@ export class PerformanceMonitor {
           min: sortedDurations.length > 0 ? Math.min(...sortedDurations) : 0,
           max: sortedDurations.length > 0 ? Math.max(...sortedDurations) : 0,
           avg: metrics.averageDuration,
-          p50: sortedDurations.length > 0 ? sortedDurations[Math.floor(sortedDurations.length * 0.5)] : 0,
-          p95: sortedDurations.length > 0 ? sortedDurations[Math.floor(sortedDurations.length * 0.95)] : 0,
-          p99: sortedDurations.length > 0 ? sortedDurations[Math.floor(sortedDurations.length * 0.99)] : 0
+          p50:
+            sortedDurations.length > 0
+              ? sortedDurations[Math.floor(sortedDurations.length * 0.5)]
+              : 0,
+          p95:
+            sortedDurations.length > 0
+              ? sortedDurations[Math.floor(sortedDurations.length * 0.95)]
+              : 0,
+          p99:
+            sortedDurations.length > 0
+              ? sortedDurations[Math.floor(sortedDurations.length * 0.99)]
+              : 0
         },
         lastRun: Math.max(...(this.metrics.get(label) || []).map(m => m.timestamp || 0))
       };
@@ -735,17 +744,22 @@ export const globalCache = new EnhancedPerformanceCache({
 /**
  * 정기적인 캐시 정리
  */
-setInterval(() => {
-  globalCache.cleanup();
-  Memoizer.cache.cleanup();
-}, 5 * 60 * 1000); // 5분마다
+setInterval(
+  () => {
+    globalCache.cleanup();
+    Memoizer.cache.cleanup();
+  },
+  5 * 60 * 1000
+); // 5분마다
 
 // 기존 코드와의 호환성을 위한 export
 export const memoize = Memoizer.memoize;
-export const memoizeAsync = Memoizer.memoizeAsync || (() => {
-  console.warn('memoizeAsync is deprecated, use memoize instead');
-  return Memoizer.memoize;
-});
+export const memoizeAsync =
+  Memoizer.memoizeAsync ||
+  (() => {
+    console.warn('memoizeAsync is deprecated, use memoize instead');
+    return Memoizer.memoize;
+  });
 
 // 기존 클래스들 (호환성을 위해 유지)
 export class DataOptimizer {
