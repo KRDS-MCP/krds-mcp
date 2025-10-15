@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>접근성 검증 예제 - 문제가 있는 코드</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f0f0f0;
+    }
+
+    /* 문제 1: 색상 대비율 부족 */
+    .warning-button {
+      background: yellow;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+    }
+
+    /* 문제 2: 너무 작은 터치 영역 */
+    .small-button {
+      width: 30px;
+      height: 30px;
+      padding: 5px;
+      background: blue;
+      color: white;
+      border: none;
+    }
+
+    /* 문제 3: 포커스 스타일 없음 */
+    .no-focus:focus {
+      outline: none;
+    }
+
+    /* 문제 4: 충분하지 않은 폰트 크기 */
+    .tiny-text {
+      font-size: 10px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <h1>접근성 문제가 있는 페이지</h1>
+
+  <!-- 문제 1: alt 속성 누락 -->
+  <img src="logo.png" width="200">
+
+  <!-- 문제 2: 레이블 없는 입력 필드 -->
+  <input type="text" placeholder="이름">
+
+  <!-- 문제 3: 색상 대비 부족 -->
+  <button class="warning-button">제출</button>
+
+  <!-- 문제 4: 터치 영역 너무 작음 -->
+  <button class="small-button">X</button>
+
+  <!-- 문제 5: 포커스 스타일 없음 -->
+  <a href="#" class="no-focus">링크</a>
+
+  <!-- 문제 6: 제목 구조 잘못됨 (h1 다음 h3) -->
+  <h3>부제목</h3>
+
+  <!-- 문제 7: 작은 텍스트 -->
+  <p class="tiny-text">중요한 안내 사항입니다.</p>
+
+  <!-- 문제 8: role 없는 커스텀 버튼 -->
+  <div onclick="submit()">클릭하세요</div>
+</body>
+</html>
