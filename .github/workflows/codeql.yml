@@ -25,7 +25,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -45,28 +45,6 @@ jobs:
       - name: Autobuild
         uses: github/codeql-action/autobuild@v3
 
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
-        with:
-          category: '/language:${{matrix.language}}'
-
-        # CodeQL 분석 초기화
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
-        with:
-          languages: ${{ matrix.language }}
-          queries: security-extended,security-and-quality
-
-      # 의존성 설치
-      - name: Install dependencies
-        run: npm ci
-
-      # Autobuild은 컴파일이 필요한 언어에 주로 사용됨
-      # JavaScript의 경우 필요하지 않을 수 있으나, TypeScript나 기타 빌드 과정이 필요한 경우를 위해 포함
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@v3
-
-      # CodeQL 분석 실행
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
         with:
