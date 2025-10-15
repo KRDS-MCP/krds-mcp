@@ -150,10 +150,7 @@ describe('KRDS MCP Server Main Entry Point', () => {
       // Get the ListTools handler from the setRequestHandler calls
       const calls = mockServer.setRequestHandler.mock.calls;
       const listToolsCall = calls.find(
-        call =>
-          call[0].properties &&
-          call[0].properties.method &&
-          call[0].properties.method.const === 'tools/list'
+        call => call[0].properties && call[0].properties.method && call[0].properties.method.const === 'tools/list'
       );
       toolsHandler = listToolsCall ? listToolsCall[1] : calls[0][1];
     });
@@ -184,13 +181,7 @@ describe('KRDS MCP Server Main Entry Point', () => {
       expect(tool.description).toBe('KRDS 색상 체계 조회 (완전한 색상 시스템)');
 
       const categoryProperty = tool.inputSchema.properties.category;
-      expect(categoryProperty.enum).toEqual([
-        'primary',
-        'system',
-        'neutral',
-        'emphasis',
-        'graphic'
-      ]);
+      expect(categoryProperty.enum).toEqual(['primary', 'system', 'neutral', 'emphasis', 'graphic']);
     });
 
     test('should register krds_get_typography tool with correct categories', async () => {
@@ -200,13 +191,7 @@ describe('KRDS MCP Server Main Entry Point', () => {
       expect(tool).toBeDefined();
 
       const categoryProperty = tool.inputSchema.properties.category;
-      expect(categoryProperty.enum).toEqual([
-        'display',
-        'heading',
-        'body',
-        'interactive',
-        'utility'
-      ]);
+      expect(categoryProperty.enum).toEqual(['display', 'heading', 'body', 'interactive', 'utility']);
     });
 
     test('should register krds_get_components tool with all component categories', async () => {
@@ -268,10 +253,7 @@ describe('KRDS MCP Server Main Entry Point', () => {
       // Get the CallTool handler from the setRequestHandler calls
       const calls = mockServer.setRequestHandler.mock.calls;
       const callToolCall = calls.find(
-        call =>
-          call[0].properties &&
-          call[0].properties.method &&
-          call[0].properties.method.const === 'tools/call'
+        call => call[0].properties && call[0].properties.method && call[0].properties.method.const === 'tools/call'
       );
       callToolHandler = callToolCall ? callToolCall[1] : calls[1][1];
     });
@@ -443,9 +425,7 @@ describe('KRDS MCP Server Main Entry Point', () => {
 
     test('should log Korean startup messages', () => {
       expect(global.console.error).toHaveBeenCalledWith('KRDS MCP 서버가 시작되었습니다.');
-      expect(global.console.error).toHaveBeenCalledWith(
-        '입력 검증 및 오류 처리 시스템이 활성화되었습니다.'
-      );
+      expect(global.console.error).toHaveBeenCalledWith('입력 검증 및 오류 처리 시스템이 활성화되었습니다.');
     });
   });
 

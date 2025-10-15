@@ -53,11 +53,7 @@ describe('KRDS Design Tokens Enhanced Coverage', () => {
 
     test('should have system color tokens', () => {
       const systemKeys = Object.keys(colorTokens).filter(
-        key =>
-          key.includes('success') ||
-          key.includes('warning') ||
-          key.includes('error') ||
-          key.includes('info')
+        key => key.includes('success') || key.includes('warning') || key.includes('error') || key.includes('info')
       );
       expect(systemKeys.length).toBeGreaterThan(0);
     });
@@ -187,18 +183,14 @@ describe('KRDS Design Tokens Enhanced Coverage', () => {
     });
 
     test('should generate token description', () => {
-      const description = tokenUtils.getTokenDescription(
-        'krds-light-color-primary-background-default'
-      );
+      const description = tokenUtils.getTokenDescription('krds-light-color-primary-background-default');
       expect(typeof description).toBe('string');
       expect(description).toContain('color');
       expect(description).toContain('primary');
     });
 
     test('should handle token names with states', () => {
-      const description = tokenUtils.getTokenDescription(
-        'krds-light-color-primary-background-hover'
-      );
+      const description = tokenUtils.getTokenDescription('krds-light-color-primary-background-hover');
       expect(description).toContain('hover');
       expect(description).toContain('상태');
     });

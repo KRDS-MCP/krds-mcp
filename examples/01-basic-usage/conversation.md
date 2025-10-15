@@ -7,11 +7,13 @@
 Claude Desktop에서 KRDS MCP가 제대로 설정되었는지 확인하세요.
 
 **Claude에게 물어보기:**
+
 ```
 KRDS MCP 서버가 연결되어 있나요?
 ```
 
 **Claude의 응답:**
+
 ```
 네, KRDS MCP 서버가 정상적으로 연결되어 있습니다.
 다음 기능들을 사용할 수 있습니다:
@@ -28,11 +30,13 @@ KRDS MCP 서버가 연결되어 있나요?
 ## 예제 1: 색상 정보 조회
 
 ### 질문
+
 ```
 KRDS Primary 색상 팔레트를 알려줘
 ```
 
 ### Claude의 응답
+
 ```
 KRDS Primary 색상 팔레트입니다:
 
@@ -65,12 +69,14 @@ Primary-900:  #00172E  (가장 어두운 파란색)
 ## 예제 2: 타이포그래피 정보
 
 ### 질문
+
 ```
 KRDS 본문 텍스트에 사용할 타이포그래피 스타일 알려줘
 ```
 
 ### Claude의 응답
-```
+
+````
 KRDS 본문 텍스트 타이포그래피 스타일입니다:
 
 📝 Body Text Styles
@@ -103,34 +109,41 @@ Body-3 (작은 본문)
   letter-spacing: -0.01em;
   font-weight: 400;
 }
-```
+````
 
 🎯 권장 사항:
+
 - 데스크톱: Body-2 사용
 - 모바일: Body-3 사용 (가독성 고려)
 - 강조: font-weight: 600 (SemiBold)
+
 ```
 
 ## 예제 3: 컴포넌트 검색
 
 ### 질문
 ```
+
 KRDS에서 제공하는 버튼 컴포넌트 종류 알려줘
+
 ```
 
 ### Claude의 응답
 ```
+
 KRDS 버튼 컴포넌트 정보입니다:
 
 🔘 Button Component
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 📐 크기 (Size)
+
 - Large: 48px 높이, 패딩 16px 24px
 - Medium: 40px 높이, 패딩 12px 20px ⭐ 기본
 - Small: 32px 높이, 패딩 8px 16px
 
 🎨 스타일 (Style)
+
 1. Primary (메인 액션)
    - 배경: Primary-500
    - 텍스트: White
@@ -148,6 +161,7 @@ KRDS 버튼 컴포넌트 정보입니다:
    - 용도: 부가 기능
 
 🔄 상태 (State)
+
 - Default: 기본 상태
 - Hover: 배경 Primary-600
 - Active: 배경 Primary-700
@@ -155,17 +169,21 @@ KRDS 버튼 컴포넌트 정보입니다:
 - Focus: 외곽선 2px Primary-500
 
 ♿ 접근성
+
 - 최소 터치 영역: 44x44px
 - 키보드 포커스 가능
 - ARIA 레이블 필수
+
 ```
 
 ## 예제 4: 빠른 컴포넌트 생성
 
 ### 질문
 ```
+
 KRDS Primary 버튼 Medium 크기로 HTML 코드 만들어줘
-```
+
+````
 
 ### Claude의 응답
 ```html
@@ -226,22 +244,26 @@ KRDS Primary 버튼 Medium 크기로 HTML 코드 만들어줘
   cursor: not-allowed;
 }
 </style>
-```
+````
 
 ✅ 이 버튼은:
+
 - KRDS Primary 색상 사용
 - 접근성 기준 준수 (44x44px 이상)
 - 키보드 포커스 지원
 - 호버/액티브 상태 정의
 - 디스에이블 상태 처리
+
 ```
 
 ## 더 복잡한 질문도 가능
 
 ### 질문
 ```
+
 정부 민원 신청 페이지의 헤더를 KRDS 기준으로 만들어줘.
 로고, 메뉴, 로그인 버튼이 필요해.
+
 ```
 
 ### Claude의 응답
@@ -274,3 +296,4 @@ KRDS Primary 버튼 Medium 크기로 HTML 코드 만들어줘
 - [02. 정부 웹사이트 개발](../02-government-website/) - 실제 페이지 만들기
 - [03. 컴포넌트 생성](../03-component-generation/) - 다양한 컴포넌트 예제
 - [04. 접근성 검증](../04-accessibility-check/) - 접근성 자동 체크
+```

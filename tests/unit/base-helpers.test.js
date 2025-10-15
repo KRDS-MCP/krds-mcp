@@ -94,12 +94,7 @@ describe('KRDSHelper Base Utilities', () => {
     });
 
     test('should handle arrays with mixed object structures', () => {
-      const mixedArray = [
-        { name: 'Item1' },
-        { title: 'Item2' },
-        { label: 'Item3' },
-        'not an object'
-      ];
+      const mixedArray = [{ name: 'Item1' }, { title: 'Item2' }, { label: 'Item3' }, 'not an object'];
       const result = KRDSHelper.findByName(mixedArray, 'Item1');
       expect(result.name).toBe('Item1');
     });

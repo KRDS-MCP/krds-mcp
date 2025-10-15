@@ -4,12 +4,7 @@
  */
 
 import { describe, test, expect, beforeEach } from '@jest/globals';
-import {
-  PerformanceCache,
-  PerformanceMonitor,
-  memoize,
-  measure
-} from '../../helpers/performance-helpers.js';
+import { PerformanceCache, PerformanceMonitor, memoize, measure } from '../../helpers/performance-helpers.js';
 
 describe('Performance Helpers Enhanced Coverage', () => {
   describe('PerformanceCache', () => {

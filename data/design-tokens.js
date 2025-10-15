@@ -408,8 +408,7 @@ export const motionTokens = {
   'krds-motion-easing-bounce': 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
 
   // Common Transitions
-  'krds-motion-transition-colors':
-    'color 150ms ease, background-color 150ms ease, border-color 150ms ease',
+  'krds-motion-transition-colors': 'color 150ms ease, background-color 150ms ease, border-color 150ms ease',
   'krds-motion-transition-opacity': 'opacity 150ms ease',
   'krds-motion-transition-shadow': 'box-shadow 150ms ease',
   'krds-motion-transition-transform': 'transform 150ms ease',
@@ -533,10 +532,7 @@ export const tokenUtils = {
     }
 
     // If two parameters provided, treat as category and token name
-    if (
-      designTokens.tokens[categoryOrTokenName] &&
-      designTokens.tokens[categoryOrTokenName][tokenName]
-    ) {
+    if (designTokens.tokens[categoryOrTokenName] && designTokens.tokens[categoryOrTokenName][tokenName]) {
       return designTokens.tokens[categoryOrTokenName][tokenName];
     }
     return null;
@@ -593,9 +589,7 @@ export const tokenUtils = {
       }
       if (modifier) {
         // Check if it's a state modifier
-        if (
-          ['hover', 'focus', 'pressed', 'disabled', 'active', 'visited', 'state'].includes(modifier)
-        ) {
+        if (['hover', 'focus', 'pressed', 'disabled', 'active', 'visited', 'state'].includes(modifier)) {
           description += ` - ${modifier} 상태`;
         } else {
           description += ` (${modifier})`;
@@ -613,9 +607,7 @@ export const tokenUtils = {
         description += ` ${subcategory}`;
         if (type) {
           // Check if it's a state modifier
-          if (
-            ['hover', 'focus', 'pressed', 'disabled', 'active', 'visited', 'state'].includes(type)
-          ) {
+          if (['hover', 'focus', 'pressed', 'disabled', 'active', 'visited', 'state'].includes(type)) {
             description += ` - ${type} 상태`;
           } else {
             description += ` ${type}`;
@@ -623,11 +615,7 @@ export const tokenUtils = {
         }
         if (modifier) {
           // Check if it's a state modifier
-          if (
-            ['hover', 'focus', 'pressed', 'disabled', 'active', 'visited', 'state'].includes(
-              modifier
-            )
-          ) {
+          if (['hover', 'focus', 'pressed', 'disabled', 'active', 'visited', 'state'].includes(modifier)) {
             description += ` - ${modifier} 상태`;
           } else {
             description += ` (${modifier})`;
@@ -701,9 +689,7 @@ export const tokenUtils = {
   // SCSS 변수 생성
   generateSCSSVariables(category = null) {
     let scss = '';
-    const tokensToUse = category
-      ? { [category]: designTokens.tokens[category] || {} }
-      : designTokens.tokens;
+    const tokensToUse = category ? { [category]: designTokens.tokens[category] || {} } : designTokens.tokens;
 
     Object.entries(tokensToUse).forEach(([, tokens]) => {
       Object.entries(tokens).forEach(([tokenName, value]) => {
@@ -735,16 +721,7 @@ export const tokenUtils = {
     const themeBasedCategories = ['color'];
 
     // Category-only categories (typography, spacing, etc. don't have themes)
-    const nonThemeCategories = [
-      'typography',
-      'spacing',
-      'sizing',
-      'border',
-      'shadow',
-      'motion',
-      'layout',
-      'component'
-    ];
+    const nonThemeCategories = ['typography', 'spacing', 'sizing', 'border', 'shadow', 'motion', 'layout', 'component'];
 
     // Pattern 1: Theme-based tokens: krds-(light|dark)-(color)-...
     const themePattern = new RegExp(
@@ -763,10 +740,7 @@ export const tokenUtils = {
 
     Object.entries(designTokens.tokens).forEach(([_category, tokens]) => {
       Object.entries(tokens).forEach(([tokenName, value]) => {
-        if (
-          tokenName.includes(`-${theme}-`) ||
-          (!tokenName.includes('-light-') && !tokenName.includes('-dark-'))
-        ) {
+        if (tokenName.includes(`-${theme}-`) || (!tokenName.includes('-light-') && !tokenName.includes('-dark-'))) {
           themeTokens[tokenName] = value;
         }
       });
@@ -781,10 +755,7 @@ export const tokenUtils = {
 
     Object.entries(designTokens.tokens).forEach(([, tokens]) => {
       Object.entries(tokens).forEach(([tokenName, value]) => {
-        if (
-          tokenName.includes(theme) ||
-          (!tokenName.includes('-light-') && !tokenName.includes('-dark-'))
-        ) {
+        if (tokenName.includes(theme) || (!tokenName.includes('-light-') && !tokenName.includes('-dark-'))) {
           css += `  --${tokenName}: ${value};\n`;
         }
       });
@@ -840,16 +811,7 @@ export const tokenValidation = {
     const themeBasedCategories = ['color'];
 
     // Category-only categories (typography, spacing, etc. don't have themes)
-    const nonThemeCategories = [
-      'typography',
-      'spacing',
-      'sizing',
-      'border',
-      'shadow',
-      'motion',
-      'layout',
-      'component'
-    ];
+    const nonThemeCategories = ['typography', 'spacing', 'sizing', 'border', 'shadow', 'motion', 'layout', 'component'];
 
     // Pattern 1: Theme-based tokens: krds-(light|dark)-(color)-...
     const themePattern = new RegExp(

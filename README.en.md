@@ -250,6 +250,7 @@ console.log(report.recommendations);
 ```
 
 The dashboard automatically tracks:
+
 - Memory usage (heap, RSS, external)
 - Cache hit rates and performance
 - Operation durations and error rates
@@ -260,12 +261,14 @@ The dashboard automatically tracks:
 ### 🎯 Why Use KRDS MCP?
 
 Without KRDS MCP, developing government websites means:
+
 - 📚 Reading hundreds of pages of guidelines
 - ⏰ Hours spent finding the right colors and components
 - ❌ Easy to miss accessibility requirements
 - 🔄 Manual updates when guidelines change
 
 **With KRDS MCP**, AI assistants automatically:
+
 - ✅ Apply correct KRDS colors, typography, and components
 - ✅ Ensure WCAG 2.1 AA accessibility compliance
 - ✅ Generate production-ready code in seconds
@@ -276,6 +279,7 @@ Without KRDS MCP, developing government websites means:
 #### Scenario 1: Building a Government Service Page
 
 **Before (without KRDS MCP)**:
+
 ```
 Developer: "Create a form for citizen applications"
 AI: [Generates generic HTML form]
@@ -285,6 +289,7 @@ AI: "What are KRDS guidelines?"
 ```
 
 **After (with KRDS MCP)**:
+
 ```
 Developer: "Create a KRDS-compliant citizen application form"
 AI: [Automatically applies]
@@ -299,11 +304,13 @@ AI: [Automatically applies]
 #### Scenario 2: Color Selection
 
 **Question to Claude**:
+
 ```
 "What are the KRDS primary colors?"
 ```
 
 **AI Response** (powered by KRDS MCP):
+
 ```
 KRDS Primary Color Palette:
 - Primary-50: #EEF9FF (lightest)
@@ -323,28 +330,31 @@ Accessibility:
 #### Scenario 3: Accessibility Validation
 
 **Request to Claude**:
-```
+
+````
 "Check if this button meets KRDS accessibility standards"
 ```html
 <button style="background: yellow; color: white;">Submit</button>
-```
+````
 
 **AI automatically checks**:
+
 - ❌ Color contrast ratio: 1.07:1 (fails WCAG)
 - ✅ Recommends: Primary-500 (#0091FF) + White = 8.59:1
 
 ### 📊 Impact Metrics
 
-| Metric | Before | After | Improvement |
-|--------|---------|--------|-------------|
-| Development Time | 4 hours | 30 min | **87% faster** |
-| KRDS Compliance | 70% | 98% | **+28%** |
-| Accessibility Score | 65/100 | 95/100 | **+30 points** |
-| Code Rework | 3-4 times | 0-1 time | **75% less** |
+| Metric              | Before    | After    | Improvement    |
+| ------------------- | --------- | -------- | -------------- |
+| Development Time    | 4 hours   | 30 min   | **87% faster** |
+| KRDS Compliance     | 70%       | 98%      | **+28%**       |
+| Accessibility Score | 65/100    | 95/100   | **+30 points** |
+| Code Rework         | 3-4 times | 0-1 time | **75% less**   |
 
 ### 🚀 Try It Yourself
 
 See [examples/](./examples/) directory for:
+
 - Basic usage guide
 - Government website development
 - Component generation

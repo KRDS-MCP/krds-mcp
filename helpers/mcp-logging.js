@@ -50,15 +50,7 @@ export class McpLogger {
    * 기본 로거들 설정
    */
   setupDefaultLoggers() {
-    const defaultLoggers = [
-      'krds-mcp',
-      'data-service',
-      'handlers',
-      'validation',
-      'performance',
-      'security',
-      'system'
-    ];
+    const defaultLoggers = ['krds-mcp', 'data-service', 'handlers', 'validation', 'performance', 'security', 'system'];
 
     defaultLoggers.forEach(loggerName => {
       this.loggers.set(loggerName, {

@@ -17,8 +17,7 @@ export class KRDSHelper {
     }
 
     return array.find(
-      item =>
-        item && item[searchField] && item[searchField].toLowerCase().includes(name.toLowerCase())
+      item => item && item[searchField] && item[searchField].toLowerCase().includes(name.toLowerCase())
     );
   }
 
@@ -33,9 +32,7 @@ export class KRDSHelper {
       return [];
     }
 
-    return array.filter(
-      item => item && item.category && item.category.toLowerCase() === category.toLowerCase()
-    );
+    return array.filter(item => item && item.category && item.category.toLowerCase() === category.toLowerCase());
   }
 
   /**
@@ -67,9 +64,7 @@ export class KRDSHelper {
         }
 
         if (Array.isArray(filterValue)) {
-          return filterValue.some(
-            val => itemValue && itemValue.toLowerCase().includes(val.toLowerCase())
-          );
+          return filterValue.some(val => itemValue && itemValue.toLowerCase().includes(val.toLowerCase()));
         }
 
         return itemValue === filterValue;

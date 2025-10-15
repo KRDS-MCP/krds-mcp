@@ -50,9 +50,7 @@ export class AccessibilityValidator {
       !/aria-labelledby|aria-label/i.test(htmlCode)
     ) {
       issues.push('입력 필드에 연결된 레이블이 없습니다.');
-      recommendations.push(
-        '모든 입력 필드에 label, aria-label, 또는 aria-labelledby를 제공하세요.'
-      );
+      recommendations.push('모든 입력 필드에 label, aria-label, 또는 aria-labelledby를 제공하세요.');
       score -= 15;
     }
 
@@ -79,9 +77,7 @@ export class AccessibilityValidator {
       const linkTexts = linkMatches.map(link => link.match(/>([^<]+)</)[1]);
       const duplicates = linkTexts.filter((text, index) => linkTexts.indexOf(text) !== index);
       if (duplicates.length > 0) {
-        warnings.push(
-          '같은 텍스트의 링크가 다른 곳으로 연결될 수 있습니다. 구체적인 텍스트를 사용하세요.'
-        );
+        warnings.push('같은 텍스트의 링크가 다른 곳으로 연결될 수 있습니다. 구체적인 텍스트를 사용하세요.');
         score -= 5;
       }
     }
@@ -106,10 +102,7 @@ export class AccessibilityValidator {
     }
 
     // ARIA 속성 권장사항
-    if (
-      /<nav[^>]*>/i.test(htmlCode) &&
-      !/aria-label|role\s*=\s*["']navigation["']/i.test(htmlCode)
-    ) {
+    if (/<nav[^>]*>/i.test(htmlCode) && !/aria-label|role\s*=\s*["']navigation["']/i.test(htmlCode)) {
       recommendations.push("네비게이션 요소에 aria-label 또는 role='navigation'을 추가하세요.");
       score -= 5;
     }
@@ -139,10 +132,7 @@ export class AccessibilityValidator {
     }
 
     // 폼 그룹화 검증
-    if (
-      /<input[^>]*>/i.test(htmlCode) &&
-      /<input[^>]*>/i.test(htmlCode.replace(/<input[^>]*>/, ''))
-    ) {
+    if (/<input[^>]*>/i.test(htmlCode) && /<input[^>]*>/i.test(htmlCode.replace(/<input[^>]*>/, ''))) {
       if (!/<fieldset[^>]*>/i.test(htmlCode)) {
         recommendations.push('관련된 폼 요소들을 fieldset으로 그룹화하세요.');
         score -= 3;

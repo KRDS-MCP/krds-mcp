@@ -120,18 +120,14 @@ describe('Design Tokens - Comprehensive Coverage Tests', () => {
 
       test('should search in token names correctly', () => {
         const results = tokenUtils.searchTokens('background');
-        const hasBackgroundTokens = results.some(result =>
-          result.name.toLowerCase().includes('background')
-        );
+        const hasBackgroundTokens = results.some(result => result.name.toLowerCase().includes('background'));
         expect(hasBackgroundTokens).toBe(true);
       });
     });
 
     describe('getTokenDescription', () => {
       test('should generate description for color token', () => {
-        const description = tokenUtils.getTokenDescription(
-          'krds-light-color-primary-background-default'
-        );
+        const description = tokenUtils.getTokenDescription('krds-light-color-primary-background-default');
         expect(description).toContain('color');
         expect(description).toContain('primary');
         expect(description).toContain('background');
@@ -145,9 +141,7 @@ describe('Design Tokens - Comprehensive Coverage Tests', () => {
       });
 
       test('should handle tokens with modifier', () => {
-        const description = tokenUtils.getTokenDescription(
-          'krds-light-color-primary-background-hover-state'
-        );
+        const description = tokenUtils.getTokenDescription('krds-light-color-primary-background-hover-state');
         expect(description).toContain('hover');
         expect(description).toContain('state');
       });
@@ -347,11 +341,7 @@ describe('Design Tokens - Comprehensive Coverage Tests', () => {
       });
 
       test('should validate rgba colors', () => {
-        const validRgba = [
-          'rgba(0, 0, 0, 0.5)',
-          'rgba(255, 255, 255, 1.0)',
-          'rgba(128, 64, 192, 0.8)'
-        ];
+        const validRgba = ['rgba(0, 0, 0, 0.5)', 'rgba(255, 255, 255, 1.0)', 'rgba(128, 64, 192, 0.8)'];
         validRgba.forEach(color => {
           expect(tokenValidation.validateColorValue(color)).toBe(true);
         });
@@ -434,16 +424,7 @@ describe('Design Tokens - Comprehensive Coverage Tests', () => {
     });
 
     test('should have all required categories', () => {
-      const requiredCategories = [
-        'color',
-        'typography',
-        'spacing',
-        'sizing',
-        'border',
-        'shadow',
-        'motion',
-        'layout'
-      ];
+      const requiredCategories = ['color', 'typography', 'spacing', 'sizing', 'border', 'shadow', 'motion', 'layout'];
       requiredCategories.forEach(category => {
         expect(categories).toHaveProperty(category);
       });

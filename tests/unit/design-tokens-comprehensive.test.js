@@ -141,9 +141,7 @@ describe('KRDS Design Tokens Comprehensive Coverage', () => {
       expect(typographyTokens['krds-typography-font-family-primary']).toBe(
         'Pretendard GOV, Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif'
       );
-      expect(typographyTokens['krds-typography-font-family-secondary']).toBe(
-        'Noto Sans KR, Malgun Gothic, sans-serif'
-      );
+      expect(typographyTokens['krds-typography-font-family-secondary']).toBe('Noto Sans KR, Malgun Gothic, sans-serif');
       expect(typographyTokens['krds-typography-font-family-monospace']).toBe(
         'D2 Coding, Courier New, Consolas, Monaco, monospace'
       );
@@ -297,9 +295,7 @@ describe('KRDS Design Tokens Comprehensive Coverage', () => {
     test('should have easing tokens', () => {
       expect(motionTokens['krds-motion-easing-linear']).toBe('cubic-bezier(0, 0, 1, 1)');
       expect(motionTokens['krds-motion-easing-ease']).toBe('cubic-bezier(0.25, 0.1, 0.25, 1)');
-      expect(motionTokens['krds-motion-easing-bounce']).toBe(
-        'cubic-bezier(0.68, -0.55, 0.265, 1.55)'
-      );
+      expect(motionTokens['krds-motion-easing-bounce']).toBe('cubic-bezier(0.68, -0.55, 0.265, 1.55)');
     });
 
     test('should have transition presets', () => {
@@ -775,12 +771,8 @@ describe('KRDS Design Tokens Comprehensive Coverage', () => {
       const essentialColors = ['primary', 'secondary', 'success', 'warning', 'error', 'info'];
 
       essentialColors.forEach(colorType => {
-        const lightTokens = Object.keys(colorTokens).filter(key =>
-          key.includes(`-light-color-${colorType}-`)
-        );
-        const darkTokens = Object.keys(colorTokens).filter(key =>
-          key.includes(`-dark-color-${colorType}-`)
-        );
+        const lightTokens = Object.keys(colorTokens).filter(key => key.includes(`-light-color-${colorType}-`));
+        const darkTokens = Object.keys(colorTokens).filter(key => key.includes(`-dark-color-${colorType}-`));
 
         expect(lightTokens.length).toBeGreaterThan(0);
         expect(darkTokens.length).toBeGreaterThan(0);
@@ -793,9 +785,7 @@ describe('KRDS Design Tokens Comprehensive Coverage', () => {
       expect(searchResults.length).toBeGreaterThan(0);
 
       // Find a token that works with getToken (non-theme tokens)
-      let workingToken = searchResults.find(
-        r => !r.name.includes('-light-') && !r.name.includes('-dark-')
-      );
+      let workingToken = searchResults.find(r => !r.name.includes('-light-') && !r.name.includes('-dark-'));
       if (!workingToken) {
         workingToken = searchResults[0]; // Fallback to first result
       }

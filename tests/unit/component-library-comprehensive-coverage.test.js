@@ -4,11 +4,7 @@
  * Target: 60%+ coverage for major functionality (lines 183,197-970 mostly uncovered)
  */
 
-import {
-  KRDSComponentLibrary,
-  KRDS_COMPONENT_MAPPING,
-  componentLibrary
-} from '../../helpers/component-library.js';
+import { KRDSComponentLibrary, KRDS_COMPONENT_MAPPING, componentLibrary } from '../../helpers/component-library.js';
 
 describe('Component Library - Comprehensive Coverage Tests', () => {
   describe('KRDS_COMPONENT_MAPPING', () => {
@@ -72,9 +68,7 @@ describe('Component Library - Comprehensive Coverage Tests', () => {
 
     describe('constructor', () => {
       test('should initialize with correct properties', () => {
-        expect(library.baseUrl).toBe(
-          'https://raw.githubusercontent.com/KRDS-uiux/krds-uiux/main/html/code/'
-        );
+        expect(library.baseUrl).toBe('https://raw.githubusercontent.com/KRDS-uiux/krds-uiux/main/html/code/');
         expect(library.componentCache).toBeInstanceOf(Map);
         expect(library.templateCache).toBeInstanceOf(Map);
       });
@@ -594,10 +588,7 @@ describe('Component Library - Comprehensive Coverage Tests', () => {
 
       for (const [componentId, mapping] of componentsWithVariants) {
         const defaultTemplate = await componentLibrary.fetchComponentTemplate(componentId);
-        const variantTemplate = await componentLibrary.fetchComponentTemplate(
-          componentId,
-          mapping.variants[0]
-        );
+        const variantTemplate = await componentLibrary.fetchComponentTemplate(componentId, mapping.variants[0]);
 
         expect(defaultTemplate).toBeDefined();
         expect(variantTemplate).toBeDefined();

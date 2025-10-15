@@ -125,13 +125,7 @@ describe('Colors - Comprehensive Coverage Tests', () => {
     });
 
     test('should have valid hex color codes', () => {
-      const allColors = [
-        ...primaryColors,
-        ...systemColors,
-        ...neutralColors,
-        ...emphasisColors,
-        ...graphicColors
-      ];
+      const allColors = [...primaryColors, ...systemColors, ...neutralColors, ...emphasisColors, ...graphicColors];
 
       allColors.forEach(color => {
         expect(color.hexCode).toMatch(/^#[0-9A-Fa-f]{6}$/);
@@ -139,13 +133,7 @@ describe('Colors - Comprehensive Coverage Tests', () => {
     });
 
     test('should have consistent RGB format', () => {
-      const allColors = [
-        ...primaryColors,
-        ...systemColors,
-        ...neutralColors,
-        ...emphasisColors,
-        ...graphicColors
-      ];
+      const allColors = [...primaryColors, ...systemColors, ...neutralColors, ...emphasisColors, ...graphicColors];
 
       allColors.forEach(color => {
         expect(color.rgb).toMatch(/^rgb\(\d{1,3}, \d{1,3}, \d{1,3}\)$/);
@@ -454,9 +442,7 @@ describe('Colors - Comprehensive Coverage Tests', () => {
       );
       expect(hasColorOnlyWarning).toBe(true);
 
-      const hasContrastWarning = accessibilityGuidelines.recommendations.some(rec =>
-        rec.includes('충분한 명도 대비')
-      );
+      const hasContrastWarning = accessibilityGuidelines.recommendations.some(rec => rec.includes('충분한 명도 대비'));
       expect(hasContrastWarning).toBe(true);
     });
   });

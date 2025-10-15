@@ -57,11 +57,7 @@ describe('Base Helpers - Comprehensive Coverage Tests', () => {
     });
 
     test('should handle items without search field', () => {
-      const arrayWithMissingFields = [
-        { name: 'Valid Item' },
-        { category: 'no-name' },
-        { name: null }
-      ];
+      const arrayWithMissingFields = [{ name: 'Valid Item' }, { category: 'no-name' }, { name: null }];
 
       const result = KRDSHelper.findByName(arrayWithMissingFields, 'valid');
       expect(result).toEqual({ name: 'Valid Item' });

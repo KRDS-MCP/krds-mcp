@@ -4,11 +4,7 @@
  */
 
 import { describe, test, expect, beforeEach } from '@jest/globals';
-import {
-  KRDS_COMPONENT_MAPPING,
-  KRDSComponentLibrary,
-  componentLibrary
-} from '../../helpers/component-library.js';
+import { KRDS_COMPONENT_MAPPING, KRDSComponentLibrary, componentLibrary } from '../../helpers/component-library.js';
 
 describe('Component Library Enhanced Coverage', () => {
   describe('KRDS_COMPONENT_MAPPING', () => {
@@ -31,14 +27,7 @@ describe('Component Library Enhanced Coverage', () => {
     });
 
     test('should have various component categories', () => {
-      const categories = [
-        'action',
-        'input',
-        'navigation',
-        'feedback',
-        'layout-expression',
-        'content'
-      ];
+      const categories = ['action', 'input', 'navigation', 'feedback', 'layout-expression', 'content'];
       const foundCategories = new Set();
 
       Object.values(KRDS_COMPONENT_MAPPING).forEach(mapping => {
@@ -175,9 +164,7 @@ describe('Component Library Enhanced Coverage', () => {
 
     test('should handle different template types', () => {
       const buttonTemplate = library.generateTemplateFromMapping(KRDS_COMPONENT_MAPPING.button);
-      const inputTemplate = library.generateTemplateFromMapping(
-        KRDS_COMPONENT_MAPPING['text-input']
-      );
+      const inputTemplate = library.generateTemplateFromMapping(KRDS_COMPONENT_MAPPING['text-input']);
 
       expect(typeof buttonTemplate).toBe('object');
       expect(typeof inputTemplate).toBe('object');
@@ -273,14 +260,7 @@ describe('Component Library Enhanced Coverage', () => {
     });
 
     test('should handle component categories correctly', () => {
-      const categories = [
-        'action',
-        'input',
-        'navigation',
-        'feedback',
-        'layout-expression',
-        'content'
-      ];
+      const categories = ['action', 'input', 'navigation', 'feedback', 'layout-expression', 'content'];
 
       categories.forEach(category => {
         const components = componentLibrary.getComponentsByCategory(category);

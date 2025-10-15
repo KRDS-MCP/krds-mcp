@@ -51,9 +51,7 @@ describe('Accessibility Validator Enhanced Coverage', () => {
     });
 
     test('should provide WCAG compliance levels', () => {
-      const result = AccessibilityValidator.validateAccessibility(
-        '<main><h1>Accessible content</h1></main>'
-      );
+      const result = AccessibilityValidator.validateAccessibility('<main><h1>Accessible content</h1></main>');
       expect(result).toHaveProperty('wcagCompliance');
       expect(['AA', '부분 준수', '미준수']).toContain(result.wcagCompliance);
     });
@@ -76,14 +74,8 @@ describe('Accessibility Validator Enhanced Coverage', () => {
       const htmlWithEmptyButton = '<button></button>';
       const htmlWithGoodButton = '<button>Click me</button>';
 
-      const badResult = AccessibilityValidator.checkSpecificIssue(
-        htmlWithEmptyButton,
-        'button-labels'
-      );
-      const goodResult = AccessibilityValidator.checkSpecificIssue(
-        htmlWithGoodButton,
-        'button-labels'
-      );
+      const badResult = AccessibilityValidator.checkSpecificIssue(htmlWithEmptyButton, 'button-labels');
+      const goodResult = AccessibilityValidator.checkSpecificIssue(htmlWithGoodButton, 'button-labels');
 
       expect(typeof badResult).toBe('boolean');
       expect(badResult).toBe(true);
@@ -94,14 +86,8 @@ describe('Accessibility Validator Enhanced Coverage', () => {
       const htmlWithUnlabeledInput = '<input type="text">';
       const htmlWithLabeledInput = '<label for="test">Label</label><input type="text" id="test">';
 
-      const badResult = AccessibilityValidator.checkSpecificIssue(
-        htmlWithUnlabeledInput,
-        'form-labels'
-      );
-      const goodResult = AccessibilityValidator.checkSpecificIssue(
-        htmlWithLabeledInput,
-        'form-labels'
-      );
+      const badResult = AccessibilityValidator.checkSpecificIssue(htmlWithUnlabeledInput, 'form-labels');
+      const goodResult = AccessibilityValidator.checkSpecificIssue(htmlWithLabeledInput, 'form-labels');
 
       expect(typeof badResult).toBe('boolean');
       expect(badResult).toBe(true);
@@ -112,14 +98,8 @@ describe('Accessibility Validator Enhanced Coverage', () => {
       const htmlWithBadHeadings = '<h1>Title</h1><h3>Skipped h2</h3>';
       const htmlWithGoodHeadings = '<h1>Title</h1><h2>Subtitle</h2>';
 
-      const badResult = AccessibilityValidator.checkSpecificIssue(
-        htmlWithBadHeadings,
-        'heading-structure'
-      );
-      const goodResult = AccessibilityValidator.checkSpecificIssue(
-        htmlWithGoodHeadings,
-        'heading-structure'
-      );
+      const badResult = AccessibilityValidator.checkSpecificIssue(htmlWithBadHeadings, 'heading-structure');
+      const goodResult = AccessibilityValidator.checkSpecificIssue(htmlWithGoodHeadings, 'heading-structure');
 
       expect(typeof badResult).toBe('boolean');
       expect(badResult).toBe(true);
@@ -212,8 +192,7 @@ describe('Accessibility Validator Enhanced Coverage', () => {
     });
 
     test('should provide consistent scoring', () => {
-      const perfectHTML =
-        '<main><h1>Perfect</h1><img src="test.jpg" alt="Test" /><button>Click</button></main>';
+      const perfectHTML = '<main><h1>Perfect</h1><img src="test.jpg" alt="Test" /><button>Click</button></main>';
       const terribleHTML = '<div><img src="test.jpg"><button></button><input type="text"></div>';
 
       const perfectResult = AccessibilityValidator.validateAccessibility(perfectHTML);

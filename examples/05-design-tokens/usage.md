@@ -17,6 +17,7 @@ KRDS 디자인 토큰을 사용하면 일관된 디자인 시스템을 쉽게 �
 ## 예제 1: CSS 변수로 토큰 생성
 
 ### Claude에게 요청
+
 ```
 KRDS 디자인 토큰을 CSS 변수로 만들어줘.
 색상, 타이포그래피, 간격 모두 포함해줘.
@@ -31,37 +32,37 @@ KRDS 디자인 토큰을 CSS 변수로 만들어줘.
      ============================================ */
 
   /* Primary Colors */
-  --color-primary-50: #EEF9FF;
-  --color-primary-100: #D9F1FF;
-  --color-primary-200: #B2E3FF;
-  --color-primary-300: #80CFFF;
-  --color-primary-400: #4DB8FF;
-  --color-primary-500: #0091FF;  /* Main */
-  --color-primary-600: #0074CC;
+  --color-primary-50: #eef9ff;
+  --color-primary-100: #d9f1ff;
+  --color-primary-200: #b2e3ff;
+  --color-primary-300: #80cfff;
+  --color-primary-400: #4db8ff;
+  --color-primary-500: #0091ff; /* Main */
+  --color-primary-600: #0074cc;
   --color-primary-700: #005799;
   --color-primary-800: #003966;
-  --color-primary-900: #00172E;
+  --color-primary-900: #00172e;
 
   /* System Colors */
-  --color-success: #15B371;
-  --color-success-light: #D4F5E9;
-  --color-warning: #F59F00;
-  --color-warning-light: #FFF3D4;
-  --color-error: #F03E3E;
-  --color-error-light: #FFE3E3;
-  --color-info: #0091FF;
-  --color-info-light: #EEF9FF;
+  --color-success: #15b371;
+  --color-success-light: #d4f5e9;
+  --color-warning: #f59f00;
+  --color-warning-light: #fff3d4;
+  --color-error: #f03e3e;
+  --color-error-light: #ffe3e3;
+  --color-info: #0091ff;
+  --color-info-light: #eef9ff;
 
   /* Neutral Colors */
-  --color-neutral-50: #F8F9FA;
-  --color-neutral-100: #F1F3F5;
-  --color-neutral-200: #E9ECEF;
-  --color-neutral-300: #DEE2E6;
-  --color-neutral-400: #CED4DA;
-  --color-neutral-500: #ADB5BD;
-  --color-neutral-600: #868E96;
+  --color-neutral-50: #f8f9fa;
+  --color-neutral-100: #f1f3f5;
+  --color-neutral-200: #e9ecef;
+  --color-neutral-300: #dee2e6;
+  --color-neutral-400: #ced4da;
+  --color-neutral-500: #adb5bd;
+  --color-neutral-600: #868e96;
   --color-neutral-700: #495057;
-  --color-neutral-800: #343A40;
+  --color-neutral-800: #343a40;
   --color-neutral-900: #212529;
 
   /* ============================================
@@ -149,7 +150,7 @@ KRDS 디자인 토큰을 CSS 변수로 만들어줘.
   --shadow-small: 0 2px 4px rgba(0, 0, 0, 0.08);
   --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.12);
   --shadow-large: 0 8px 16px rgba(0, 0, 0, 0.16);
-  --shadow-xlarge: 0 12px 24px rgba(0, 0, 0, 0.20);
+  --shadow-xlarge: 0 12px 24px rgba(0, 0, 0, 0.2);
   --shadow-focus: 0 0 0 3px rgba(0, 145, 255, 0.1);
 
   /* ============================================
@@ -162,10 +163,10 @@ KRDS 디자인 토큰을 CSS 변수로 만들어줘.
   --duration-slow: 350ms;
   --duration-slower: 500ms;
 
-  --easing-default: cubic-bezier(0.4, 0.0, 0.2, 1);
-  --easing-in: cubic-bezier(0.4, 0.0, 1, 1);
-  --easing-out: cubic-bezier(0.0, 0.0, 0.2, 1);
-  --easing-in-out: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --easing-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-in: cubic-bezier(0.4, 0, 1, 1);
+  --easing-out: cubic-bezier(0, 0, 0.2, 1);
+  --easing-in-out: cubic-bezier(0.4, 0, 0.2, 1);
 }
 ```
 
@@ -174,10 +175,11 @@ KRDS 디자인 토큰을 CSS 변수로 만들어줘.
 ## 예제 2: 토큰을 사용한 컴포넌트
 
 ### 토큰 활용 전
+
 ```css
 /* ❌ 하드코딩된 값 */
 .button {
-  background: #0091FF;
+  background: #0091ff;
   padding: 12px 20px;
   border-radius: 8px;
   font-size: 16px;
@@ -185,11 +187,12 @@ KRDS 디자인 토큰을 CSS 변수로 만들어줘.
 }
 
 .button:hover {
-  background: #0074CC;
+  background: #0074cc;
 }
 ```
 
 ### 토큰 활용 후
+
 ```css
 /* ✅ 토큰 사용 */
 .button {
@@ -206,6 +209,7 @@ KRDS 디자인 토큰을 CSS 변수로 만들어줘.
 ```
 
 **장점**:
+
 - 🎨 색상 변경 시 한 곳만 수정
 - 📏 일관된 간격 유지
 - ⚡ 일관된 애니메이션
@@ -216,6 +220,7 @@ KRDS 디자인 토큰을 CSS 변수로 만들어줘.
 ## 예제 3: 다크모드 토큰
 
 ### Claude에게 요청
+
 ```
 위의 디자인 토큰에 다크모드 지원을 추가해줘
 ```
@@ -226,7 +231,7 @@ KRDS 디자인 토큰을 CSS 변수로 만들어줘.
 :root {
   /* Light Mode (기본) */
   --color-background: var(--color-neutral-50);
-  --color-surface: #FFFFFF;
+  --color-surface: #ffffff;
   --color-text-primary: var(--color-neutral-900);
   --color-text-secondary: var(--color-neutral-700);
   --color-border: var(--color-neutral-300);
@@ -236,29 +241,30 @@ KRDS 디자인 토큰을 CSS 변수로 만들어줘.
 @media (prefers-color-scheme: dark) {
   :root {
     --color-background: #121212;
-    --color-surface: #1E1E1E;
-    --color-text-primary: #FFFFFF;
+    --color-surface: #1e1e1e;
+    --color-text-primary: #ffffff;
     --color-text-secondary: var(--color-neutral-400);
     --color-border: var(--color-neutral-700);
 
     /* Primary colors adjusted for dark mode */
-    --color-primary-500: #4DB8FF;
-    --color-primary-600: #80CFFF;
+    --color-primary-500: #4db8ff;
+    --color-primary-600: #80cfff;
   }
 }
 
 /* 또는 수동 토글 */
-[data-theme="dark"] {
+[data-theme='dark'] {
   --color-background: #121212;
-  --color-surface: #1E1E1E;
-  --color-text-primary: #FFFFFF;
+  --color-surface: #1e1e1e;
+  --color-text-primary: #ffffff;
   --color-text-secondary: var(--color-neutral-400);
   --color-border: var(--color-neutral-700);
-  --color-primary-500: #4DB8FF;
+  --color-primary-500: #4db8ff;
 }
 ```
 
 ### 사용 예제
+
 ```css
 /* 자동으로 테마에 맞춰 변경됨 */
 body {
@@ -281,6 +287,7 @@ body {
 ## 예제 4: JavaScript에서 토큰 사용
 
 ### Claude에게 요청
+
 ```
 CSS 토큰을 JavaScript에서도 사용할 수 있게 JSON으로 변환해줘
 ```
@@ -323,6 +330,7 @@ CSS 토큰을 JavaScript에서도 사용할 수 있게 JSON으로 변환해줘
 ```
 
 ### JavaScript에서 사용
+
 ```javascript
 import tokens from './tokens.json';
 
@@ -332,8 +340,7 @@ element.style.padding = tokens.spacing[4];
 element.style.fontSize = tokens.typography.fontSize.body2;
 
 // 또는 CSS 변수로 접근
-const primaryColor = getComputedStyle(document.documentElement)
-  .getPropertyValue('--color-primary-500');
+const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--color-primary-500');
 ```
 
 ---
@@ -413,49 +420,59 @@ const primaryColor = getComputedStyle(document.documentElement)
 ## 토큰 사용의 장점
 
 ### 🎨 테마 변경이 쉬움
+
 ```css
 /* Primary 색상을 파란색에서 녹색으로 변경 */
 :root {
-  --color-primary-500: #15B371;  /* 한 줄만 수정 */
-  --color-primary-600: #12A065;
+  --color-primary-500: #15b371; /* 한 줄만 수정 */
+  --color-primary-600: #12a065;
 }
 /* 모든 버튼, 링크, 아이콘이 자동 변경됨 */
 ```
 
 ### 📱 반응형 디자인
+
 ```css
 /* 모바일에서 간격 조정 */
 @media (max-width: 768px) {
   :root {
-    --spacing-6: 16px;  /* 24px → 16px */
-    --font-size-heading-2: 32px;  /* 40px → 32px */
+    --spacing-6: 16px; /* 24px → 16px */
+    --font-size-heading-2: 32px; /* 40px → 32px */
   }
 }
 /* 모든 요소가 자동으로 조정됨 */
 ```
 
 ### 🌓 다크모드 자동 지원
+
 ```css
 /* 라이트/다크 토큰만 바꾸면 끝 */
 @media (prefers-color-scheme: dark) {
   :root {
     --color-background: #121212;
-    --color-text-primary: #FFFFFF;
+    --color-text-primary: #ffffff;
   }
 }
 ```
 
 ### 🔧 유지보수 용이
+
 ```css
 /* ❌ 하드코딩: 100군데 수정 필요 */
-.button { font-size: 16px; }
-.input { font-size: 16px; }
-.text { font-size: 16px; }
+.button {
+  font-size: 16px;
+}
+.input {
+  font-size: 16px;
+}
+.text {
+  font-size: 16px;
+}
 /* ...100 more... */
 
 /* ✅ 토큰: 1군데만 수정 */
 :root {
-  --font-size-body-2: 18px;  /* 16px → 18px */
+  --font-size-body-2: 18px; /* 16px → 18px */
 }
 ```
 

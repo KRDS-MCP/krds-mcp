@@ -348,12 +348,7 @@ describe('Performance Helpers', () => {
       });
 
       test('should handle special character keys', () => {
-        const specialKeys = [
-          'key-with-dashes',
-          'key_with_underscores',
-          'key.with.dots',
-          'key/with/slashes'
-        ];
+        const specialKeys = ['key-with-dashes', 'key_with_underscores', 'key.with.dots', 'key/with/slashes'];
 
         specialKeys.forEach((key, index) => {
           cache.set(key, `data-${index}`);

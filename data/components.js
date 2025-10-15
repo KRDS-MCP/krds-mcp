@@ -83,12 +83,7 @@ export const components = [
     name: '푸터 (Footer)',
     category: 'identity',
     description: '페이지 하단 정보 영역',
-    usageGuidelines: [
-      '페이지 최하단에 위치',
-      '사이트맵 링크 제공',
-      '정책 및 약관 링크 포함',
-      '접근성 정보 제공'
-    ],
+    usageGuidelines: ['페이지 최하단에 위치', '사이트맵 링크 제공', '정책 및 약관 링크 포함', '접근성 정보 제공'],
     accessibilityNotes: 'contentinfo 랜드마크 역할 지정',
     codeExample: `<footer class="krds-footer" role="contentinfo">
   <div class="krds-footer__container">
@@ -109,12 +104,7 @@ export const components = [
     name: '건너뛰기 링크 (Skip Link)',
     category: 'navigation',
     description: '키보드 사용자를 위한 주요 콘텐츠 바로가기 링크',
-    usageGuidelines: [
-      '페이지 최상단에 위치',
-      '포커스 시에만 표시',
-      '주 콘텐츠로 바로 이동',
-      'Tab 키로 접근 가능'
-    ],
+    usageGuidelines: ['페이지 최상단에 위치', '포커스 시에만 표시', '주 콘텐츠로 바로 이동', 'Tab 키로 접근 가능'],
     accessibilityNotes: '키보드 접근성 필수 요소',
     codeExample: `<a href="#main-content" class="krds-skip-link">
   본문 바로가기
@@ -237,12 +227,7 @@ export const components = [
     name: '탭 바 (Tab Bars)',
     category: 'navigation',
     description: '관련 콘텐츠 그룹 간 전환',
-    usageGuidelines: [
-      '2-5개 탭 권장',
-      '현재 탭 시각적 구분',
-      '탭 패널과 연결',
-      '키보드 화살표 키 지원'
-    ],
+    usageGuidelines: ['2-5개 탭 권장', '현재 탭 시각적 구분', '탭 패널과 연결', '키보드 화살표 키 지원'],
     accessibilityNotes: "role='tablist', aria-selected, aria-controls 사용",
     codeExample: `<div class="krds-tabs">
   <ul role="tablist">
@@ -264,12 +249,7 @@ export const components = [
     name: '구조화된 목록 (Structured List)',
     category: 'layout-expression',
     description: '정보를 체계적으로 표시하는 목록',
-    usageGuidelines: [
-      '일관된 형식 유지',
-      '시각적 계층 구조 표현',
-      '관련 정보 그룹화',
-      '적절한 여백과 구분선 사용'
-    ],
+    usageGuidelines: ['일관된 형식 유지', '시각적 계층 구조 표현', '관련 정보 그룹화', '적절한 여백과 구분선 사용'],
     accessibilityNotes: '의미있는 HTML 구조 사용 (dl, dt, dd)',
     codeExample: `<dl class="krds-structured-list">
   <div class="krds-structured-list__item">
@@ -308,12 +288,7 @@ export const components = [
     name: '달력 (Calendar)',
     category: 'layout-expression',
     description: '날짜 선택 및 일정 표시',
-    usageGuidelines: [
-      '월 단위 기본 표시',
-      '오늘 날짜 강조',
-      '선택 가능/불가능 날짜 구분',
-      '이전/다음 달 네비게이션'
-    ],
+    usageGuidelines: ['월 단위 기본 표시', '오늘 날짜 강조', '선택 가능/불가능 날짜 구분', '이전/다음 달 네비게이션'],
     accessibilityNotes: '테이블 구조 사용, aria-label로 날짜 읽기',
     codeExample: `<div class="krds-calendar">
   <div class="krds-calendar__header">
@@ -382,12 +357,7 @@ export const components = [
     name: '배지 (Badge)',
     category: 'layout-expression',
     description: '상태나 수량을 표시하는 작은 레이블',
-    usageGuidelines: [
-      '간단한 텍스트나 숫자',
-      '색상으로 의미 구분',
-      '아이콘과 함께 사용 가능',
-      '적절한 크기 유지'
-    ],
+    usageGuidelines: ['간단한 텍스트나 숫자', '색상으로 의미 구분', '아이콘과 함께 사용 가능', '적절한 크기 유지'],
     accessibilityNotes: '스크린리더를 위한 전체 텍스트 제공',
     codeExample: `<span class="krds-badge krds-badge--new">
   <span class="sr-only">새로운 항목</span>
@@ -403,12 +373,7 @@ export const components = [
     name: '아코디언 (Accordion)',
     category: 'layout-expression',
     description: '여러 섹션을 접고 펼치는 컴포넌트',
-    usageGuidelines: [
-      '한 번에 하나만 열기 옵션',
-      '모두 닫힌 상태 허용',
-      '섹션 제목 명확히 표시',
-      '부드러운 전환 효과'
-    ],
+    usageGuidelines: ['한 번에 하나만 열기 옵션', '모두 닫힌 상태 허용', '섹션 제목 명확히 표시', '부드러운 전환 효과'],
     accessibilityNotes: 'aria-expanded, aria-controls, 키보드 네비게이션',
     codeExample: `<div class="krds-accordion">
   <div class="krds-accordion__item">
@@ -430,12 +395,7 @@ export const components = [
     name: '이미지 (Image)',
     category: 'layout-expression',
     description: '반응형 이미지 표시',
-    usageGuidelines: [
-      '적절한 대체 텍스트 제공',
-      '반응형 크기 조절',
-      '레이지 로딩 적용',
-      '캡션 제공 (필요시)'
-    ],
+    usageGuidelines: ['적절한 대체 텍스트 제공', '반응형 크기 조절', '레이지 로딩 적용', '캡션 제공 (필요시)'],
     accessibilityNotes: "의미있는 alt 텍스트, 장식용은 alt=''",
     codeExample: `<figure class="krds-image">
   <img src="image.jpg" 
@@ -450,12 +410,7 @@ export const components = [
     name: '캐러셀 (Carousel)',
     category: 'layout-expression',
     description: '여러 콘텐츠를 슬라이드로 표시',
-    usageGuidelines: [
-      '자동 재생 일시정지 버튼',
-      '이전/다음 네비게이션',
-      '인디케이터 표시',
-      '키보드 접근 가능'
-    ],
+    usageGuidelines: ['자동 재생 일시정지 버튼', '이전/다음 네비게이션', '인디케이터 표시', '키보드 접근 가능'],
     accessibilityNotes: 'aria-live, 일시정지 기능 필수',
     codeExample: `<div class="krds-carousel" aria-label="이미지 슬라이드">
   <div class="krds-carousel__track" aria-live="polite">
@@ -472,12 +427,7 @@ export const components = [
     name: '탭 (Tab)',
     category: 'layout-expression',
     description: '콘텐츠를 탭으로 구분하여 표시',
-    usageGuidelines: [
-      '관련 콘텐츠 그룹화',
-      '활성 탭 명확히 표시',
-      '탭 패널 즉시 전환',
-      '좌우 화살표 키 지원'
-    ],
+    usageGuidelines: ['관련 콘텐츠 그룹화', '활성 탭 명확히 표시', '탭 패널 즉시 전환', '좌우 화살표 키 지원'],
     accessibilityNotes: 'ARIA 탭 패턴 준수',
     codeExample: `<div class="krds-tab">
   <div role="tablist" aria-label="탭 메뉴">
@@ -493,12 +443,7 @@ export const components = [
     name: '테이블 (Table)',
     category: 'layout-expression',
     description: '구조화된 데이터 표시',
-    usageGuidelines: [
-      '명확한 헤더 제공',
-      '반응형 스크롤 처리',
-      '행/열 하이라이트',
-      '정렬 기능 (선택적)'
-    ],
+    usageGuidelines: ['명확한 헤더 제공', '반응형 스크롤 처리', '행/열 하이라이트', '정렬 기능 (선택적)'],
     accessibilityNotes: 'scope 속성, caption 제공',
     codeExample: `<div class="krds-table-wrapper">
   <table class="krds-table">
@@ -523,12 +468,7 @@ export const components = [
     name: '스플래시 화면 (Splash Screen)',
     category: 'layout-expression',
     description: '앱/서비스 로딩 중 표시 화면',
-    usageGuidelines: [
-      '브랜드 로고 중앙 배치',
-      '로딩 인디케이터 표시',
-      '최소 표시 시간 설정',
-      '부드러운 페이드 효과'
-    ],
+    usageGuidelines: ['브랜드 로고 중앙 배치', '로딩 인디케이터 표시', '최소 표시 시간 설정', '부드러운 페이드 효과'],
     accessibilityNotes: 'aria-live로 로딩 상태 알림',
     codeExample: `<div class="krds-splash" role="status" aria-live="polite">
   <div class="krds-splash__logo">
@@ -544,12 +484,7 @@ export const components = [
     name: '텍스트 목록 (Text List)',
     category: 'layout-expression',
     description: '순서가 있거나 없는 텍스트 목록',
-    usageGuidelines: [
-      '적절한 들여쓰기',
-      '일관된 불릿/번호 스타일',
-      '중첩 목록 지원',
-      '충분한 행간 확보'
-    ],
+    usageGuidelines: ['적절한 들여쓰기', '일관된 불릿/번호 스타일', '중첩 목록 지원', '충분한 행간 확보'],
     accessibilityNotes: '의미에 맞는 ol/ul 사용',
     codeExample: `<ul class="krds-list krds-list--bullet">
   <li>목록 항목 1</li>
@@ -568,12 +503,7 @@ export const components = [
     name: '링크 (Link)',
     category: 'action',
     description: '페이지 이동 또는 앵커 링크',
-    usageGuidelines: [
-      '명확한 링크 텍스트',
-      '밑줄 또는 색상 구분',
-      '호버/포커스 상태 표시',
-      '외부 링크 아이콘 표시'
-    ],
+    usageGuidelines: ['명확한 링크 텍스트', '밑줄 또는 색상 구분', '호버/포커스 상태 표시', '외부 링크 아이콘 표시'],
     accessibilityNotes: '의미있는 링크 텍스트, 새 창 열기 알림',
     codeExample: `<a href="/page" class="krds-link">
   페이지 링크
@@ -592,12 +522,7 @@ export const components = [
     name: '버튼 (Button)',
     category: 'action',
     description: '사용자 액션 트리거',
-    usageGuidelines: [
-      '명확한 레이블',
-      'Primary/Secondary 구분',
-      '적절한 크기 (최소 44px)',
-      '비활성 상태 표시'
-    ],
+    usageGuidelines: ['명확한 레이블', 'Primary/Secondary 구분', '적절한 크기 (최소 44px)', '비활성 상태 표시'],
     accessibilityNotes: 'button 요소 사용, 상태 변화 알림',
     codeExample: `<button class="krds-button krds-button--primary">
   주요 액션
@@ -616,12 +541,7 @@ export const components = [
     name: '라디오 버튼 (Radio Button)',
     category: 'selection',
     description: '단일 선택 옵션',
-    usageGuidelines: [
-      '2개 이상 옵션 제공',
-      '기본 선택값 설정',
-      '그룹 레이블 필수',
-      '충분한 터치 영역'
-    ],
+    usageGuidelines: ['2개 이상 옵션 제공', '기본 선택값 설정', '그룹 레이블 필수', '충분한 터치 영역'],
     accessibilityNotes: 'fieldset/legend 사용, 그룹화',
     codeExample: `<fieldset class="krds-radio-group">
   <legend>선택 옵션</legend>
@@ -640,12 +560,7 @@ export const components = [
     name: '체크박스 (Checkbox)',
     category: 'selection',
     description: '다중 선택 옵션',
-    usageGuidelines: [
-      '독립적 선택 가능',
-      '전체 선택 옵션 제공',
-      '명확한 레이블',
-      '충분한 클릭 영역'
-    ],
+    usageGuidelines: ['독립적 선택 가능', '전체 선택 옵션 제공', '명확한 레이블', '충분한 클릭 영역'],
     accessibilityNotes: 'label과 연결, 상태 변화 감지',
     codeExample: `<div class="krds-checkbox">
   <input type="checkbox" id="check1">
@@ -661,12 +576,7 @@ export const components = [
     name: '셀렉트 (Select)',
     category: 'selection',
     description: '드롭다운 선택 메뉴',
-    usageGuidelines: [
-      '기본값 또는 플레이스홀더',
-      '옵션 그룹화 지원',
-      '검색 기능 (많은 옵션 시)',
-      '키보드 네비게이션'
-    ],
+    usageGuidelines: ['기본값 또는 플레이스홀더', '옵션 그룹화 지원', '검색 기능 (많은 옵션 시)', '키보드 네비게이션'],
     accessibilityNotes: 'label 연결, optgroup 사용',
     codeExample: `<div class="krds-select">
   <label for="select1">선택하세요</label>
@@ -702,12 +612,7 @@ export const components = [
     name: '토글 스위치 (Toggle Switch)',
     category: 'selection',
     description: '켜기/끄기 상태 전환',
-    usageGuidelines: [
-      '즉시 적용되는 설정',
-      '명확한 온/오프 상태',
-      '레이블 위치 일관성',
-      '상태 텍스트 표시 (선택적)'
-    ],
+    usageGuidelines: ['즉시 적용되는 설정', '명확한 온/오프 상태', '레이블 위치 일관성', '상태 텍스트 표시 (선택적)'],
     accessibilityNotes: "role='switch', aria-checked 사용",
     codeExample: `<div class="krds-toggle">
   <input type="checkbox" 
@@ -728,12 +633,7 @@ export const components = [
     name: '단계 표시기 (Step Indicator)',
     category: 'feedback',
     description: '프로세스 진행 상황 표시',
-    usageGuidelines: [
-      '현재 단계 강조',
-      '완료/진행중/대기 구분',
-      '단계 이름 표시',
-      '클릭 가능 여부 명시'
-    ],
+    usageGuidelines: ['현재 단계 강조', '완료/진행중/대기 구분', '단계 이름 표시', '클릭 가능 여부 명시'],
     accessibilityNotes: "aria-current='step', 진행률 알림",
     codeExample: `<ol class="krds-steps" aria-label="진행 단계">
   <li class="krds-steps__item krds-steps__item--completed">
@@ -755,12 +655,7 @@ export const components = [
     name: '스피너 (Spinner)',
     category: 'feedback',
     description: '로딩 상태 표시',
-    usageGuidelines: [
-      '적절한 크기 선택',
-      '로딩 텍스트 함께 표시',
-      '배경 오버레이 (선택적)',
-      '타임아웃 처리'
-    ],
+    usageGuidelines: ['적절한 크기 선택', '로딩 텍스트 함께 표시', '배경 오버레이 (선택적)', '타임아웃 처리'],
     accessibilityNotes: "role='status', aria-live='polite'",
     codeExample: `<div class="krds-spinner" role="status" aria-live="polite">
   <svg class="krds-spinner__icon" aria-hidden="true">
@@ -813,12 +708,7 @@ export const components = [
     name: '문맥 도움말 (Contextual Help)',
     category: 'help',
     description: '특정 요소에 대한 즉각적 도움말',
-    usageGuidelines: [
-      '물음표 아이콘 사용',
-      '클릭/호버로 표시',
-      '간단명료한 설명',
-      '링크 제공 (상세 정보)'
-    ],
+    usageGuidelines: ['물음표 아이콘 사용', '클릭/호버로 표시', '간단명료한 설명', '링크 제공 (상세 정보)'],
     accessibilityNotes: 'aria-describedby 연결',
     codeExample: `<div class="krds-field">
   <label for="input1">
@@ -890,12 +780,7 @@ export const components = [
     name: '텍스트영역 (Textarea)',
     category: 'input',
     description: '여러 줄 텍스트 입력',
-    usageGuidelines: [
-      '크기 조절 가능',
-      '글자 수 표시',
-      '자동 높이 조절 (선택적)',
-      '최대 길이 제한'
-    ],
+    usageGuidelines: ['크기 조절 가능', '글자 수 표시', '자동 높이 조절 (선택적)', '최대 길이 제한'],
     accessibilityNotes: 'label 연결, 글자 수 실시간 알림',
     codeExample: `<div class="krds-textarea">
   <label for="textarea1">내용 입력</label>
@@ -913,12 +798,7 @@ export const components = [
     name: '텍스트 입력 (Text Input)',
     category: 'input',
     description: '한 줄 텍스트 입력 필드',
-    usageGuidelines: [
-      '적절한 타입 지정',
-      '플레이스홀더 제공',
-      '유효성 검사 피드백',
-      '필수 항목 표시'
-    ],
+    usageGuidelines: ['적절한 타입 지정', '플레이스홀더 제공', '유효성 검사 피드백', '필수 항목 표시'],
     accessibilityNotes: 'label 필수, 오류 메시지 연결',
     codeExample: `<div class="krds-input">
   <label for="text1" class="krds-input__label">
@@ -939,12 +819,7 @@ export const components = [
     name: '파일 업로드 (File Upload)',
     category: 'input',
     description: '파일 선택 및 업로드',
-    usageGuidelines: [
-      '드래그 앤 드롭 지원',
-      '파일 형식 제한 표시',
-      '파일 크기 제한 안내',
-      '업로드 진행률 표시'
-    ],
+    usageGuidelines: ['드래그 앤 드롭 지원', '파일 형식 제한 표시', '파일 크기 제한 안내', '업로드 진행률 표시'],
     accessibilityNotes: '파일 정보 읽기, 진행 상태 알림',
     codeExample: `<div class="krds-file-upload">
   <label for="file1" class="krds-file-upload__label">
@@ -991,12 +866,7 @@ export const components = [
     name: '크기 조절 (Resize)',
     category: 'settings',
     description: '글자 크기 조절 기능',
-    usageGuidelines: [
-      '3-5단계 크기 제공',
-      '현재 크기 표시',
-      '초기화 버튼',
-      '쿠키/로컬스토리지 저장'
-    ],
+    usageGuidelines: ['3-5단계 크기 제공', '현재 크기 표시', '초기화 버튼', '쿠키/로컬스토리지 저장'],
     accessibilityNotes: '현재 크기 상태 알림',
     codeExample: `<div class="krds-resize" role="group" aria-label="글자 크기 조절">
   <button class="krds-resize__decrease" aria-label="글자 작게">A-</button>
@@ -1033,12 +903,7 @@ export const components = [
     name: '숨김 콘텐츠 (Hidden Content)',
     category: 'content',
     description: '스크린리더 전용 콘텐츠',
-    usageGuidelines: [
-      '시각적으로 숨김',
-      '스크린리더는 읽기 가능',
-      '중요 정보 제공',
-      '건너뛰기 링크 등'
-    ],
+    usageGuidelines: ['시각적으로 숨김', '스크린리더는 읽기 가능', '중요 정보 제공', '건너뛰기 링크 등'],
     accessibilityNotes: 'sr-only 클래스 사용',
     codeExample: `<span class="sr-only">
   스크린리더 사용자를 위한 추가 정보

@@ -50,12 +50,7 @@ export {
 export { components, componentsByCategory, findComponent, componentStats } from './components.js';
 
 // 글로벌 패턴
-export {
-  globalPatterns,
-  findGlobalPattern,
-  getPatternsForComponent,
-  globalPatternStats
-} from './patterns-global.js';
+export { globalPatterns, findGlobalPattern, getPatternsForComponent, globalPatternStats } from './patterns-global.js';
 
 // 서비스 패턴
 export {
@@ -103,13 +98,7 @@ import { typography } from './typography.js';
 import { components } from './components.js';
 import { globalPatterns } from './patterns-global.js';
 import { servicePatterns } from './patterns-service.js';
-import {
-  spacingSystem,
-  gridSystem,
-  breakpoints,
-  responsiveGuidelines,
-  darkModeSupport
-} from './systems.js';
+import { spacingSystem, gridSystem, breakpoints, responsiveGuidelines, darkModeSupport } from './systems.js';
 import { shapes, icons } from './shapes-icons.js';
 import { designTokens } from './design-tokens.js';
 

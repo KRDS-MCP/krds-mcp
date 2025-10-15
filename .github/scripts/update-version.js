@@ -28,7 +28,7 @@ try {
   packageJson.version = newVersion;
 
   // package.json 저장
-  fs.writeFileSync(packagePath, JSON.stringify(packageJson, null, 2) + '\n');
+  fs.writeFileSync(packagePath, `${JSON.stringify(packageJson, null, 2)}\n`);
 
   console.log(`✅ Version updated: ${oldVersion} → ${newVersion}`);
 
@@ -40,7 +40,7 @@ try {
     if (packageLock.packages && packageLock.packages['']) {
       packageLock.packages[''].version = newVersion;
     }
-    fs.writeFileSync(packageLockPath, JSON.stringify(packageLock, null, 2) + '\n');
+    fs.writeFileSync(packageLockPath, `${JSON.stringify(packageLock, null, 2)}\n`);
     console.log('✅ package-lock.json updated');
   }
 } catch (error) {

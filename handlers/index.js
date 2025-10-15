@@ -19,11 +19,7 @@ import { McpError, ErrorCode } from '@modelcontextprotocol/sdk/types.js';
  */
 export async function handleGetDesignPrinciples(args) {
   try {
-    const validatedArgs = InputValidator.validateAndSanitize(
-      args,
-      'designPrinciples',
-      '디자인 원칙 조회'
-    );
+    const validatedArgs = InputValidator.validateAndSanitize(args, 'designPrinciples', '디자인 원칙 조회');
 
     const { principle } = validatedArgs;
 
@@ -108,11 +104,7 @@ export async function handleGetColors(args) {
  */
 export async function handleGetTypography(args) {
   try {
-    const validatedArgs = InputValidator.validateAndSanitize(
-      args,
-      'typography',
-      '타이포그래피 조회'
-    );
+    const validatedArgs = InputValidator.validateAndSanitize(args, 'typography', '타이포그래피 조회');
 
     const { style, category } = validatedArgs;
 
@@ -206,11 +198,7 @@ export async function handleGetComponents(args) {
  */
 export async function handleGetGlobalPatterns(args) {
   try {
-    const validatedArgs = InputValidator.validateAndSanitize(
-      args,
-      'globalPatterns',
-      '글로벌 패턴 조회'
-    );
+    const validatedArgs = InputValidator.validateAndSanitize(args, 'globalPatterns', '글로벌 패턴 조회');
 
     const { pattern, component, includeCode } = validatedArgs;
 
@@ -259,11 +247,7 @@ export async function handleGetGlobalPatterns(args) {
  */
 export async function handleGetServicePatterns(args) {
   try {
-    const validatedArgs = InputValidator.validateAndSanitize(
-      args,
-      'servicePatterns',
-      '서비스 패턴 조회'
-    );
+    const validatedArgs = InputValidator.validateAndSanitize(args, 'servicePatterns', '서비스 패턴 조회');
 
     const { pattern, includeCode, includeMetrics } = validatedArgs;
 
@@ -307,12 +291,10 @@ export async function handleGetServicePatterns(args) {
       return formatted;
     };
 
-    return ResponseFormatter.createListResponse(
-      'KRDS 서비스 패턴',
-      result.items,
-      formatServicePattern,
-      { showCount: true, countSuffix: '개' }
-    );
+    return ResponseFormatter.createListResponse('KRDS 서비스 패턴', result.items, formatServicePattern, {
+      showCount: true,
+      countSuffix: '개'
+    });
   } catch (error) {
     return ErrorHandler.handleError(error, '서비스 패턴 조회', { args });
   }
@@ -323,21 +305,14 @@ export async function handleGetServicePatterns(args) {
  */
 export async function handleGetShapesIcons(args) {
   try {
-    const validatedArgs = InputValidator.validateAndSanitize(
-      args,
-      'shapesIcons',
-      'Shapes & Icons 조회'
-    );
+    const validatedArgs = InputValidator.validateAndSanitize(args, 'shapesIcons', 'Shapes & Icons 조회');
 
     const { type = 'both', iconCategory, iconId } = validatedArgs;
 
     let result = '';
 
     if (type === 'shapes' || type === 'both') {
-      if (
-        DataService.isDataAvailable(KRDS_DATA.shapes, 'Shapes') &&
-        Array.isArray(KRDS_DATA.shapes)
-      ) {
+      if (DataService.isDataAvailable(KRDS_DATA.shapes, 'Shapes') && Array.isArray(KRDS_DATA.shapes)) {
         const shapesContent = KRDS_DATA.shapes
           .map(
             shape =>
@@ -384,9 +359,7 @@ export async function handleGetShapesIcons(args) {
       }
     }
 
-    return ResponseFormatter.createTextResponse(
-      result || 'Shape 및 Icon 데이터를 찾을 수 없습니다.'
-    );
+    return ResponseFormatter.createTextResponse(result || 'Shape 및 Icon 데이터를 찾을 수 없습니다.');
   } catch (error) {
     return ErrorHandler.handleError(error, 'Shapes & Icons 조회', { args });
   }

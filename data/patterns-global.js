@@ -58,18 +58,8 @@ export const globalPatterns = [
     purpose: '사용자의 서비스 이해도 향상',
     keyGuideline: '사용자의 숙련도와 맥락에 맞는 도움말 컴포넌트를 설계하세요',
     components: ['help-panel', 'tooltip', 'contextual-help', 'modal'],
-    flow: [
-      '도움말 아이콘/링크 제공',
-      '상황별 적절한 도움말 표시',
-      '추가 정보 링크 제공',
-      '피드백 채널 안내'
-    ],
-    usageGuidelines: [
-      '접근하기 쉬운 위치에 배치',
-      '간결하고 명확한 설명',
-      '단계별 안내 제공',
-      '시각적 보조 자료 활용'
-    ],
+    flow: ['도움말 아이콘/링크 제공', '상황별 적절한 도움말 표시', '추가 정보 링크 제공', '피드백 채널 안내'],
+    usageGuidelines: ['접근하기 쉬운 위치에 배치', '간결하고 명확한 설명', '단계별 안내 제공', '시각적 보조 자료 활용'],
     accessibilityNotes: '키보드로 접근 가능, 스크린리더 호환',
     examples: ['입력 필드 도움말', '서비스 이용 가이드', 'FAQ 섹션'],
     codeExample: `<div class="krds-pattern-help">
@@ -152,12 +142,7 @@ export const globalPatterns = [
     keyGuideline: '일관된 형식과 논리적 순서로 목록을 구성하세요',
     components: ['structured-list', 'pagination', 'select', 'button'],
     flow: ['목록 표시', '정렬 옵션 제공', '페이지네이션', '항목 선택/작업'],
-    usageGuidelines: [
-      '한 페이지 표시 개수 조절 옵션',
-      '정렬 기준 명시',
-      '선택된 항목 표시',
-      '일괄 작업 기능 제공'
-    ],
+    usageGuidelines: ['한 페이지 표시 개수 조절 옵션', '정렬 기준 명시', '선택된 항목 표시', '일괄 작업 기능 제공'],
     accessibilityNotes: '테이블 구조 활용, 현재 페이지 안내',
     examples: ['게시판 목록', '검색 결과 목록', '민원 신청 내역'],
     codeExample: `<div class="krds-pattern-list-nav">
@@ -207,12 +192,7 @@ export const globalPatterns = [
     keyGuideline: '사용자 작업을 방해하지 않으면서 피드백을 유도하세요',
     components: ['textarea', 'radio-button', 'button', 'modal'],
     flow: ['피드백 요청', '의견 입력', '평점/만족도 선택', '제출 및 감사 인사'],
-    usageGuidelines: [
-      '간단한 평가 방법 제공',
-      '선택적 상세 의견 입력',
-      '익명 제출 옵션',
-      '피드백 반영 결과 공유'
-    ],
+    usageGuidelines: ['간단한 평가 방법 제공', '선택적 상세 의견 입력', '익명 제출 옵션', '피드백 반영 결과 공유'],
     accessibilityNotes: '폼 요소 레이블링, 제출 결과 알림',
     examples: ['서비스 만족도 조사', '페이지 유용성 평가', '개선 의견 수집'],
     codeExample: `<div class="krds-pattern-feedback">
@@ -253,12 +233,7 @@ export const globalPatterns = [
     keyGuideline: '사용자가 기대하는 정보를 명확하고 간결하게 전달하세요',
     components: ['tab', 'accordion', 'table', 'image'],
     flow: ['개요 제시', '섹션별 상세 정보', '관련 자료 링크', '추가 문의 안내'],
-    usageGuidelines: [
-      '정보 계층 구조화',
-      '중요 정보 우선 배치',
-      '시각 자료 활용',
-      '관련 정보 링크 제공'
-    ],
+    usageGuidelines: ['정보 계층 구조화', '중요 정보 우선 배치', '시각 자료 활용', '관련 정보 링크 제공'],
     accessibilityNotes: '제목 계층 구조, 랜드마크 활용',
     examples: ['정책 상세 안내', '서비스 소개 페이지', '제품 상세 정보'],
     codeExample: `<article class="krds-pattern-detail">
@@ -340,12 +315,7 @@ export const globalPatterns = [
     keyGuideline: '사용자가 원래 하려던 작업을 완료할 수 있도록 안내하세요',
     components: ['critical-alerts', 'modal', 'button', 'link'],
     flow: ['오류 감지', '명확한 오류 메시지', '해결 방법 제시', '대안 제공'],
-    usageGuidelines: [
-      '친근한 어조 사용',
-      '기술적 용어 자제',
-      '구체적 해결 방법 제시',
-      '지원 연락처 제공'
-    ],
+    usageGuidelines: ['친근한 어조 사용', '기술적 용어 자제', '구체적 해결 방법 제시', '지원 연락처 제공'],
     accessibilityNotes: "role='alert', 포커스 이동",
     examples: ['404 페이지', '폼 검증 오류', '시스템 오류 페이지'],
     codeExample: `<div class="krds-pattern-error" role="alert">
@@ -442,12 +412,7 @@ export const globalPatterns = [
     keyGuideline: '접근 가능한 파일 형식 옵션을 제공하세요',
     components: ['file-upload', 'button', 'link', 'badge'],
     flow: ['파일 선택/드래그', '파일 검증', '업로드 진행', '완료 확인'],
-    usageGuidelines: [
-      '허용 파일 형식 명시',
-      '파일 크기 제한 안내',
-      '업로드 진행률 표시',
-      '대체 형식 제공'
-    ],
+    usageGuidelines: ['허용 파일 형식 명시', '파일 크기 제한 안내', '업로드 진행률 표시', '대체 형식 제공'],
     accessibilityNotes: '파일 정보 읽기, 진행 상태 알림',
     examples: ['증빙서류 첨부', '자료실 다운로드', '양식 파일 제공'],
     codeExample: `<div class="krds-pattern-attachment">

@@ -482,8 +482,7 @@ export const iconUtils = {
   searchIcons(query) {
     const allIcons = Object.values(iconCategories).flat();
     return allIcons.filter(
-      icon =>
-        icon.name.includes(query) || icon.description.includes(query) || icon.usage.includes(query)
+      icon => icon.name.includes(query) || icon.description.includes(query) || icon.usage.includes(query)
     );
   },
 

@@ -102,11 +102,7 @@ export class EnhancedDebugTools {
 
     // 성능 경고
     if (duration > 1000) {
-      mcpLogger.warning(
-        `Slow operation detected: ${operation} took ${duration}ms`,
-        'debug-tools',
-        metric
-      );
+      mcpLogger.warning(`Slow operation detected: ${operation} took ${duration}ms`, 'debug-tools', metric);
     }
   }
 
@@ -294,8 +290,7 @@ export class CodeGenerationDebugger {
       totalLength += entry.codeLength;
     });
 
-    stats.averageCodeLength =
-      this.generationHistory.size > 0 ? totalLength / this.generationHistory.size : 0;
+    stats.averageCodeLength = this.generationHistory.size > 0 ? totalLength / this.generationHistory.size : 0;
 
     return stats;
   }
@@ -331,11 +326,7 @@ export class AccessibilityDebugger {
     };
 
     this.validationHistory.set(validationId, validationEntry);
-    mcpLogger.debug(
-      `Accessibility validation tracked: ${validationId}`,
-      'accessibility-debugger',
-      validationEntry
-    );
+    mcpLogger.debug(`Accessibility validation tracked: ${validationId}`, 'accessibility-debugger', validationEntry);
 
     return validationId;
   }
@@ -375,10 +366,8 @@ export class AccessibilityDebugger {
       }
     });
 
-    stats.averageScore =
-      this.validationHistory.size > 0 ? totalScore / this.validationHistory.size : 0;
-    stats.averageIssuesCount =
-      this.validationHistory.size > 0 ? totalIssues / this.validationHistory.size : 0;
+    stats.averageScore = this.validationHistory.size > 0 ? totalScore / this.validationHistory.size : 0;
+    stats.averageIssuesCount = this.validationHistory.size > 0 ? totalIssues / this.validationHistory.size : 0;
 
     return stats;
   }
@@ -947,16 +936,7 @@ export class KRDSLivePreview {
     });
 
     // 다른 카테고리 토큰들
-    [
-      'typography',
-      'spacing',
-      'sizing',
-      'border',
-      'shadow',
-      'motion',
-      'layout',
-      'component'
-    ].forEach(category => {
+    ['typography', 'spacing', 'sizing', 'border', 'shadow', 'motion', 'layout', 'component'].forEach(category => {
       if (tokens[category]) {
         Object.entries(tokens[category]).forEach(([name, value]) => {
           css += `  --${name}: ${value};\n`;

@@ -156,17 +156,7 @@ export const ValidationSchemas = {
     category: {
       type: 'string',
       optional: true,
-      enum: [
-        'color',
-        'typography',
-        'spacing',
-        'sizing',
-        'border',
-        'shadow',
-        'motion',
-        'layout',
-        'component'
-      ],
+      enum: ['color', 'typography', 'spacing', 'sizing', 'border', 'shadow', 'motion', 'layout', 'component'],
       description: '토큰 카테고리'
     },
     tokenName: {
@@ -483,9 +473,7 @@ export class InputValidator {
    * @returns {McpError} MCP 오류 객체
    */
   static toMcpError(validationErrors, context = '입력 검증') {
-    const errorMessages = validationErrors
-      .map(error => `${error.field}: ${error.message}`)
-      .join('\n');
+    const errorMessages = validationErrors.map(error => `${error.field}: ${error.message}`).join('\n');
 
     return new McpError(ErrorCode.InvalidRequest, `${context} 실패:\n${errorMessages}`);
   }

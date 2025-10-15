@@ -367,12 +367,7 @@ describe('I18n Module', () => {
     });
 
     test('should format validation error response', () => {
-      const response = LocalizedResponseFormatter.formatValidationError(
-        'email',
-        'invalid',
-        {},
-        { language: 'ko' }
-      );
+      const response = LocalizedResponseFormatter.formatValidationError('email', 'invalid', {}, { language: 'ko' });
 
       expect(response.success).toBe(false);
       expect(response.error.type).toBe('VALIDATION_ERROR');

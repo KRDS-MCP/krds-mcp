@@ -499,11 +499,7 @@ describe('PerformanceDashboard', () => {
         operation2: { count: 5, errors: 0, averageDuration: 200 }
       };
 
-      const summary = dashboard.calculateSummary(
-        globalCacheStats,
-        memoizerStats,
-        performanceMetrics
-      );
+      const summary = dashboard.calculateSummary(globalCacheStats, memoizerStats, performanceMetrics);
 
       expect(summary.totalOperations).toBe(15);
       expect(summary.totalErrors).toBe(1);

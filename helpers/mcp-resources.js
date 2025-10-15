@@ -419,9 +419,7 @@ export class McpResources {
 
     if (uri.startsWith('krds://template/component/')) {
       const componentId = params.component_id;
-      const component = KRDS_DATA.components.find(
-        c => c.id === componentId || c.name === componentId
-      );
+      const component = KRDS_DATA.components.find(c => c.id === componentId || c.name === componentId);
 
       if (!component) {
         throw new Error(`Component not found: ${componentId}`);
@@ -668,12 +666,9 @@ KRDS MCP 서버는 총 13개의 도구를 제공합니다.
       totalTemplates: this.resourceTemplates.size,
       subscribers: this.subscribers.size,
       categories: {
-        docs: Array.from(this.resources.keys()).filter(uri => uri.startsWith('krds://docs/'))
-          .length,
-        data: Array.from(this.resources.keys()).filter(uri => uri.startsWith('krds://data/'))
-          .length,
-        config: Array.from(this.resources.keys()).filter(uri => uri.startsWith('krds://config/'))
-          .length,
+        docs: Array.from(this.resources.keys()).filter(uri => uri.startsWith('krds://docs/')).length,
+        data: Array.from(this.resources.keys()).filter(uri => uri.startsWith('krds://data/')).length,
+        config: Array.from(this.resources.keys()).filter(uri => uri.startsWith('krds://config/')).length,
         templates: this.resourceTemplates.size
       }
     };

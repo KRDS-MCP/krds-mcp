@@ -532,9 +532,7 @@ export class KRDSComponentLibrary {
       const match = variant.match(pattern);
       if (match) {
         // Return the captured type group (could be match[1] or match[2] depending on pattern)
-        const typeGroups = match
-          .slice(1)
-          .filter(group => ['success', 'warning', 'error', 'info'].includes(group));
+        const typeGroups = match.slice(1).filter(group => ['success', 'warning', 'error', 'info'].includes(group));
         if (typeGroups.length > 0) {
           return typeGroups[0];
         }
@@ -1039,9 +1037,7 @@ export class KRDSComponentLibrary {
   searchComponents(query) {
     const lowerQuery = query.toLowerCase();
     return this.getAllComponents().filter(
-      component =>
-        component.name.toLowerCase().includes(lowerQuery) ||
-        component.id.toLowerCase().includes(lowerQuery)
+      component => component.name.toLowerCase().includes(lowerQuery) || component.id.toLowerCase().includes(lowerQuery)
     );
   }
 

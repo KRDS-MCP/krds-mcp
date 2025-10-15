@@ -34,21 +34,7 @@ describe('Typography - Comprehensive Coverage Tests', () => {
     });
 
     test('should have consistent font scale', () => {
-      const expectedSizes = [
-        'xs',
-        'sm',
-        'base',
-        'lg',
-        'xl',
-        '2xl',
-        '3xl',
-        '4xl',
-        '5xl',
-        '6xl',
-        '7xl',
-        '8xl',
-        '9xl'
-      ];
+      const expectedSizes = ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', '8xl', '9xl'];
 
       expectedSizes.forEach(size => {
         expect(fontScale).toHaveProperty(size);
@@ -60,15 +46,7 @@ describe('Typography - Comprehensive Coverage Tests', () => {
     });
 
     test('should have proper font weight values', () => {
-      const expectedWeights = [
-        'light',
-        'normal',
-        'medium',
-        'semibold',
-        'bold',
-        'extrabold',
-        'black'
-      ];
+      const expectedWeights = ['light', 'normal', 'medium', 'semibold', 'bold', 'extrabold', 'black'];
 
       expectedWeights.forEach(weight => {
         expect(fontWeights).toHaveProperty(weight);
@@ -80,16 +58,7 @@ describe('Typography - Comprehensive Coverage Tests', () => {
     });
 
     test('should have line height scale', () => {
-      const expectedHeights = [
-        'none',
-        'tight',
-        'snug',
-        'normal',
-        'relaxed',
-        'loose',
-        'looser',
-        'loosest'
-      ];
+      const expectedHeights = ['none', 'tight', 'snug', 'normal', 'relaxed', 'loose', 'looser', 'loosest'];
 
       expectedHeights.forEach(height => {
         expect(lineHeights).toHaveProperty(height);
@@ -422,9 +391,7 @@ describe('Typography - Comprehensive Coverage Tests', () => {
       expect(Array.isArray(typographyAccessibility.recommendations)).toBe(true);
       expect(typographyAccessibility.recommendations.length).toBeGreaterThan(0);
 
-      const hasHeadingRec = typographyAccessibility.recommendations.some(rec =>
-        rec.includes('제목은 본문보다')
-      );
+      const hasHeadingRec = typographyAccessibility.recommendations.some(rec => rec.includes('제목은 본문보다'));
       expect(hasHeadingRec).toBe(true);
     });
 

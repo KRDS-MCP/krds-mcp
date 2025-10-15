@@ -34,12 +34,7 @@ export class ResponseFormatter {
    * @returns {object} MCP 응답 객체
    */
   static createListResponse(title, items, formatter, options = {}) {
-    const {
-      emptyMessage = '항목이 없습니다.',
-      showCount = true,
-      maxItems = null,
-      countSuffix = '개'
-    } = options;
+    const { emptyMessage = '항목이 없습니다.', showCount = true, maxItems = null, countSuffix = '개' } = options;
 
     if (!items || items.length === 0) {
       return this.createTextResponse(`## ${title}\n\n${emptyMessage}`);

@@ -10,8 +10,7 @@ export const servicePatterns = [
     category: 'service',
     description: '사용자가 디지털 서비스와 처음 상호작용하는 지점',
     purpose: '서비스 진입점 제공 및 첫인상 형성',
-    keyGuideline:
-      '대부분의 사용자는 구체적인 맥락 없이 서비스를 방문하게 되므로 명확하고 간결하게 구성되어야 한다',
+    keyGuideline: '대부분의 사용자는 구체적인 맥락 없이 서비스를 방문하게 되므로 명확하고 간결하게 구성되어야 한다',
     components: ['header', 'main-menu', 'carousel', 'button', 'link'],
     flow: ['서비스 식별', '주요 기능 파악', '탐색 시작', '원하는 작업 선택'],
     usageGuidelines: [
@@ -257,13 +256,7 @@ export const servicePatterns = [
     purpose: '개인화된 서비스 접근 권한 부여',
     keyGuideline: '사용자 신원을 확인하고 개인화된 경험에 접근할 수 있도록 한다',
     components: ['text-input', 'button', 'checkbox', 'link', 'modal'],
-    flow: [
-      '로그인 페이지 접근',
-      '인증 정보 입력',
-      '추가 인증 (필요시)',
-      '로그인 성공/실패',
-      '서비스 이용'
-    ],
+    flow: ['로그인 페이지 접근', '인증 정보 입력', '추가 인증 (필요시)', '로그인 성공/실패', '서비스 이용'],
     usageGuidelines: [
       '다양한 로그인 방법 제공',
       '비밀번호 보기/숨기기 기능',
@@ -273,13 +266,7 @@ export const servicePatterns = [
     ],
     accessibilityNotes: '오류 메시지 명확히 전달, 폼 레이블 연결',
     examples: ['일반 로그인', '간편 로그인', '공동인증서 로그인', '생체인증 로그인'],
-    implementationSteps: [
-      '로그인 방식 선택',
-      '인증 정보 입력 폼',
-      '유효성 검사',
-      '보안 처리',
-      '세션 관리'
-    ],
+    implementationSteps: ['로그인 방식 선택', '인증 정보 입력 폼', '유효성 검사', '보안 처리', '세션 관리'],
     codeExample: `<div class="krds-pattern-login">
   <div class="krds-login-container">
     <h1 class="krds-login-title">로그인</h1>
@@ -410,24 +397,9 @@ export const servicePatterns = [
     category: 'service',
     description: '사용자가 양식을 작성하여 요구사항을 전달',
     purpose: '민원 및 서비스 신청 처리',
-    keyGuideline:
-      '공식적인 요청과 특정 서비스 문의를 포함하며, 표준 절차를 넘어서는 민원 신청을 다룬다',
-    components: [
-      'text-input',
-      'select',
-      'radio-button',
-      'checkbox',
-      'file-upload',
-      'button',
-      'step-indicator'
-    ],
-    flow: [
-      '신청 유형 선택',
-      '신청서 작성',
-      '첨부 서류 업로드',
-      '내용 검토 및 확인',
-      '제출 및 접수증 발급'
-    ],
+    keyGuideline: '공식적인 요청과 특정 서비스 문의를 포함하며, 표준 절차를 넘어서는 민원 신청을 다룬다',
+    components: ['text-input', 'select', 'radio-button', 'checkbox', 'file-upload', 'button', 'step-indicator'],
+    flow: ['신청 유형 선택', '신청서 작성', '첨부 서류 업로드', '내용 검토 및 확인', '제출 및 접수증 발급'],
     usageGuidelines: [
       '단계별 진행 표시',
       '임시저장 기능 제공',
@@ -437,13 +409,7 @@ export const servicePatterns = [
     ],
     accessibilityNotes: '폼 그룹화, 오류 메시지 즉시 제공',
     examples: ['민원 신청', '증명서 발급 신청', '보조금 신청', '허가/신고 신청'],
-    implementationSteps: [
-      '신청 자격 확인',
-      '단계별 양식 구성',
-      '파일 첨부 처리',
-      '유효성 검사',
-      '접수 확인 및 추적'
-    ],
+    implementationSteps: ['신청 자격 확인', '단계별 양식 구성', '파일 첨부 처리', '유효성 검사', '접수 확인 및 추적'],
     codeExample: `<div class="krds-pattern-application">
   <!-- 진행 단계 표시 -->
   <ol class="krds-steps" aria-label="신청 단계">
@@ -593,13 +559,7 @@ export const servicePatterns = [
     purpose: '정책, 지침, 법적 정보 확인',
     keyGuideline: '사용자가 정부/기관의 행동 계획, 지침, 법적 정보를 검토할 수 있도록 한다',
     components: ['structured-list', 'accordion', 'tab', 'link', 'button', 'disclosure'],
-    flow: [
-      '정책 카테고리 선택',
-      '정책 목록 탐색',
-      '상세 정보 확인',
-      '관련 자료 다운로드',
-      '추가 정보 요청'
-    ],
+    flow: ['정책 카테고리 선택', '정책 목록 탐색', '상세 정보 확인', '관련 자료 다운로드', '추가 정보 요청'],
     usageGuidelines: [
       '정책 분류 체계 제공',
       '시행일/개정일 명시',
@@ -818,9 +778,7 @@ export const servicePatternStats = {
   averageComponents: Math.round(
     servicePatterns.reduce((sum, p) => sum + p.components.length, 0) / servicePatterns.length
   ),
-  averageSteps: Math.round(
-    servicePatterns.reduce((sum, p) => sum + p.flow.length, 0) / servicePatterns.length
-  ),
+  averageSteps: Math.round(servicePatterns.reduce((sum, p) => sum + p.flow.length, 0) / servicePatterns.length),
   componentsUsage: getComponentsUsage()
 };
 

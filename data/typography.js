@@ -474,9 +474,7 @@ export const typographyUtils = {
 
   // 사용 목적별 스타일 검색
   searchStylesByUsage(query) {
-    return typographyStyles.filter(
-      style => style.usage && style.usage.toLowerCase().includes(query.toLowerCase())
-    );
+    return typographyStyles.filter(style => style.usage && style.usage.toLowerCase().includes(query.toLowerCase()));
   },
 
   // HTML 태그별 스타일 필터
@@ -492,9 +490,7 @@ export const typographyUtils = {
     }
 
     const fontSize =
-      breakpoint === 'desktop'
-        ? style.fontSize
-        : (style.responsive && style.responsive[breakpoint]) || style.fontSize;
+      breakpoint === 'desktop' ? style.fontSize : (style.responsive && style.responsive[breakpoint]) || style.fontSize;
 
     return {
       fontFamily: style.fallback || style.fontFamily,

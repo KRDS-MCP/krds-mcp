@@ -79,12 +79,7 @@ export const breakpoints = {
 };
 
 export const responsiveGuidelines = {
-  principles: [
-    '모바일 우선(Mobile First) 설계',
-    '콘텐츠 우선 접근법',
-    '터치 인터페이스 최적화',
-    '성능과 접근성 고려'
-  ],
+  principles: ['모바일 우선(Mobile First) 설계', '콘텐츠 우선 접근법', '터치 인터페이스 최적화', '성능과 접근성 고려'],
   breakpointStrategy: {
     mobile: {
       range: '320px - 767px',
@@ -102,12 +97,7 @@ export const responsiveGuidelines = {
     },
     tablet: {
       range: '768px - 1023px',
-      guidelines: [
-        '2-3열 그리드 레이아웃',
-        '가로/세로 모드 지원',
-        '적응형 네비게이션',
-        '중간 크기 터치 영역'
-      ],
+      guidelines: ['2-3열 그리드 레이아웃', '가로/세로 모드 지원', '적응형 네비게이션', '중간 크기 터치 영역'],
       typography: {
         scaleFactor: '1.1',
         maxContentWidth: '720px'
@@ -115,12 +105,7 @@ export const responsiveGuidelines = {
     },
     desktop: {
       range: '1024px - 1439px',
-      guidelines: [
-        '다열 그리드 레이아웃',
-        '마우스/키보드 최적화',
-        '사이드바 활용',
-        '호버 상태 제공'
-      ],
+      guidelines: ['다열 그리드 레이아웃', '마우스/키보드 최적화', '사이드바 활용', '호버 상태 제공'],
       typography: {
         scaleFactor: '1.2',
         maxContentWidth: '1200px'

@@ -656,8 +656,7 @@ ${
       categories,
       argumentStats,
       averageArguments:
-        Array.from(this.prompts.values()).reduce((sum, p) => sum + (p.arguments?.length || 0), 0) /
-        this.prompts.size
+        Array.from(this.prompts.values()).reduce((sum, p) => sum + (p.arguments?.length || 0), 0) / this.prompts.size
     };
   }
 }

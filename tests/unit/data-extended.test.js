@@ -7,13 +7,7 @@ import { KRDS_DATA } from '../../data/index.js';
 import { primaryColors, systemColors, colorUtils, colors } from '../../data/colors.js';
 import { fontFamilies, typographyStyles, typographyUtils } from '../../data/typography.js';
 import { borderRadius, shadows, iconSizes, iconCategories } from '../../data/shapes-icons.js';
-import {
-  namespace,
-  themes,
-  categories,
-  colorTokens,
-  tokenUtils
-} from '../../data/design-tokens.js';
+import { namespace, themes, categories, colorTokens, tokenUtils } from '../../data/design-tokens.js';
 
 describe('KRDS Data Extended Tests', () => {
   describe('KRDS_DATA Integration', () => {
@@ -250,9 +244,7 @@ describe('KRDS Data Extended Tests', () => {
     test('should have searchable data structures', () => {
       // Colors should be searchable by name
       if (Array.isArray(KRDS_DATA.colors)) {
-        const searchableColors = KRDS_DATA.colors.filter(
-          color => color && typeof color.name === 'string'
-        );
+        const searchableColors = KRDS_DATA.colors.filter(color => color && typeof color.name === 'string');
         expect(searchableColors.length).toBeGreaterThan(0);
       }
 

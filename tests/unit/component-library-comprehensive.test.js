@@ -4,11 +4,7 @@
  */
 
 import { describe, test, expect, beforeEach, jest } from '@jest/globals';
-import {
-  KRDS_COMPONENT_MAPPING,
-  KRDSComponentLibrary,
-  componentLibrary
-} from '../../helpers/component-library.js';
+import { KRDS_COMPONENT_MAPPING, KRDSComponentLibrary, componentLibrary } from '../../helpers/component-library.js';
 
 describe('KRDS Component Library Comprehensive Coverage', () => {
   describe('KRDS_COMPONENT_MAPPING', () => {
@@ -109,14 +105,7 @@ describe('KRDS Component Library Comprehensive Coverage', () => {
 
     test('should have expected component categories', () => {
       const categories = [...new Set(Object.values(KRDS_COMPONENT_MAPPING).map(c => c.category))];
-      const expectedCategories = [
-        'action',
-        'input',
-        'navigation',
-        'feedback',
-        'layout-expression',
-        'content'
-      ];
+      const expectedCategories = ['action', 'input', 'navigation', 'feedback', 'layout-expression', 'content'];
 
       expectedCategories.forEach(category => {
         expect(categories).toContain(category);
@@ -133,9 +122,7 @@ describe('KRDS Component Library Comprehensive Coverage', () => {
 
     describe('Constructor and initialization', () => {
       test('should initialize with correct properties', () => {
-        expect(library.baseUrl).toBe(
-          'https://raw.githubusercontent.com/KRDS-uiux/krds-uiux/main/html/code/'
-        );
+        expect(library.baseUrl).toBe('https://raw.githubusercontent.com/KRDS-uiux/krds-uiux/main/html/code/');
         expect(library.componentCache).toBeInstanceOf(Map);
         expect(library.templateCache).toBeInstanceOf(Map);
         expect(library.componentCache.size).toBe(0);
@@ -186,10 +173,7 @@ describe('KRDS Component Library Comprehensive Coverage', () => {
       });
 
       test('should use fallback when variant is not available', async () => {
-        const template = await library.fetchComponentTemplate(
-          'button',
-          'non-existent-variant.html'
-        );
+        const template = await library.fetchComponentTemplate('button', 'non-existent-variant.html');
         expect(template).toBeDefined();
         expect(template.html).toContain('button');
       });
@@ -715,10 +699,7 @@ describe('KRDS Component Library Comprehensive Coverage', () => {
       const variants = buttonMapping.variants || [];
 
       if (variants.length > 0) {
-        const variantTemplate = await componentLibrary.fetchComponentTemplate(
-          'button',
-          variants[0]
-        );
+        const variantTemplate = await componentLibrary.fetchComponentTemplate('button', variants[0]);
         const defaultTemplate = await componentLibrary.fetchComponentTemplate('button');
 
         expect(variantTemplate).toBeDefined();

@@ -22,11 +22,7 @@ import { McpError, ErrorCode } from '@modelcontextprotocol/sdk/types.js';
  */
 export async function handleGetDesignTokens(args) {
   try {
-    const validatedArgs = InputValidator.validateAndSanitize(
-      args,
-      'designTokens',
-      '디자인 토큰 조회'
-    );
+    const validatedArgs = InputValidator.validateAndSanitize(args, 'designTokens', '디자인 토큰 조회');
     const { category, tokenName, format = 'json', theme = 'light' } = validatedArgs;
 
     if (!KRDS_DATA.designTokens) {
@@ -279,9 +275,7 @@ export const TokenFormatters = {
       }
 
       // 색상 종류별로 클래스 생성
-      const colorMatch = tokenName.match(
-        /krds-(light|dark)-color-(.+?)-(background|text|border)-(.+)/
-      );
+      const colorMatch = tokenName.match(/krds-(light|dark)-color-(.+?)-(background|text|border)-(.+)/);
       if (colorMatch) {
         const [, , colorType, property, variant] = colorMatch;
         const className = `krds-${colorType}-${property}${variant !== 'default' ? `-${variant}` : ''}`;
@@ -464,13 +458,9 @@ export const SystemFormatters = {
   },
 
   formatGridSystem: () => {
-    return `## KRDS 그리드 시스템\n\n- 컨테이너 최대 너비:\n${Object.entries(
-      KRDS_DATA.gridSystem.container.maxWidth
-    )
+    return `## KRDS 그리드 시스템\n\n- 컨테이너 최대 너비:\n${Object.entries(KRDS_DATA.gridSystem.container.maxWidth)
       .map(([key, value]) => `  - ${key}: ${value}`)
-      .join(
-        '\n'
-      )}\n\n- 컬럼 수: ${KRDS_DATA.gridSystem.columns}\n- 브레이크포인트:\n${Object.entries(
+      .join('\n')}\n\n- 컬럼 수: ${KRDS_DATA.gridSystem.columns}\n- 브레이크포인트:\n${Object.entries(
       KRDS_DATA.gridSystem.breakpoints
     )
       .map(([key, value]) => `  - ${key}: ${value}`)
@@ -481,10 +471,7 @@ export const SystemFormatters = {
     return `## KRDS 반응형 가이드라인\n\n### 원칙\n${KRDS_DATA.responsiveGuidelines.principles.map(p => `- ${p}`).join('\n')}\n\n### 브레이크포인트별 전략\n${Object.entries(
       KRDS_DATA.responsiveGuidelines.breakpointStrategy
     )
-      .map(
-        ([key, value]) =>
-          `#### ${key} (${value.range})\n${value.guidelines.map(g => `- ${g}`).join('\n')}`
-      )
+      .map(([key, value]) => `#### ${key} (${value.range})\n${value.guidelines.map(g => `- ${g}`).join('\n')}`)
       .join('\n\n')}`;
   },
 
@@ -517,12 +504,10 @@ export const SearchEngine = {
 
     const limitedResults = results.slice(0, 100);
     if (results.length > 100) {
-      ErrorLogger.logError(
-        'SEARCH_LIMIT',
-        'LOW',
-        `검색 결과가 100개로 제한됨 (전체: ${results.length}개)`,
-        { query: sanitizedQuery, type }
-      );
+      ErrorLogger.logError('SEARCH_LIMIT', 'LOW', `검색 결과가 100개로 제한됨 (전체: ${results.length}개)`, {
+        query: sanitizedQuery,
+        type
+      });
     }
 
     return {
@@ -738,18 +723,11 @@ export const SearchFormatters = {
 export const CodeGenerators = {
   findTargetItem: (type, id) => {
     const searchMethods = {
-      component: () =>
-        KRDS_DATA.components.find(
-          c => c.id === id || c.name.toLowerCase().includes(id.toLowerCase())
-        ),
+      component: () => KRDS_DATA.components.find(c => c.id === id || c.name.toLowerCase().includes(id.toLowerCase())),
       'global-pattern': () =>
-        KRDS_DATA.globalPatterns.find(
-          p => p.id === id || p.name.toLowerCase().includes(id.toLowerCase())
-        ),
+        KRDS_DATA.globalPatterns.find(p => p.id === id || p.name.toLowerCase().includes(id.toLowerCase())),
       'service-pattern': () =>
-        KRDS_DATA.servicePatterns.find(
-          p => p.id === id || p.name.toLowerCase().includes(id.toLowerCase())
-        )
+        KRDS_DATA.servicePatterns.find(p => p.id === id || p.name.toLowerCase().includes(id.toLowerCase()))
     };
 
     return searchMethods[type] ? searchMethods[type]() : null;
@@ -812,9 +790,7 @@ export const CodeGenerators = {
     switch (type) {
       case 'global-pattern':
       case 'service-pattern':
-        html = targetItem.codeExample
-          ? CodeUtils.adaptCodeForTheme(targetItem.codeExample, theme)
-          : '';
+        html = targetItem.codeExample ? CodeUtils.adaptCodeForTheme(targetItem.codeExample, theme) : '';
         break;
       default:
         html = '';
@@ -1054,10 +1030,8 @@ export const StatsCalculators = {
     }
 
     return Math.round(
-      KRDS_DATA.globalPatterns.reduce(
-        (sum, p) => sum + (p.components ? p.components.length : 0),
-        0
-      ) / KRDS_DATA.globalPatterns.length
+      KRDS_DATA.globalPatterns.reduce((sum, p) => sum + (p.components ? p.components.length : 0), 0) /
+        KRDS_DATA.globalPatterns.length
     );
   },
 
@@ -1078,8 +1052,7 @@ export const StatsCalculators = {
     ).length;
 
     const totalColors = KRDS_DATA.colors.length;
-    const compliancePercentage =
-      totalColors > 0 ? Math.round((accessibilityCompliantColors / totalColors) * 100) : 0;
+    const compliancePercentage = totalColors > 0 ? Math.round((accessibilityCompliantColors / totalColors) * 100) : 0;
 
     return {
       compliantColors: accessibilityCompliantColors,

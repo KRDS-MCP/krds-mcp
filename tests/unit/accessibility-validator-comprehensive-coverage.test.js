@@ -64,9 +64,7 @@ describe('Accessibility Validator - Comprehensive Coverage Tests', () => {
 
       const result = AccessibilityValidator.validateAccessibility(htmlWithEmptyAlt);
 
-      expect(result.recommendations).toContain(
-        "장식용 이미지는 alt='' 또는 role='presentation'을 사용하세요."
-      );
+      expect(result.recommendations).toContain("장식용 이미지는 alt='' 또는 role='presentation'을 사용하세요.");
     });
 
     test('should detect empty buttons', () => {
@@ -75,9 +73,7 @@ describe('Accessibility Validator - Comprehensive Coverage Tests', () => {
       const result = AccessibilityValidator.validateAccessibility(htmlWithEmptyButton);
 
       expect(result.issues).toContain('버튼에 텍스트 레이블이 없습니다.');
-      expect(result.recommendations).toContain(
-        '버튼에 명확한 텍스트 레이블 또는 aria-label을 제공하세요.'
-      );
+      expect(result.recommendations).toContain('버튼에 명확한 텍스트 레이블 또는 aria-label을 제공하세요.');
     });
 
     test('should warn about icon buttons without aria-label', () => {
@@ -104,9 +100,7 @@ describe('Accessibility Validator - Comprehensive Coverage Tests', () => {
 
       const result = AccessibilityValidator.validateAccessibility(htmlWithAriaLabel);
 
-      const hasInputLabelIssue = result.issues.some(issue =>
-        issue.includes('입력 필드에 연결된 레이블이 없습니다')
-      );
+      const hasInputLabelIssue = result.issues.some(issue => issue.includes('입력 필드에 연결된 레이블이 없습니다'));
       expect(hasInputLabelIssue).toBe(false);
     });
 
@@ -118,9 +112,7 @@ describe('Accessibility Validator - Comprehensive Coverage Tests', () => {
 
       const result = AccessibilityValidator.validateAccessibility(htmlWithAriaLabelledBy);
 
-      const hasInputLabelIssue = result.issues.some(issue =>
-        issue.includes('입력 필드에 연결된 레이블이 없습니다')
-      );
+      const hasInputLabelIssue = result.issues.some(issue => issue.includes('입력 필드에 연결된 레이블이 없습니다'));
       expect(hasInputLabelIssue).toBe(false);
     });
 
@@ -149,9 +141,7 @@ describe('Accessibility Validator - Comprehensive Coverage Tests', () => {
       const result = AccessibilityValidator.validateAccessibility(htmlWithEmptyLink);
 
       expect(result.issues).toContain('링크에 텍스트가 없습니다.');
-      expect(result.recommendations).toContain(
-        '모든 링크에 의미있는 텍스트 또는 aria-label을 제공하세요.'
-      );
+      expect(result.recommendations).toContain('모든 링크에 의미있는 텍스트 또는 aria-label을 제공하세요.');
     });
 
     test('should warn about duplicate link texts', () => {
@@ -201,9 +191,7 @@ describe('Accessibility Validator - Comprehensive Coverage Tests', () => {
 
       const result = AccessibilityValidator.validateAccessibility(htmlWithGoodHeadingStructure);
 
-      const hasHeadingIssue = result.issues.some(issue =>
-        issue.includes('제목 레벨을 순차적으로 사용하세요')
-      );
+      const hasHeadingIssue = result.issues.some(issue => issue.includes('제목 레벨을 순차적으로 사용하세요'));
       expect(hasHeadingIssue).toBe(false);
     });
 
@@ -212,9 +200,7 @@ describe('Accessibility Validator - Comprehensive Coverage Tests', () => {
 
       const result = AccessibilityValidator.validateAccessibility(htmlWithColor);
 
-      expect(result.recommendations).toContain(
-        '텍스트 색상 사용 시 배경색과의 충분한 대비(4.5:1 이상)를 확인하세요.'
-      );
+      expect(result.recommendations).toContain('텍스트 색상 사용 시 배경색과의 충분한 대비(4.5:1 이상)를 확인하세요.');
     });
 
     test('should recommend aria-label for navigation', () => {
@@ -222,9 +208,7 @@ describe('Accessibility Validator - Comprehensive Coverage Tests', () => {
 
       const result = AccessibilityValidator.validateAccessibility(htmlWithNav);
 
-      expect(result.recommendations).toContain(
-        "네비게이션 요소에 aria-label 또는 role='navigation'을 추가하세요."
-      );
+      expect(result.recommendations).toContain("네비게이션 요소에 aria-label 또는 role='navigation'을 추가하세요.");
     });
 
     test('should not recommend aria-label for navigation with existing label', () => {
@@ -232,9 +216,7 @@ describe('Accessibility Validator - Comprehensive Coverage Tests', () => {
 
       const result = AccessibilityValidator.validateAccessibility(htmlWithNavLabel);
 
-      const hasNavRecommendation = result.recommendations.some(rec =>
-        rec.includes('네비게이션 요소에 aria-label')
-      );
+      const hasNavRecommendation = result.recommendations.some(rec => rec.includes('네비게이션 요소에 aria-label'));
       expect(hasNavRecommendation).toBe(false);
     });
 
@@ -248,14 +230,11 @@ describe('Accessibility Validator - Comprehensive Coverage Tests', () => {
     });
 
     test('should not flag modal with proper attributes', () => {
-      const htmlWithProperModal =
-        '<div class="modal" role="dialog" aria-modal="true"><p>모달 내용</p></div>';
+      const htmlWithProperModal = '<div class="modal" role="dialog" aria-modal="true"><p>모달 내용</p></div>';
 
       const result = AccessibilityValidator.validateAccessibility(htmlWithProperModal);
 
-      const hasModalIssue = result.issues.some(issue =>
-        issue.includes("모달에 role='dialog' 속성이 필요합니다")
-      );
+      const hasModalIssue = result.issues.some(issue => issue.includes("모달에 role='dialog' 속성이 필요합니다"));
       const hasModalWarning = result.warnings.some(warning =>
         warning.includes("모달에 aria-modal='true' 속성을 추가하세요")
       );
@@ -292,9 +271,7 @@ describe('Accessibility Validator - Comprehensive Coverage Tests', () => {
 
       const result = AccessibilityValidator.validateAccessibility(htmlWithProperTable);
 
-      const hasTableHeaderIssue = result.issues.some(issue =>
-        issue.includes('테이블에 헤더(th) 요소가 필요합니다')
-      );
+      const hasTableHeaderIssue = result.issues.some(issue => issue.includes('테이블에 헤더(th) 요소가 필요합니다'));
       const hasTableCaptionRec = result.recommendations.some(rec =>
         rec.includes('테이블에 caption 요소로 설명을 제공하세요')
       );
@@ -335,9 +312,7 @@ describe('Accessibility Validator - Comprehensive Coverage Tests', () => {
 
       const result = AccessibilityValidator.validateAccessibility(htmlWithSmallButton);
 
-      expect(result.warnings).toContain(
-        '터치 영역이 44px 미만입니다. 접근성을 위해 최소 44x44px를 권장합니다.'
-      );
+      expect(result.warnings).toContain('터치 영역이 44px 미만입니다. 접근성을 위해 최소 44x44px를 권장합니다.');
     });
 
     test('should detect missing lang attribute', () => {
@@ -353,9 +328,7 @@ describe('Accessibility Validator - Comprehensive Coverage Tests', () => {
 
       const result = AccessibilityValidator.validateAccessibility(htmlWithLang);
 
-      const hasLangIssue = result.issues.some(issue =>
-        issue.includes('html 요소에 lang 속성이 필요합니다')
-      );
+      const hasLangIssue = result.issues.some(issue => issue.includes('html 요소에 lang 속성이 필요합니다'));
       expect(hasLangIssue).toBe(false);
     });
 
@@ -372,9 +345,7 @@ describe('Accessibility Validator - Comprehensive Coverage Tests', () => {
 
       const result = AccessibilityValidator.validateAccessibility(htmlWithNavNoSkip);
 
-      expect(result.recommendations).toContain(
-        '주요 콘텐츠로 바로가기 링크를 제공하는 것이 좋습니다.'
-      );
+      expect(result.recommendations).toContain('주요 콘텐츠로 바로가기 링크를 제공하는 것이 좋습니다.');
     });
 
     test('should not recommend skip links when present', () => {
@@ -396,11 +367,9 @@ describe('Accessibility Validator - Comprehensive Coverage Tests', () => {
 
     test('should calculate correct WCAG compliance levels', () => {
       // Test different score levels
-      const highScoreHtml =
-        '<html lang="ko"><title>Good</title><body><h1>Title</h1><p>Content</p></body></html>';
+      const highScoreHtml = '<html lang="ko"><title>Good</title><body><h1>Title</h1><p>Content</p></body></html>';
       const mediumScoreHtml = '<html><body><img src="test.jpg"><button></button></body></html>';
-      const lowScoreHtml =
-        '<html><body><img src="test.jpg"><button></button><input type="text"></body></html>';
+      const lowScoreHtml = '<html><body><img src="test.jpg"><button></button><input type="text"></body></html>';
 
       const highResult = AccessibilityValidator.validateAccessibility(highScoreHtml);
       const mediumResult = AccessibilityValidator.validateAccessibility(mediumScoreHtml);
@@ -431,84 +400,50 @@ describe('Accessibility Validator - Comprehensive Coverage Tests', () => {
 
   describe('checkSpecificIssue', () => {
     test('should check alt-text issues', () => {
-      expect(AccessibilityValidator.checkSpecificIssue('<img src="test.jpg">', 'alt-text')).toBe(
-        true
+      expect(AccessibilityValidator.checkSpecificIssue('<img src="test.jpg">', 'alt-text')).toBe(true);
+      expect(AccessibilityValidator.checkSpecificIssue('<img src="test.jpg" alt="description">', 'alt-text')).toBe(
+        false
       );
-      expect(
-        AccessibilityValidator.checkSpecificIssue(
-          '<img src="test.jpg" alt="description">',
-          'alt-text'
-        )
-      ).toBe(false);
     });
 
     test('should check button-labels issues', () => {
-      expect(AccessibilityValidator.checkSpecificIssue('<button></button>', 'button-labels')).toBe(
-        true
-      );
-      expect(
-        AccessibilityValidator.checkSpecificIssue('<button>Click me</button>', 'button-labels')
-      ).toBe(false);
+      expect(AccessibilityValidator.checkSpecificIssue('<button></button>', 'button-labels')).toBe(true);
+      expect(AccessibilityValidator.checkSpecificIssue('<button>Click me</button>', 'button-labels')).toBe(false);
     });
 
     test('should check form-labels issues', () => {
-      expect(AccessibilityValidator.checkSpecificIssue('<input type="text">', 'form-labels')).toBe(
-        true
+      expect(AccessibilityValidator.checkSpecificIssue('<input type="text">', 'form-labels')).toBe(true);
+      expect(
+        AccessibilityValidator.checkSpecificIssue('<label for="input1">Label</label><input id="input1">', 'form-labels')
+      ).toBe(false);
+      expect(AccessibilityValidator.checkSpecificIssue('<input type="text" aria-label="Input">', 'form-labels')).toBe(
+        false
       );
-      expect(
-        AccessibilityValidator.checkSpecificIssue(
-          '<label for="input1">Label</label><input id="input1">',
-          'form-labels'
-        )
-      ).toBe(false);
-      expect(
-        AccessibilityValidator.checkSpecificIssue(
-          '<input type="text" aria-label="Input">',
-          'form-labels'
-        )
-      ).toBe(false);
     });
 
     test('should check heading-structure issues', () => {
+      expect(AccessibilityValidator.checkSpecificIssue('<h1>Title</h1><h3>Wrong level</h3>', 'heading-structure')).toBe(
+        true
+      );
       expect(
-        AccessibilityValidator.checkSpecificIssue(
-          '<h1>Title</h1><h3>Wrong level</h3>',
-          'heading-structure'
-        )
-      ).toBe(true);
-      expect(
-        AccessibilityValidator.checkSpecificIssue(
-          '<h1>Title</h1><h2>Correct level</h2>',
-          'heading-structure'
-        )
+        AccessibilityValidator.checkSpecificIssue('<h1>Title</h1><h2>Correct level</h2>', 'heading-structure')
       ).toBe(false);
     });
 
     test('should check table-headers issues', () => {
+      expect(AccessibilityValidator.checkSpecificIssue('<table><tr><td>Data</td></tr></table>', 'table-headers')).toBe(
+        true
+      );
       expect(
-        AccessibilityValidator.checkSpecificIssue(
-          '<table><tr><td>Data</td></tr></table>',
-          'table-headers'
-        )
-      ).toBe(true);
-      expect(
-        AccessibilityValidator.checkSpecificIssue(
-          '<table><tr><th>Header</th></tr></table>',
-          'table-headers'
-        )
+        AccessibilityValidator.checkSpecificIssue('<table><tr><th>Header</th></tr></table>', 'table-headers')
       ).toBe(false);
     });
 
     test('should check lang-attribute issues', () => {
-      expect(
-        AccessibilityValidator.checkSpecificIssue('<html><body></body></html>', 'lang-attribute')
-      ).toBe(true);
-      expect(
-        AccessibilityValidator.checkSpecificIssue(
-          '<html lang="ko"><body></body></html>',
-          'lang-attribute'
-        )
-      ).toBe(false);
+      expect(AccessibilityValidator.checkSpecificIssue('<html><body></body></html>', 'lang-attribute')).toBe(true);
+      expect(AccessibilityValidator.checkSpecificIssue('<html lang="ko"><body></body></html>', 'lang-attribute')).toBe(
+        false
+      );
     });
 
     test('should return false for unknown check types', () => {
@@ -518,8 +453,7 @@ describe('Accessibility Validator - Comprehensive Coverage Tests', () => {
 
   describe('generateImprovementSuggestions', () => {
     test('should generate suggestions for alt-text issues', () => {
-      const suggestions =
-        AccessibilityValidator.generateImprovementSuggestions('<img src="test.jpg">');
+      const suggestions = AccessibilityValidator.generateImprovementSuggestions('<img src="test.jpg">');
 
       const altTextSuggestion = suggestions.find(s => s.type === 'alt-text');
       expect(altTextSuggestion).toBeDefined();
@@ -530,8 +464,7 @@ describe('Accessibility Validator - Comprehensive Coverage Tests', () => {
     });
 
     test('should generate suggestions for button-labels issues', () => {
-      const suggestions =
-        AccessibilityValidator.generateImprovementSuggestions('<button></button>');
+      const suggestions = AccessibilityValidator.generateImprovementSuggestions('<button></button>');
 
       const buttonSuggestion = suggestions.find(s => s.type === 'button-labels');
       expect(buttonSuggestion).toBeDefined();
@@ -542,8 +475,7 @@ describe('Accessibility Validator - Comprehensive Coverage Tests', () => {
     });
 
     test('should generate suggestions for form-labels issues', () => {
-      const suggestions =
-        AccessibilityValidator.generateImprovementSuggestions('<input type="text">');
+      const suggestions = AccessibilityValidator.generateImprovementSuggestions('<input type="text">');
 
       const formSuggestion = suggestions.find(s => s.type === 'form-labels');
       expect(formSuggestion).toBeDefined();
@@ -560,8 +492,7 @@ describe('Accessibility Validator - Comprehensive Coverage Tests', () => {
         <input type="text">
       `;
 
-      const suggestions =
-        AccessibilityValidator.generateImprovementSuggestions(htmlWithMultipleIssues);
+      const suggestions = AccessibilityValidator.generateImprovementSuggestions(htmlWithMultipleIssues);
 
       expect(suggestions.length).toBe(3);
       expect(suggestions.map(s => s.type)).toContain('alt-text');

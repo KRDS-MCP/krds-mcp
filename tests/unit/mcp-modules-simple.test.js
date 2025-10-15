@@ -5,11 +5,7 @@
 import { describe, test, expect } from '@jest/globals';
 import { McpLogger, McpLogLevel, mcpLogger } from '../../helpers/mcp-logging.js';
 import { McpResources, mcpResources } from '../../helpers/mcp-resources.js';
-import {
-  McpPagination,
-  PaginationConfig,
-  PaginationHelpers
-} from '../../helpers/mcp-pagination.js';
+import { McpPagination, PaginationConfig, PaginationHelpers } from '../../helpers/mcp-pagination.js';
 import { McpPrompts, mcpPrompts } from '../../helpers/mcp-prompts.js';
 
 describe('MCP 2025 모듈 단순 테스트', () => {
@@ -113,13 +109,7 @@ describe('MCP 2025 모듈 단순 테스트', () => {
         content: i % 2 === 0 ? 'test content' : 'other content'
       }));
 
-      const result = McpPagination.paginateSearchResults(
-        items,
-        'test',
-        ['name', 'content'],
-        null,
-        10
-      );
+      const result = McpPagination.paginateSearchResults(items, 'test', ['name', 'content'], null, 10);
 
       expect(result.items.length).toBeLessThanOrEqual(10);
       expect(result.searchMetadata).toBeDefined();
@@ -132,9 +122,7 @@ describe('MCP 2025 모듈 단순 테스트', () => {
       expect(PaginationHelpers.validatePageSize(25)).toBe(25);
       expect(PaginationHelpers.validatePageSize(-5)).toBe(PaginationConfig.MIN_PAGE_SIZE); // -5는 1로 클램핑됨
       expect(PaginationHelpers.validatePageSize(2000)).toBe(PaginationConfig.MAX_PAGE_SIZE);
-      expect(PaginationHelpers.validatePageSize('invalid')).toBe(
-        PaginationConfig.DEFAULT_PAGE_SIZE
-      );
+      expect(PaginationHelpers.validatePageSize('invalid')).toBe(PaginationConfig.DEFAULT_PAGE_SIZE);
     });
 
     test('should format response', () => {

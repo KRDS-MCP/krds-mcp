@@ -315,11 +315,7 @@ export class RedisCacheAdapter {
  */
 export class HybridCache {
   constructor(options = {}) {
-    const {
-      memoryCache = new EnhancedPerformanceCache(),
-      redisCache = null,
-      useRedis = false
-    } = options;
+    const { memoryCache = new EnhancedPerformanceCache(), redisCache = null, useRedis = false } = options;
 
     this.memoryCache = memoryCache;
     this.redisCache = redisCache;
@@ -623,12 +619,10 @@ export class PerformanceMonitor {
     return {
       count: metrics.length,
       durations,
-      averageDuration:
-        durations.length > 0 ? durations.reduce((a, b) => a + b, 0) / durations.length : 0,
+      averageDuration: durations.length > 0 ? durations.reduce((a, b) => a + b, 0) / durations.length : 0,
       minDuration: durations.length > 0 ? Math.min(...durations) : 0,
       maxDuration: durations.length > 0 ? Math.max(...durations) : 0,
-      averageMemoryDelta:
-        memoryDeltas.length > 0 ? memoryDeltas.reduce((a, b) => a + b, 0) / memoryDeltas.length : 0,
+      averageMemoryDelta: memoryDeltas.length > 0 ? memoryDeltas.reduce((a, b) => a + b, 0) / memoryDeltas.length : 0,
       errors: metrics.filter(m => m.error).length
     };
   }
@@ -706,18 +700,9 @@ export class PerformanceMonitor {
           min: sortedDurations.length > 0 ? Math.min(...sortedDurations) : 0,
           max: sortedDurations.length > 0 ? Math.max(...sortedDurations) : 0,
           avg: metrics.averageDuration,
-          p50:
-            sortedDurations.length > 0
-              ? sortedDurations[Math.floor(sortedDurations.length * 0.5)]
-              : 0,
-          p95:
-            sortedDurations.length > 0
-              ? sortedDurations[Math.floor(sortedDurations.length * 0.95)]
-              : 0,
-          p99:
-            sortedDurations.length > 0
-              ? sortedDurations[Math.floor(sortedDurations.length * 0.99)]
-              : 0
+          p50: sortedDurations.length > 0 ? sortedDurations[Math.floor(sortedDurations.length * 0.5)] : 0,
+          p95: sortedDurations.length > 0 ? sortedDurations[Math.floor(sortedDurations.length * 0.95)] : 0,
+          p99: sortedDurations.length > 0 ? sortedDurations[Math.floor(sortedDurations.length * 0.99)] : 0
         },
         lastRun: Math.max(...(this.metrics.get(label) || []).map(m => m.timestamp || 0))
       };

@@ -233,17 +233,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             category: {
               type: 'string',
               description: '토큰 카테고리',
-              enum: [
-                'color',
-                'typography',
-                'spacing',
-                'sizing',
-                'border',
-                'shadow',
-                'motion',
-                'layout',
-                'component'
-              ]
+              enum: ['color', 'typography', 'spacing', 'sizing', 'border', 'shadow', 'motion', 'layout', 'component']
             },
             tokenName: {
               type: 'string',
@@ -448,10 +438,7 @@ server.setRequestHandler(ListResourceTemplatesRequestSchema, async request => {
     return await mcpResources.listResourceTemplates(cursor);
   } catch (error) {
     mcpLogger.error('Failed to list resource templates', 'resources', { error: error.message });
-    throw new McpError(
-      ErrorCode.InternalError,
-      `리소스 템플릿 목록 조회 중 오류 발생: ${error.message}`
-    );
+    throw new McpError(ErrorCode.InternalError, `리소스 템플릿 목록 조회 중 오류 발생: ${error.message}`);
   }
 });
 
@@ -476,10 +463,7 @@ server.setRequestHandler(ListPromptsRequestSchema, async request => {
     return await mcpPrompts.listPrompts(cursor);
   } catch (error) {
     mcpLogger.error('Failed to list prompts', 'prompts', { error: error.message });
-    throw new McpError(
-      ErrorCode.InternalError,
-      `프롬프트 목록 조회 중 오류 발생: ${error.message}`
-    );
+    throw new McpError(ErrorCode.InternalError, `프롬프트 목록 조회 중 오류 발생: ${error.message}`);
   }
 });
 

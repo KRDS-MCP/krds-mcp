@@ -279,9 +279,7 @@ describe('Performance Helpers - Comprehensive Coverage Tests', () => {
         throw new Error('Test error');
       };
 
-      await expect(PerformanceMonitor.measure(errorFunction, 'error-operation')).rejects.toThrow(
-        'Test error'
-      );
+      await expect(PerformanceMonitor.measure(errorFunction, 'error-operation')).rejects.toThrow('Test error');
 
       const stats = PerformanceMonitor.getStats('error-operation');
       expect(stats.count).toBe(1);

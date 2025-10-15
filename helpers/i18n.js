@@ -328,9 +328,7 @@ export class I18n {
       return DEFAULT_LANGUAGE;
     }
 
-    const languages = acceptLanguage
-      .split(',')
-      .map(lang => lang.split(';')[0].trim().toLowerCase());
+    const languages = acceptLanguage.split(',').map(lang => lang.split(';')[0].trim().toLowerCase());
 
     for (const lang of languages) {
       if (lang.startsWith('ko')) {
@@ -384,8 +382,7 @@ export class I18n {
    * 복수형 처리
    */
   pluralize(singular, plural, count) {
-    const forms =
-      this.language === SUPPORTED_LANGUAGES.KO ? [singular, plural] : [singular, plural];
+    const forms = this.language === SUPPORTED_LANGUAGES.KO ? [singular, plural] : [singular, plural];
     return count === 1 ? forms[0] : forms[1];
   }
 
@@ -417,8 +414,7 @@ export const setLanguage = language => i18n.setLanguage(language);
 export const getLanguage = () => i18n.getLanguage();
 export const formatDate = (date, options) => i18n.formatDate(date, options);
 export const formatNumber = (number, options) => i18n.formatNumber(number, options);
-export const formatCurrency = (amount, currency, options) =>
-  i18n.formatCurrency(amount, currency, options);
+export const formatCurrency = (amount, currency, options) => i18n.formatCurrency(amount, currency, options);
 
 /**
  * 언어별 에러 메시지 생성기

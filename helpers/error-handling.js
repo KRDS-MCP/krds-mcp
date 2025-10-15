@@ -272,10 +272,7 @@ export class ErrorHandler {
       // 일반적인 시스템 오류
       errorType = ErrorTypes.PROCESSING_ERROR;
       severity = ErrorSeverity.HIGH;
-      userMessage = UserFriendlyMessages.generateMessage(
-        errorType,
-        '처리 중 예상치 못한 오류가 발생했습니다'
-      );
+      userMessage = UserFriendlyMessages.generateMessage(errorType, '처리 중 예상치 못한 오류가 발생했습니다');
     }
 
     // 오류 로깅
@@ -305,12 +302,9 @@ export class ErrorHandler {
     const message = UserFriendlyMessages.generateNoResultsMessage(query, dataType);
 
     // 로깅 (낮은 심각도)
-    ErrorLogger.logError(
-      ErrorTypes.DATA_NOT_FOUND,
-      ErrorSeverity.LOW,
-      `검색 결과 없음: ${query} (${dataType})`,
-      { context }
-    );
+    ErrorLogger.logError(ErrorTypes.DATA_NOT_FOUND, ErrorSeverity.LOW, `검색 결과 없음: ${query} (${dataType})`, {
+      context
+    });
 
     return {
       content: [
@@ -331,12 +325,9 @@ export class ErrorHandler {
   static handleDataUnavailable(dataType, context) {
     const message = UserFriendlyMessages.generateDataUnavailableMessage(dataType);
 
-    ErrorLogger.logError(
-      ErrorTypes.PROCESSING_ERROR,
-      ErrorSeverity.MEDIUM,
-      `데이터 사용 불가: ${dataType}`,
-      { context }
-    );
+    ErrorLogger.logError(ErrorTypes.PROCESSING_ERROR, ErrorSeverity.MEDIUM, `데이터 사용 불가: ${dataType}`, {
+      context
+    });
 
     return {
       content: [
@@ -432,16 +423,11 @@ export function wrapHandlerWithMetrics(handler, handlerName) {
       // 성능 로깅
       if (duration > 1000) {
         // 1초 이상 걸린 경우
-        ErrorLogger.logError(
-          'PERFORMANCE',
-          ErrorSeverity.LOW,
-          `느린 응답: ${handlerName} (${duration}ms)`,
-          {
-            duration,
-            handlerName,
-            arguments: args
-          }
-        );
+        ErrorLogger.logError('PERFORMANCE', ErrorSeverity.LOW, `느린 응답: ${handlerName} (${duration}ms)`, {
+          duration,
+          handlerName,
+          arguments: args
+        });
       }
 
       return result;

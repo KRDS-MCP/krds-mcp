@@ -4,13 +4,9 @@ import { describe, test, expect, jest, beforeEach } from '@jest/globals';
 import { McpError, ErrorCode } from '@modelcontextprotocol/sdk/types.js';
 
 // Import handlers
-const {
-  handleGetDesignTokens,
-  handleGetSystems,
-  handleSearch,
-  handleGenerateCode,
-  handleGetStats
-} = await import('../../handlers/extended-handlers.js');
+const { handleGetDesignTokens, handleGetSystems, handleSearch, handleGenerateCode, handleGetStats } = await import(
+  '../../handlers/extended-handlers.js'
+);
 
 describe('Extended Handlers', () => {
   beforeEach(async () => {
@@ -31,16 +27,7 @@ describe('Extended Handlers', () => {
     });
 
     test('should handle all valid categories', async () => {
-      const validCategories = [
-        'color',
-        'typography',
-        'spacing',
-        'sizing',
-        'border',
-        'shadow',
-        'motion',
-        'layout'
-      ];
+      const validCategories = ['color', 'typography', 'spacing', 'sizing', 'border', 'shadow', 'motion', 'layout'];
 
       for (const category of validCategories) {
         const result = await handleGetDesignTokens({ category });

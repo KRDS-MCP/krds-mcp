@@ -311,9 +311,7 @@ describe('Performance Helpers Comprehensive Coverage', () => {
           throw new Error('Test error');
         });
 
-        await expect(PerformanceMonitor.measure(errorFn, 'error-test')).rejects.toThrow(
-          'Test error'
-        );
+        await expect(PerformanceMonitor.measure(errorFn, 'error-test')).rejects.toThrow('Test error');
 
         const stats = PerformanceMonitor.getStats('error-test');
         expect(stats.errorCount).toBe(1);
@@ -333,9 +331,7 @@ describe('Performance Helpers Comprehensive Coverage', () => {
 
         await PerformanceMonitor.measure(slowFn, 'slow-operation');
 
-        expect(consoleSpy).toHaveBeenCalledWith(
-          expect.stringContaining('[KRDS Performance] slow-operation:')
-        );
+        expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('[KRDS Performance] slow-operation:'));
 
         consoleSpy.mockRestore();
       });

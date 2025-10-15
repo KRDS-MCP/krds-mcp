@@ -128,7 +128,7 @@ async function validateConfig() {
       console.log('⚠️  설정 파일에 krds-mcp 서버 설정이 없습니다.');
       console.log('💡 "npx @krds-mcp/krds-mcp config" 명령어로 설정 파일을 생성하세요.');
     }
-  } catch (error) {
+  } catch {
     console.log('❌ 설정 파일을 찾을 수 없습니다.');
     console.log('💡 "npx @krds-mcp/krds-mcp config" 명령어로 설정 파일을 생성하세요.');
   }
@@ -225,7 +225,7 @@ function runTests() {
       break;
 
     case 'start':
-    case undefined:
+    case undefined: {
       // MCP 서버 실행
       console.log('🇰🇷 KRDS MCP 서버를 시작합니다...');
 
@@ -271,11 +271,13 @@ function runTests() {
         child.kill('SIGTERM');
       });
       break;
+    }
 
-    default:
+    default: {
       console.error(`❌ 알 수 없는 명령어: ${command}`);
       console.log('💡 "npx @krds-mcp/krds-mcp --help"로 사용법을 확인하세요.');
       process.exit(1);
+    }
   }
 })().catch(error => {
   console.error('❌ 실행 오류:', error.message);

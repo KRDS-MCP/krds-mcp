@@ -345,13 +345,7 @@ export const darkModeColors = {
 };
 
 // 통합 색상 배열 (기존 호환성)
-export const colors = [
-  ...primaryColors,
-  ...systemColors,
-  ...neutralColors,
-  ...emphasisColors,
-  ...graphicColors
-];
+export const colors = [...primaryColors, ...systemColors, ...neutralColors, ...emphasisColors, ...graphicColors];
 
 // 색상 유틸리티 함수
 export const colorUtils = {
@@ -372,9 +366,7 @@ export const colorUtils = {
 
   // 사용 목적별 색상 검색
   searchColorsByUsage(query) {
-    return colors.filter(
-      color => color.usage && color.usage.toLowerCase().includes(query.toLowerCase())
-    );
+    return colors.filter(color => color.usage && color.usage.toLowerCase().includes(query.toLowerCase()));
   },
 
   // 투명도 적용된 색상 생성

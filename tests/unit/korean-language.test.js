@@ -175,8 +175,7 @@ describe('Korean Language Support', () => {
         if (koreanColors.length > 0) {
           koreanColors.forEach(color => {
             const hasKoreanInName = color.name && /[\u3131-\u3163\uAC00-\uD7A3]/.test(color.name);
-            const hasKoreanInDesc =
-              color.description && /[\u3131-\u3163\uAC00-\uD7A3]/.test(color.description);
+            const hasKoreanInDesc = color.description && /[\u3131-\u3163\uAC00-\uD7A3]/.test(color.description);
 
             expect(hasKoreanInName || hasKoreanInDesc).toBe(true);
           });
