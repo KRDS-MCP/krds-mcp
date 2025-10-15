@@ -28,6 +28,12 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
       - name: Get version
         id: version
@@ -39,25 +45,40 @@ jobs:
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
       - name: Generate changelog
         id: changelog
-        uses: TriPSs/conventional-changelog-action@v6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          version-file: './package.json'
-          version-path: 'version'
-          skip-on-empty: false
-          skip-version-file: false
-          skip-commit: false
-          git-message: 'chore(release): {version}'
-          git-user-name: 'github-actions[bot]'
-          git-user-email: 'github-actions[bot]@users.noreply.github.com'
-          preset: 'conventionalcommits'
-          tag-prefix: 'v'
-          output-file: 'CHANGELOG.md'
-          release-count: 0
-          config-file-path: ''
-          pre-commit: ''
+        run: |
+          # Get commits since last tag
+          LAST_TAG=$(git describe --tags --abbrev=0 HEAD~1 2>/dev/null || echo "")
+          if [ -z "$LAST_TAG" ]; then
+            COMMITS=$(git log --pretty=format:"- %s" --reverse)
+          else
+            COMMITS=$(git log $LAST_TAG..HEAD --pretty=format:"- %s" --reverse)
+          fi
+          
+          # Create changelog content
+          cat << EOF > changelog_section.md
+          ## What's Changed
+          
+          $COMMITS
+          
+          **Full Changelog**: https://github.com/${{ github.repository }}/compare/$LAST_TAG...v${{ steps.version.outputs.version }}
+          EOF
+          
+          # Set output
+          CHANGELOG_CONTENT=$(cat changelog_section.md)
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG_CONTENT" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
   release:
     needs: changelog
